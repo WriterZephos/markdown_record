@@ -1,3 +1,5 @@
+require "wicked_pdf"
+
 module MarkdownCms
   class PdfRenderer
 
