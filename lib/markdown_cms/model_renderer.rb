@@ -1,3 +1,5 @@
+require "redcarpet"
+
 module MarkdownCms
   class ModelRenderer < ::Redcarpet::Render::HTML
 

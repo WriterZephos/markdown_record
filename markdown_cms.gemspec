@@ -5,9 +5,9 @@ Gem::Specification.new do |spec|
   spec.version     = MarkdownCms::VERSION
   spec.authors     = ["Bryant Morrill"]
   spec.email       = ["bryantreadmorrill@gmail.com"]
-  spec.homepage    = "TODO"
-  spec.summary     = "TODO: Summary of MarkdownCms."
-  spec.description = "TODO: Description of MarkdownCms."
+  spec.homepage    = "https://github.com/WriterZephos/markdown_cms"
+  spec.summary     = "A markdown + git based content management system."
+  spec.description = "MarkdownCms is a Rails engine that lets you write content and populate models in markdown directly within your application's repo, then generate html, pdf and json files for direct rendering in your app."
     spec.license     = "MIT"
   
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the "allowed_push_host"
@@ -15,8 +15,8 @@ Gem::Specification.new do |spec|
   spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "TODO: Put your gem's public repo URL here."
-  spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
+  spec.metadata["source_code_uri"] = "https://github.com/WriterZephos/markdown_cms"
+  spec.metadata["changelog_uri"] = "https://github.com/WriterZephos/markdown_cms"
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
     Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
