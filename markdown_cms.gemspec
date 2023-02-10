@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "active_attr", "~> 0.15.4"
   spec.add_dependency "wicked_pdf", "~> 2.6"
   spec.add_dependency "wkhtmltopdf-binary", "~> 0.12.6"
+  spec.add_dependency "thor", "~> 1.2"
 
   spec.add_development_dependency "pry"
   spec.add_development_dependency "rspec", "~> 3.12"

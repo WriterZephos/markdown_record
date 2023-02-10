@@ -1,4 +1,4 @@
-# desc "Explaining what the task does"
-# task :markdown_cms do
-#   # Task goes here
-# end
+desc "Explaining what the task does"
+task :render do 
+  # Task goes here
+end

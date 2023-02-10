@@ -1,0 +1,30 @@
+example_id                                              | status | run_time        |
+------------------------------------------------------- | ------ | --------------- |
+./spec/markdown_cms.rb/render_content_spec.rb[1:1:1]    | passed | 0.00671 seconds |
+./spec/markdown_cms.rb/render_content_spec.rb[1:2:1]    | passed | 9.35 seconds    |
+./spec/markdown_cms.rb/render_content_spec.rb[1:3:1]    | failed | 11.31 seconds   |
+./spec/markdown_cms.rb/render_content_spec.rb[1:4:1]    | passed | 9.23 seconds    |
+./spec/markdown_cms.rb/render_content_spec.rb[1:5:1]    | failed | 9.32 seconds    |
+./spec/markdown_cms.rb/render_content_spec.rb[1:6:1]    | failed | 0.00318 seconds |
+./spec/markdown_cms.rb/render_content_spec.rb[1:7:1]    | failed | 9.28 seconds    |
+./spec/markdown_cms.rb/render_content_spec.rb[1:8:1:1]  | passed | 0.00181 seconds |
+./spec/markdown_cms.rb/render_content_spec.rb[1:8:2:1]  | passed | 6.67 seconds    |
+./spec/markdown_cms.rb/render_content_spec.rb[1:8:3:1]  | failed | 0.00176 seconds |
+./spec/markdown_cms.rb/render_content_spec.rb[1:8:4:1]  | passed | 6.67 seconds    |
+./spec/markdown_cms.rb/render_content_spec.rb[1:8:5:1]  | failed | 6.63 seconds    |
+./spec/markdown_cms.rb/render_content_spec.rb[1:8:6:1]  | failed | 0.00325 seconds |
+./spec/markdown_cms.rb/render_content_spec.rb[1:8:7:1]  | failed | 6.63 seconds    |
+./spec/markdown_cms.rb/render_content_spec.rb[1:9:1:1]  | passed | 0.00412 seconds |
+./spec/markdown_cms.rb/render_content_spec.rb[1:9:2:1]  | passed | 9.46 seconds    |
+./spec/markdown_cms.rb/render_content_spec.rb[1:9:3:1]  | failed | 0.00218 seconds |
+./spec/markdown_cms.rb/render_content_spec.rb[1:9:4:1]  | passed | 9.37 seconds    |
+./spec/markdown_cms.rb/render_content_spec.rb[1:9:5:1]  | failed | 9.34 seconds    |
+./spec/markdown_cms.rb/render_content_spec.rb[1:9:6:1]  | failed | 0.00442 seconds |
+./spec/markdown_cms.rb/render_content_spec.rb[1:9:7:1]  | failed | 9.37 seconds    |
+./spec/markdown_cms.rb/render_content_spec.rb[1:10:1:1] | passed | 0.00375 seconds |
+./spec/markdown_cms.rb/render_content_spec.rb[1:10:2:1] | passed | 9.33 seconds    |
+./spec/markdown_cms.rb/render_content_spec.rb[1:10:3:1] | failed | 0.00144 seconds |
+./spec/markdown_cms.rb/render_content_spec.rb[1:10:4:1] | passed | 9.39 seconds    |
+./spec/markdown_cms.rb/render_content_spec.rb[1:10:5:1] | failed | 9.42 seconds    |
+./spec/markdown_cms.rb/render_content_spec.rb[1:10:6:1] | failed | 0.00441 seconds |
+./spec/markdown_cms.rb/render_content_spec.rb[1:10:7:1] | failed | 9.35 seconds    |

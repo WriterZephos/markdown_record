@@ -6,7 +6,7 @@ module MarkdownCms
         return
       end
 
-      render file: rendered_content_path(params[:content_path]), layout: MarkdownCms.configuration.public_layout
+      render file: rendered_content_path(params[:content_path]), layout: MarkdownCms.config.public_layout
     end
 
     def download

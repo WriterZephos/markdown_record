@@ -5,6 +5,7 @@ PATH
       active_attr (~> 0.15.4)
       rails (>= 7.0.4.2)
       redcarpet (~> 3.5)
+      thor (~> 1.2)
       wicked_pdf (~> 2.6)
       wkhtmltopdf-binary (~> 0.12.6)
 
@@ -201,4 +202,4 @@ DEPENDENCIES
   sprockets-rails
 
 BUNDLED WITH
-   2.3.8
+   2.2.22

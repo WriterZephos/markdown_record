@@ -7,7 +7,6 @@ module MarkdownCms
         def has_many(association, klass)
           foreign_key = self.name.demodulize.underscore
 
-          
           define_method(association) do
             MarkdownCms::Model::Association.new(self, klass, {"#{foreign_key}_id".to_sym => self.id})
           end

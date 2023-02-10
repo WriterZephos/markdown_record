@@ -2,17 +2,17 @@ require "markdown_cms/version"
 require "markdown_cms/engine"
 require "markdown_cms/configuration"
 require "markdown_cms/indexer"
-require "markdown_cms/inflator"
+require "markdown_cms/model_inflator"
 require "markdown_cms/file_saver"
 require "markdown_cms/html_renderer"
 require "markdown_cms/pdf_renderer"
-require "markdown_cms/model_renderer"
+require "markdown_cms/json_renderer"
 require "markdown_cms/model/association"
 require "markdown_cms/model/associations"
 require "markdown_cms/model/base"
 
 module MarkdownCms
-  def self.configuration
+  def self.config
     Configuration.instance
   end
 

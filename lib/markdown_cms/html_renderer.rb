@@ -1,92 +1,5 @@
 module MarkdownCms
   class HtmlRenderer
-
-    HTML_SUBSTITUTIONS = {
-      /<!--page_break-->/ => "<div class='page-break'></div>",
-    }
-
-    def initialize
-      @indexer = ::MarkdownCms::Indexer.new
-      html_renderer = ::Redcarpet::Render::HTML.new(::MarkdownCms.configuration.html_render_options)
-      @markdown = ::Redcarpet::Markdown.new(html_renderer, ::MarkdownCms.configuration.markdown_extensions)
-      @html_layout = File.read(::MarkdownCms.configuration.html_layout_path)
-    end
-
-    def render_html_for_subdirectory(subdirectory, concatenate_content = false, save_to_file = false)
-      content = @indexer.index(subdirectory)
-
-      html_content = {}
-      render_html_recursively(subdirectory, content, html_content)
-
-      if concatenate_content
-        html_array = []
-        concatenate_html_recursively(html_content, html_array)
-        html_content = {subdirectory => html_array.join("")}
-      end
-
-      processed_html = {}
-      process_html_recursively(subdirectory, html_content[subdirectory], processed_html)
-      save_content_recursively(subdirectory, processed_html[subdirectory]) if save_to_file
-      processed_html
-    end
-
-    def render_html_recursively(subdirectory, content, html_hash)
-      case content.class.name
-      when Hash.name
-        html_hash[subdirectory] = {}
-        content.each do |key, value|
-          render_html_recursively(key, value, html_hash[subdirectory])
-        end
-      when String.name
-        html_hash[subdirectory] = @markdown.render(content)
-      end
-    end
-
-    def concatenate_html_recursively(content, html)
-      case content.class.name
-      when Hash.name
-        content.each do |_, value|
-          concatenate_html_recursively(value, html)
-        end
-      when String.name
-        html << content
-      end
-    end
-
-    def process_html_recursively(subdirectory, content, html_hash)
-      case content.class.name
-      when Hash.name
-        html_hash[subdirectory] = {}
-        content.each do |key, value|
-          process_html_recursively(key, value, html_hash[subdirectory])
-        end
-      when String.name
-        html_hash[subdirectory] = process_html(subdirectory, content)
-      end
-    end
-
-    def process_html(filename, html)
-      processed_html = html
-      HTML_SUBSTITUTIONS.each do |regex, html_replacement|
-        processed_html = html.gsub(regex, html_replacement)
-      end
-      layout = @html_layout
-      erb = ERB.new(layout)
-      erb_context = ERBContext.new(:html => processed_html)
-      erb.result(erb_context.get_binding)
-    end
-
-    def save_content_recursively(subdirectory, content)
-      case content.class.name
-      when Hash.name
-        content.each do |key, value|
-          save_content_recursively("#{subdirectory}/#{key}", value)
-        end
-      when String.name
-        MarkdownCms::FileSaver.save_to_file(content, "#{subdirectory}.html")
-      end
-    end
-
     class ERBContext
       def initialize(hash)
         hash.each_pair do |key, value|
@@ -99,5 +12,133 @@ module MarkdownCms
       end
     end
 
+    HTML_SUBSTITUTIONS = {
+      /<!--page_break-->/ => "<div class='page-break'></div>",
+    }
+
+    def initialize(
+        file_saver: ::MarkdownCms::FileSaver.new, 
+        indexer: ::MarkdownCms.config.indexer_class.new, 
+        html_renderer: ::MarkdownCms.config.html_renderer_class.new(::MarkdownCms.config.html_render_options))
+      @indexer = indexer
+      @html_renderer = html_renderer
+      @markdown = ::Redcarpet::Markdown.new(@html_renderer, ::MarkdownCms.config.markdown_extensions)
+      @file_saver = file_saver
+      @layout = nil
+    end
+
+    def render_html_for_subdirectory(subdirectory: "", **options)
+      unless options.key?(:layout) && options[:layout].nil?
+        layout_path = options[:layout] || ::MarkdownCms.config.html_layout_path
+        @layout = File.read(::MarkdownCms.config.html_layout_directory.join(layout_path))
+      end
+
+      content = @indexer.index(subdirectory: subdirectory)
+      
+      html_content = render_html_recursively(subdirectory, content)
+      
+      processed_html = process_html_recursively(subdirectory, html_content[subdirectory], options)
+
+      save_content_recursively(processed_html, options)
+      { :html_content => processed_html, :saved_files => @file_saver.saved_files }
+    end
+
+    def render_html_for_file(file_path:, **options)
+      unless options.key?(:layout) && options[:layout].nil?
+        layout_path = options[:layout] || ::MarkdownCms.config.html_layout_path
+        @layout = File.read(::MarkdownCms.config.html_layout_directory.join(layout_path))
+      end
+
+      file = @indexer.file(file_path)
+      unless file.nil?
+        html = @markdown.render(file)
+        processed_html = process_html(html)
+        @file_saver.save_to_file(processed_html, "#{file_path.gsub(/(\.concat|\.md)/,"")}.html", options)
+        processed_html
+      end
+    end
+
+  private
+
+    def render_html_recursively(file_or_directory_name, file_or_directory)
+      case file_or_directory.class.name
+      when Hash.name # if it is a directory
+        directory_hash = { file_or_directory_name => {} } # hash representing the directory and its contents
+
+        file_or_directory.each do |child_file_or_directory_name, child_file_or_directory|
+          child_content_hash = render_html_recursively(child_file_or_directory_name, child_file_or_directory)
+          directory_hash[file_or_directory_name].merge!(child_content_hash)
+        end
+        directory_hash
+      when String.name # if it is a file
+        { file_or_directory_name => @markdown.render(file_or_directory) }
+      end
+    end
+
+    def process_html_recursively(file_or_directory_name, file_or_directory, options)
+      case file_or_directory.class.name
+      when Hash.name
+        directory_hash = { file_or_directory_name => {} } # hash representing the directory and its contents
+
+        if options[:concat]
+          concatenated_html = concatenate_html_recursively(file_or_directory, []).join("")
+          directory_hash["#{file_or_directory_name}.concat"] = process_html(concatenated_html)
+        end
+
+        file_or_directory.each do |child_file_or_directory_name, child_file_or_directory|
+          child_content_hash = process_html_recursively(child_file_or_directory_name, child_file_or_directory, options)
+          directory_hash[file_or_directory_name].merge!(child_content_hash)
+        end
+        directory_hash
+      when String.name # if it is a file
+        if options[:deep]
+          { file_or_directory_name => process_html(file_or_directory) }
+        end
+      end
+    end
+
+    def process_html(html)
+      processed_html = html
+      HTML_SUBSTITUTIONS.each do |regex, html_replacement|
+        processed_html = html.gsub(regex, html_replacement)
+      end
+      layout = custom_layout(html) || @layout
+      return processed_html if layout.nil?
+
+      erb = ERB.new(layout)
+      erb_context = self.class::ERBContext.new(:html => processed_html)
+      erb.result(erb_context.get_binding)
+    end
+
+    def concatenate_html_recursively(content, html)
+      case content.class.name
+      when Hash.name
+        content.each do |_, value|
+          concatenate_html_recursively(value, html)
+        end
+      when String.name
+        html << content
+      end
+      html
+    end
+
+    def custom_layout(html)
+      match = html.match(/<!--\s*use_layout\s*:\s*(.*)\s*-->/)
+      return nil if match.nil?
+
+      File.read(::MarkdownCms.config.html_layout_directory.join(match[1].strip))
+    end
+
+    def save_content_recursively(content, options, subdirectory = "")
+      case content.class.name
+      when Hash.name
+        content.each do |key, value|
+          child_path = Pathname.new(subdirectory).join(key)
+          save_content_recursively(value, options, child_path)
+        end
+      when String.name
+        @file_saver.save_to_file(content, "#{subdirectory.to_s.gsub(/(\.concat|\.md)/,"")}.html", options)
+      end
+    end
   end
 end
