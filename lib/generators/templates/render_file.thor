@@ -115,7 +115,7 @@ class RenderFile < Thor
       end
       say "---------------------------------------------------------------"
       say "#{file_saver.saved_files.count} files rendered."
-      say "#{options[:save] ? file_saver.saved_files.count : 0} files saves."
+      say "#{options[:save] ? file_saver.saved_files.count : 0} files saved."
     end
 
     def report_line_color(saved)

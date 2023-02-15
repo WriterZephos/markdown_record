@@ -1,3 +1,5 @@
+<!--use_layout:_custom_layout.html.erb-->
+
 <!--describe_model
 {
   "type": "::Chapter",
@@ -14,6 +16,11 @@
 This is chapter one.
 
 <!--describe_model_attribute: summary-->
-This is a summary of Chapter 1.
+
+This is a summary of Chapter 2.
+
 <!--end_describe_model_attribute-->
+
 <!--end_describe_model-->
+
+<!-- page_break -->

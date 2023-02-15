@@ -22,4 +22,12 @@ module Helpers
     end
     all_exist
   end
+
+  def verify_file_contents(file, content)
+    File.read(file) == content
+  end
+
+  def verify_pdf_contents(file_1, file_2)
+    File.read(file_1) == File.read(file_2)
+  end
 end

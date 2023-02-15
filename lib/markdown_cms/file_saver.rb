@@ -23,6 +23,7 @@ module MarkdownCms
 
       if options[:save]
         save_path.dirname.mkpath
+
         save_path.open('wb') do |file|
           file << content
         end

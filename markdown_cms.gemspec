@@ -22,6 +22,8 @@ Gem::Specification.new do |spec|
     Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   end
 
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+
   spec.add_dependency "rails", ">= 7.0.4.2"
   spec.add_dependency "redcarpet", "~> 3.5"
   spec.add_dependency "active_attr", "~> 0.15.4"

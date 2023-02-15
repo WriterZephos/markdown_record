@@ -13,7 +13,14 @@ module MarkdownCms
     end
 
     HTML_SUBSTITUTIONS = {
-      /<!--page_break-->/ => "<div class='page-break'></div>",
+      /<!--\s*page_break\s*-->/ => "<div class='page-break'></div>",
+      /<!--\s*describe_model\s+({[\s|"|'|\\|\w|:|,|.]*})\s+-->/ => "",
+      /<!--\s*describe_model_attribute\s*:\s*(.*)\s*-->/ => "",
+      /<!--\s*end_describe_model_attribute\s*-->/ => "",
+      /<!--\s*end_describe_model\s*-->/ => "",
+      /<!--\s*use_layout\s*:\s*(.*)\s*-->/ => "",
+      /^(\s*\n){2,}/ => "\n",
+      /^(\s*\r\n){2,}/ => "\n"
     }
 
     def initialize(
@@ -81,8 +88,8 @@ module MarkdownCms
         directory_hash = { file_or_directory_name => {} } # hash representing the directory and its contents
 
         if options[:concat]
-          concatenated_html = concatenate_html_recursively(file_or_directory, []).join("")
-          directory_hash["#{file_or_directory_name}.concat"] = process_html(concatenated_html)
+          concatenated_html = concatenate_html_recursively(file_or_directory, []).join("\r\n")
+          directory_hash["#{file_or_directory_name}.concat"] = process_html(concatenated_html, @layout)
         end
 
         file_or_directory.each do |child_file_or_directory_name, child_file_or_directory|
@@ -93,16 +100,18 @@ module MarkdownCms
       when String.name # if it is a file
         if options[:deep]
           { file_or_directory_name => process_html(file_or_directory) }
+        else
+          { }
         end
       end
     end
 
-    def process_html(html)
+    def process_html(html, forced_layout = nil)
       processed_html = html
       HTML_SUBSTITUTIONS.each do |regex, html_replacement|
-        processed_html = html.gsub(regex, html_replacement)
+        processed_html = processed_html.gsub(regex, html_replacement)
       end
-      layout = custom_layout(html) || @layout
+      layout = forced_layout || custom_layout(html) || @layout
       return processed_html if layout.nil?
 
       erb = ERB.new(layout)
@@ -113,7 +122,13 @@ module MarkdownCms
     def concatenate_html_recursively(content, html)
       case content.class.name
       when Hash.name
-        content.each do |_, value|
+        top_level_content = content.values.select { |v| v.is_a?(String) }
+        top_level_content.sort.each do |value|
+          concatenate_html_recursively(value, html)
+        end
+
+        nested_content = content.select { |k, v| v.is_a?(Hash) }
+        nested_content.sort.to_h.each do |_, value|
           concatenate_html_recursively(value, html)
         end
       when String.name

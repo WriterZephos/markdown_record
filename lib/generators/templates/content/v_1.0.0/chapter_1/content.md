@@ -14,6 +14,9 @@
 This is chapter one.
 
 <!--describe_model_attribute: summary-->
+
 This is a summary of Chapter 1.
+
 <!--end_describe_model_attribute-->
+
 <!--end_describe_model-->

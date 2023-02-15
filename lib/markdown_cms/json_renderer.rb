@@ -10,13 +10,14 @@ module MarkdownCms
       @json_models = {}
       @described_models = []
       @file_saver = file_saver
+      @models = {}
     end
 
     def render_models_for_subdirectory(subdirectory: "", **options)
       content = @indexer.index(subdirectory: subdirectory)
 
       json_hash = render_models_recursively(subdirectory, content, subdirectory, options)
-    
+
       save_content_recursively(json_hash, options)
       @models
     end
@@ -28,6 +29,26 @@ module MarkdownCms
       @models
     end
 
+    def block_html(raw_html)
+      set_described_model(raw_html)
+      set_described_model_attribute(raw_html)
+      pop_described_model_attribute(raw_html)
+      pop_described_model(raw_html)
+      nil
+    end
+
+    def paragraph(text)
+      return if @described_models.empty?
+
+      @described_models.each do |model|
+        next unless model[:described_attribute].present?
+        model[model[:described_attribute]] ||= []
+        model[model[:described_attribute]] << text
+      end
+
+      nil
+    end
+
   private
 
     def render_models_recursively(file_or_directory_name, file_or_directory, full_path, options)
@@ -36,7 +57,7 @@ module MarkdownCms
         directory_hash = { file_or_directory_name => {} } # hash representing the directory and its contents
         
         if options[:concat]
-          concatenated_content = concatenate_md_recursively(file_or_directory, []).join("")
+          concatenated_content = concatenate_md_recursively(file_or_directory, []).join("\n")
           directory_hash["#{file_or_directory_name}.concat"] = render_models(concatenated_content, full_path)
         end
 
@@ -47,7 +68,11 @@ module MarkdownCms
         end
         directory_hash
       when String.name # if it is a file
-        { file_or_directory_name => render_models(file_or_directory, full_path) }
+        if options[:deep]
+          { file_or_directory_name => render_models(file_or_directory, full_path) }
+        else
+          { }
+        end
       end
     end
 
@@ -82,14 +107,6 @@ module MarkdownCms
       end
     end
 
-    def block_html(raw_html)
-      set_described_model(raw_html)
-      set_described_model_attribute(raw_html)
-      pop_described_model_attribute(raw_html)
-      pop_described_model(raw_html)
-      nil
-    end
-
     def set_described_model(html)
       match = html.match(/<!--\s*describe_model\s+({[\s|"|'|\\|\w|:|,|.]*})\s+-->/)
       return if match.nil?
@@ -122,7 +139,7 @@ module MarkdownCms
     def pop_described_model_attribute(html)
       return if @described_models.empty?
       
-      match = html.match(/<!--\s*end_describe_model_attribute\s*-->/)
+      match = html.match(/<!--\s*end_describe_model_attribute\s+-->/)
       return if match.nil?
 
       model = @described_models.last
@@ -133,72 +150,8 @@ module MarkdownCms
     def pop_described_model(html)
       match = html.match(/<!--\s*end_describe_model\s*-->/)
       return if match.nil?
-
+      
       @described_models.pop
     end
-
-    def block_code(code, language); end
-    
-    def block_quote(quote); end
-    
-    def footnotes(content); end
-
-    def footnote_def(content, number); end
-    
-    def header(text, header_level); end
-    
-    def hrule; end
-    
-    def list(contents, list_type); end
-    
-    def list_item(text, list_type); end
-    
-    def paragraph(text)
-      return if @described_models.empty?
-
-      @described_models.each do |model|
-        next unless model[:described_attribute].present?
-        model[model[:described_attribute]] ||= []
-        model[model[:described_attribute]] << text
-      end
-
-      nil
-    end
-    
-    def table(header, body); end
-    
-    def table_row(content); end
-    
-    def table_cell(content, alignment, header); end
-
-    def autolink(link, link_type); end
-
-    def codespan(code); end
-    
-    def double_emphasis(text); end
-    
-    def emphasis(text); end
-
-    def image(link, title, alt_text); end
-    
-    def linebreak(); end
-
-    def link(link, title, content); end
-
-    def raw_html(raw_html); end
-    
-    def triple_emphasis(text); end
-
-    def strikethrough(text); end
-    
-    def superscript(text); end
-    
-    def underline(text); end
-    
-    def highlight(text); end
-    
-    def quote(text); end
-    
-    def footnote_ref(number); end
   end
 end
