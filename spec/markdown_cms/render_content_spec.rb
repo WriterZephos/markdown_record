@@ -898,6 +898,107 @@ RSpec.describe ::RenderContent do
         expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
         expect(verify_file_contents("./markdown_cms/rendered/content.html", custom_layout_content_html)).to eq(true)
         # expect(verify_pdf_contents("./markdown_cms/rendered/content.pdf", "../rendered/custom_layout/content.pdf")).to eq(true)
+        expect(verify_file_contents("./markdown_cms/rendered/content.html", concatenated_content_html)).to eq(false)
+        expect(verify_and_remove_files(files)).to eq(true)
+      end
+    end
+  end
+
+  context "when the directory strategy is specifies" do
+    let(:options){
+      {
+        :subdirectory => "",
+        :layout => ::MarkdownCms.config.html_layout_path,
+        :save => true,
+        :strat => :directory
+      }
+    }
+
+    describe "render_content:all" do
+      let(:terminal_output){
+        <<~eos
+        ---------------------------------------------------------------
+        rendering html, json and pdf content with options {:concat=>true, :deep=>false, :save=>true, :layout=>"_markdown_cms_layout.html.erb", :render_html=>true} ...
+        ---------------------------------------------------------------
+        rendered: /markdown_cms/rendered/content.json
+        rendered: /markdown_cms/rendered/content/v_1.0.0.json
+        rendered: /markdown_cms/rendered/content/v_1.0.0/chapter_2.json
+        rendered: /markdown_cms/rendered/content/v_1.0.0/chapter_1.json
+        rendered: /markdown_cms/rendered/content.pdf
+        rendered: /markdown_cms/rendered/content/v_1.0.0.pdf
+        rendered: /markdown_cms/rendered/content/v_1.0.0/chapter_2.pdf
+        rendered: /markdown_cms/rendered/content/v_1.0.0/chapter_1.pdf
+        rendered: /markdown_cms/rendered/content.html
+        rendered: /markdown_cms/rendered/content/v_1.0.0.html
+        rendered: /markdown_cms/rendered/content/v_1.0.0/chapter_2.html
+        rendered: /markdown_cms/rendered/content/v_1.0.0/chapter_1.html
+        ---------------------------------------------------------------
+        12 files rendered.
+        12 files saved.
+        eos
+      }
+  
+      it "does a dry run render of html, json and pdf" do
+        expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
+        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1/content.html"])).to eq(false)
+        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_2/content.html"])).to eq(false)
+        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1/content.pdf"])).to eq(false)
+        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_2/content.pdf"])).to eq(false)
+        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1/content.json"])).to eq(false)
+        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_2/content.json"])).to eq(false)
+        expect(verify_and_remove_files(["markdown_cms/rendered/content/demo.html"])).to eq(false)
+        expect(verify_and_remove_files(["markdown_cms/rendered/content/demo.pdf"])).to eq(false)
+        expect(verify_and_remove_files(["markdown_cms/rendered/content/demo.json"])).to eq(false)
+        expect(verify_and_remove_files(files)).to eq(true)
+      end
+    end
+  end
+
+  context "when the file strategy is specifies" do
+    let(:options){
+      {
+        :subdirectory => "",
+        :layout => ::MarkdownCms.config.html_layout_path,
+        :save => true,
+        :strat => :file
+      }
+    }
+
+    describe "render_content:all" do
+      let(:terminal_output){
+        <<~eos
+        ---------------------------------------------------------------
+        rendering html, json and pdf content with options {:concat=>false, :deep=>true, :save=>true, :layout=>"_markdown_cms_layout.html.erb", :render_html=>true} ...
+        ---------------------------------------------------------------
+        rendered: /markdown_cms/rendered/content/demo.json
+        rendered: /markdown_cms/rendered/content/v_1.0.0/chapter_2/content.json
+        rendered: /markdown_cms/rendered/content/v_1.0.0/chapter_1/content.json
+        rendered: /markdown_cms/rendered/content/demo.pdf
+        rendered: /markdown_cms/rendered/content/v_1.0.0/chapter_2/content.pdf
+        rendered: /markdown_cms/rendered/content/v_1.0.0/chapter_1/content.pdf
+        rendered: /markdown_cms/rendered/content/demo.html
+        rendered: /markdown_cms/rendered/content/v_1.0.0/chapter_2/content.html
+        rendered: /markdown_cms/rendered/content/v_1.0.0/chapter_1/content.html
+        ---------------------------------------------------------------
+        9 files rendered.
+        9 files saved.
+        eos
+      }
+  
+      it "does a dry run render of html, json and pdf" do
+        expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
+        expect(verify_and_remove_files(["markdown_cms/rendered/content.html"])).to eq(false)
+        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0.html"])).to eq(false)
+        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1.html"])).to eq(false)
+        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1.html"])).to eq(false)
+        expect(verify_and_remove_files(["markdown_cms/rendered/content.pdf"])).to eq(false)
+        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0.pdf"])).to eq(false)
+        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1.pdf"])).to eq(false)
+        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1.pdf"])).to eq(false)
+        expect(verify_and_remove_files(["markdown_cms/rendered/content.json"])).to eq(false)
+        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0.json"])).to eq(false)
+        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1.json"])).to eq(false)
+        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1.json"])).to eq(false)
         expect(verify_and_remove_files(files)).to eq(true)
       end
     end

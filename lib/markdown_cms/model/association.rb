@@ -1,57 +1,115 @@
 module MarkdownCms
   module Model
     class Association
-      attr_accessor :owner
       attr_accessor :klass
       attr_accessor :base_filters
+      attr_accessor :search_filters
       attr_reader :fulfilled
 
-      def initialize(owner, klass, base_filters)
-        @owner = owner
-        @klass = klass
+      def initialize(base_filters, search_filters = {})
         @base_filters = base_filters
+        @search_filters = search_filters
         @data = []
+        @fulfilled = false
+      end
+
+      def execute
+        reset
+        final_filters = self.search_filters.merge(self.base_filters)
+        results = MarkdownCms::ModelInflator.new.where(final_filters)
+        @data.push(*results)
+        @fulfilled = true
+      end
+      
+      def reset
+        @data = []
+        @fulfilled = false
+      end
+
+      def to_a
+        execute unless fulfilled
+        @data
       end
 
       def all
-        return self if fulfilled
-        @data.push(*@klass.where(base_filters))
-        fulfilled = true
+        execute unless fulfilled
         @data
+      end
+
+      def not(filters = {})
+        reset
+        search_filters[:__not__] ||= {}
+        search_filters[:__not__].merge!(filters)
+        execute
+        self
       end
 
       def where(filters = {})
-        return self if fulfilled
-        new_filters = filters.merge(self.base_filters)
-        self.base_filters = new_filters
-        @data.push(*@klass.where(new_filters))
-        fulfilled = true
-        @data
+        reset
+        search_filters.merge!(filters)
+        execute
+        self
       end
 
       def find(id)
-        return self if fulfilled
+        reset
+        search_filters.merge!({:id => id})
+        execute
 
-        new_filters = {:id => id}.merge(self.base_filters)
-        self.base_filters = new_filters
-        @data.push(*@klass.where(new_filters))
-        fulfilled = true
+        raise "Invalide id. There are multiple records with this id. Please correct this in your static content." if @data.count > 1
         @data.first
       end
 
       def each(...)
+        execute unless fulfilled
         all unless fulfilled
         @data.each(...)
       end
 
       def map(...)
-        all unless fulfilled
+        execute unless fulfilled
+        execute
         @data.map(...)
       end
 
       def count(...)
-        all unless fulfilled
+        execute unless fulfilled
         @data.count(...)
+      end
+
+      def any?(...)
+        execute unless fulfilled
+        @data.any?(...)
+      end
+
+      def empty(...)
+        execute unless fulfilled
+        @data.empty?(...)
+      end
+
+      def first(...)
+        execute unless fulfilled
+        @data.first(...)
+      end
+
+      def last(...)
+        execute unless fulfilled
+        @data.first(...)
+      end
+
+      def second(...)
+        execute unless fulfilled
+        @data.second(...)
+      end
+
+      def third(...)
+        execute unless fulfilled
+        @data.third(...)
+      end
+
+      def fourth(...)
+        execute unless fulfilled
+        @data.fourth(...)
       end
     end
   end

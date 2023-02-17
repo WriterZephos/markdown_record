@@ -17,9 +17,7 @@ class MarkdownCmsGenerator < Rails::Generators::Base
     empty_directory "markdown_cms/rendered"
   end
 
-  def copy_content_file
-    copy_file "content/demo.md", "markdown_cms/content/demo.md"
-  end
+
 
   def copy_content_file
     copy_file "content/demo.md", "markdown_cms/content/demo.md"
