@@ -5,17 +5,23 @@ module MarkdownCms
       @models = nil
     end
 
-    def where(filters, subdirectory = "")
-      raise ArgumentError.new "A klass filter must be provided." unless filters[:klass].present?
+    def where(filters, subdirectory = nil)
+      path = if subdirectory.nil?
+               base_path
+               "#{base_path}.json"
+             else
+              "#{base_path}/#{subdirectory}.json"
+             end
 
-      base_name = ::MarkdownCms.config.content_root.join(subdirectory).basename
-      pathname = base_path.join(subdirectory || "").join("#{base_name}.json")
-      json = JSON.parse(File.read(pathname))
+      json = JSON.parse(File.read(path))
 
-      json = json[filters.delete(:klass).name] if filters[:klass].present?
+      json = filters[:klass].present? ? json[filters.delete(:klass).name] : json.values.flatten
       json ||= []
 
-      filtered_models = json.select { |model| passes_filters?(model.with_indifferent_access, filters) }
+      filtered_models = json.select do |model|
+        passes_filters?(model.with_indifferent_access, filters)
+      end
+
       filtered_models.map do |model|
         model["type"].safe_constantize&.new(model)
       end
@@ -32,7 +38,7 @@ module MarkdownCms
         passes &&= passes_filter?(attributes, key, value)
       end
 
-      filters[:not]&.each do |key, value|
+      filters[:__not__]&.each do |key, value|
         passes &&= !passes_filter?(attributes, key, value)
       end
 
