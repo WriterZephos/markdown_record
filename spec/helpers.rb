@@ -14,6 +14,11 @@ module Helpers
     FileUtils.cd("spec/dummy")
   end
 
+  def remove_rendered_content
+    FileUtils.remove_dir("markdown_cms/rendered", true)
+    FileUtils.mkdir_p "markdown_cms/rendered"
+  end
+
   def verify_files(files, remove = true)
     all_exist = true
     files.each do |file|

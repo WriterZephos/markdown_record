@@ -1,5 +1,4 @@
 require "spec_helper"
-Dir["lib/generators/templates/render_content.thor"].sort.each { |f| load f }
 
 RSpec.describe ::RenderContent do
   let(:options){

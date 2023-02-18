@@ -7,8 +7,8 @@ module MarkdownCms
       include ::MarkdownCms::Model::Associations
 
       attribute :id
+      attribute :type
       attribute :subdirectory
-
     end
   end
 end

@@ -41,13 +41,13 @@ module MarkdownCms
 
         def infer_klass(association, options)
           class_name = options[:class_name]
-          class_name ||= association.singularize.camelize
-          klass = association.camelize.safe_constantize
+          class_name ||= association.to_s.singularize.camelize
+          klass = class_name.camelize.safe_constantize
         end
       end
 
       def siblings(filters = {})
-        MarkdownCms::Model::Association.new(filters.merge({:subdirectory => subdirectory, :__not__ => { :id => self.id }}))
+        MarkdownCms::Model::Association.new(filters.merge({:subdirectory => subdirectory}).merge!(not_self))
       end
 
       def class_siblings(filters = {})
@@ -55,7 +55,24 @@ module MarkdownCms
       end
 
       def children(filters = {})
-        MarkdownCms::Model::Association.new(filters.merge({:subdirectory => Regexp.new("#{subdirectory}/.*")}))
+        MarkdownCms::Model::Association.new(filters.merge({:subdirectory => Regexp.new("#{subdirectory}.+")}).merge!(not_self))
+      end
+
+      private
+      def not_self
+        {
+          :__or__ => [
+            { :__not__ => { 
+                :id => self.id
+              }
+            }, 
+            {
+              :__not__ => { 
+                :type => self.type 
+              }
+            }
+          ]
+        }
       end
     end
   end

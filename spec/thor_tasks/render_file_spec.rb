@@ -42,6 +42,14 @@ RSpec.describe ::RenderFile do
     File.read("../rendered/custom_layout/chapter_1/content.pdf")
   }
 
+  before(:all) do
+    remove_rendered_content
+  end
+
+  after(:all) do
+    
+  end
+
   describe "render_content:html" do
     let(:terminal_output){
       <<~eos

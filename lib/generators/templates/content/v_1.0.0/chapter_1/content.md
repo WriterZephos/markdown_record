@@ -20,3 +20,14 @@ This is a summary of Chapter 1.
 <!--end_describe_model_attribute-->
 
 <!--end_describe_model-->
+
+<!--describe_model
+{
+  "type": "::TableOfContents",
+  "id":   1,
+  "chapter_list": [],
+  "meta": {}
+}
+-->
+
+<!--end_describe_model-->

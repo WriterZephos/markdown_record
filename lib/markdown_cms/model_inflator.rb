@@ -17,7 +17,7 @@ module MarkdownCms
 
       json = filters[:klass].present? ? json[filters.delete(:klass).name] : json.values.flatten
       json ||= []
-
+      
       filtered_models = json.select do |model|
         passes_filters?(model.with_indifferent_access, filters)
       end
@@ -33,15 +33,24 @@ module MarkdownCms
 
     def passes_filters?(attributes, filters)
       passes = true
+
+      not_filters = filters.delete(:__not__)
+      or_filters = filters.delete(:__or__)
+
       filters.each do |key, value|
-        next if key.to_s == "not"
         passes &&= passes_filter?(attributes, key, value)
       end
-
-      filters[:__not__]&.each do |key, value|
+      
+      not_filters&.each do |key, value|        
         passes &&= !passes_filter?(attributes, key, value)
       end
 
+      temp = !or_filters&.any?
+      or_filters&.each do |sub_filter|
+        temp ||= passes_filters?(attributes, sub_filter)
+      end
+
+      passes &&= temp
       passes
     end
 
@@ -55,7 +64,7 @@ module MarkdownCms
         elsif filter_value[:null].present?
           filter_value[:null] && attributes[filter_key].nil?
         else
-          true
+          passes_filters?(attributes, filter_value)
         end
       when nil.class.name
         attributes[filter_key].nil?

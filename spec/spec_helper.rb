@@ -9,6 +9,8 @@ require "pry"
 
 require "helpers"
 
+Dir["lib/generators/templates/render_content.thor"].sort.each { |f| load f }
+
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
@@ -28,5 +30,20 @@ RSpec.configure do |config|
 
   config.after(:suite) do
     uninstall_engine
+  end
+
+  render_options = {
+    :subdirectory => "",
+    :layout => ::MarkdownCms.config.html_layout_path,
+    :save => true,
+    :strat => :directory
+  }
+
+  config.before(:all, :render => true) do
+    ::RenderContent.new.invoke(:all, [], render_options)
+  end
+
+  config.after(:all, :render => true) do
+    remove_rendered_content
   end
 end

@@ -112,7 +112,7 @@ module MarkdownCms
     end
 
     def set_described_model(html)
-      match = html.match(/<!--\s*describe_model\s+({[\s|"|'|\\|\w|:|,|.]*})\s+-->/)
+      match = html.match(/<!--\s*describe_model\s+({[\s|"|'|\\|\w|:|,|.|\[|\]|\{|\}]*})\s+-->/)
       return if match.nil?
 
       model = JSON.parse(match[1])
