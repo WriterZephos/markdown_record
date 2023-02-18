@@ -34,4 +34,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry"
   spec.add_development_dependency "rspec", "~> 3.12"
   spec.add_development_dependency "rspec-rails", "~> 6.0"
+  spec.add_development_dependency "pg", "~> 1.4"
 end

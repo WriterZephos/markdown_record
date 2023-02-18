@@ -23,10 +23,19 @@ This is a summary of Chapter 1.
 
 <!--describe_model
 {
-  "type": "::TableOfContents",
+  "type": "::Diagram",
   "id":   1,
-  "chapter_list": [],
-  "meta": {}
+  "features": [],
+  "data": {}
+}
+-->
+
+<!--describe_model
+{
+  "type": "::Diagram",
+  "id":   2,
+  "features": [],
+  "data": {}
 }
 -->
 

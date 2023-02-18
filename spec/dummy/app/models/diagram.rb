@@ -1,4 +1,4 @@
-class TableOfContents < ::MarkdownCms::Model::Base
+class Diagram < ::MarkdownCms::Model::Base
   attribute :chapter_list
   attribute :meta
   

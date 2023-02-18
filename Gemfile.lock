@@ -116,6 +116,7 @@ GEM
     nio4r (2.5.8)
     nokogiri (1.14.1-x86_64-darwin)
       racc (~> 1.4)
+    pg (1.4.5)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -196,10 +197,11 @@ PLATFORMS
 
 DEPENDENCIES
   markdown_cms!
+  pg (~> 1.4)
   pry
   rspec (~> 3.12)
   rspec-rails (~> 6.0)
   sprockets-rails
 
 BUNDLED WITH
-   2.2.22
+   2.3.8

@@ -22,8 +22,12 @@ RSpec.describe :models, :render => true do
 
       describe "children" do
         it "has a parent/child association with chapters and table of context" do
-          expect(Book.find(1).children.all).to eq([Chapter.find(1), Chapter.find(2), TableOfContents.find(1)])
+          expect(Book.find(1).children.all).to eq([Chapter.find(1), Chapter.find(2), Diagram.find(1), Diagram.find(2)])
         end
+      end
+
+      describe "where" do
+        # TODO: Fill in all the test cases for filtering
       end
     end
 
@@ -35,9 +39,45 @@ RSpec.describe :models, :render => true do
       end
   
       describe "siblings" do
-        it "has a sibling association with table of contents" do
-          expect(Chapter.find(1).siblings.all).to eq([TableOfContents.find(1)])
+        it "has a sibling association with diagrams in the same subdirectory" do
+          expect(Chapter.find(1).siblings.all).to eq([Diagram.find(1), Diagram.find(2)])
         end
+      end
+    end
+
+    describe "Diagram" do
+      describe "siblings" do
+        it "has a sibling association with diagrams in the same subdirectory" do
+          expect(Diagram.find(1).siblings.all).to eq([Chapter.find(1), Diagram.find(2)])
+        end
+      end
+
+      describe "class_siblings" do
+        it "has a sibling association with diagrams in the same subdirectory" do
+          expect(Diagram.find(1).class_siblings.all).to eq([Diagram.find(2)])
+        end
+      end
+    end
+  end
+
+  describe "ActiveRecord Models" do
+    describe "Reader" do
+      let(:reader) {
+        Reader.create(:book_ids => [1])
+      }
+
+      it "has a has many association whith books" do
+        expect(reader.books.all).to eq([Book.find(1)])
+      end
+    end
+
+    describe "Reader" do
+      let(:copy) {
+        Copy.create(:book_id => 1)
+      }
+
+      it "has a has many association whith books" do
+        expect(copy.book).to eq(Book.find(1))
       end
     end
   end

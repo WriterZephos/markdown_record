@@ -17,9 +17,9 @@ module MarkdownCms
 
       json = filters[:klass].present? ? json[filters.delete(:klass).name] : json.values.flatten
       json ||= []
-      
+
       filtered_models = json.select do |model|
-        passes_filters?(model.with_indifferent_access, filters)
+        passes_filters?(model.with_indifferent_access, filters.dup)
       end
 
       filtered_models.map do |model|
@@ -41,13 +41,13 @@ module MarkdownCms
         passes &&= passes_filter?(attributes, key, value)
       end
       
-      not_filters&.each do |key, value|        
+      not_filters&.each do |key, value|    
         passes &&= !passes_filter?(attributes, key, value)
       end
 
       temp = !or_filters&.any?
       or_filters&.each do |sub_filter|
-        temp ||= passes_filters?(attributes, sub_filter)
+        temp ||= passes_filters?(attributes, sub_filter.dup)
       end
 
       passes &&= temp

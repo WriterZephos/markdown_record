@@ -9,6 +9,7 @@ require "markdown_cms/pdf_renderer"
 require "markdown_cms/json_renderer"
 require "markdown_cms/model/association"
 require "markdown_cms/model/associations"
+require "markdown_cms/content_associations"
 require "markdown_cms/model/base"
 require "markdown_cms/cli"
 
