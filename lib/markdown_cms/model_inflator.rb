@@ -58,14 +58,16 @@ module MarkdownCms
       case filter_value.class.name
       when Array.name
         filter_value.include?(attributes[filter_key])
-      when Hash.name
-        if filter_value[:not_null].present?
-          !(filter_value[:not_null] && attributes[filter_key].nil?)
-        elsif filter_value[:null].present?
-          filter_value[:null] && attributes[filter_key].nil?
+      when Symbol.name
+        if filter_value == :not_null
+          !attributes[filter_key].nil?
+        elsif filter_value == :null
+          attributes[filter_key].nil?
         else
-          passes_filters?(attributes, filter_value)
+          filter_value == attributes[filter_key]
         end
+      when Hash.name
+        passes_filters?(attributes, filter_value)
       when nil.class.name
         attributes[filter_key].nil?
       when Regexp.name

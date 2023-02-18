@@ -5,7 +5,7 @@
   "type": "::Chapter",
   "id":   2,
   "name": "Chapter 2",
-  "foo":  23.2,
+  "foo":  100.7,
   "bar":  1234,
   "book_id": 1
 }

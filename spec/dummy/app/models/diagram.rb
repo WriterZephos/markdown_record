@@ -1,6 +1,7 @@
 class Diagram < ::MarkdownCms::Model::Base
-  attribute :chapter_list
+  attribute :features
   attribute :meta
+  attribute :data
   
   belongs_to_content :book
 end

@@ -21,13 +21,35 @@ RSpec.describe :models, :render => true do
       end
 
       describe "children" do
-        it "has a parent/child association with chapters and table of context" do
+        it "has a parent/child association with chapters and diagrams" do
           expect(Book.find(1).children.all).to eq([Chapter.find(1), Chapter.find(2), Diagram.find(1), Diagram.find(2)])
         end
       end
 
       describe "where" do
-        # TODO: Fill in all the test cases for filtering
+        it "filters by not_null" do
+          expect(Diagram.where(:data => :not_null).all).to eq([Diagram.find(1)])
+        end
+
+        it "filters by null" do
+          expect(Diagram.where(:data => :null).all).to eq([Diagram.find(2)])
+        end
+
+        it "filters by nil" do
+          expect(Diagram.where(:data => nil).all).to eq([Diagram.find(2)])
+        end
+
+        it "filters by regex" do
+          expect(Chapter.where(:name => /\w{7}\s1/).all).to eq([Chapter.find(1)])
+        end
+
+        it "filters by value" do
+          expect(Chapter.where(:foo => 100.7).all).to eq([Chapter.find(2)])
+        end
+
+        it "filters by array of values" do
+          expect(Chapter.where(:foo => [23.2, 100.7]).all).to eq([Chapter.find(1), Chapter.find(2)])
+        end
       end
     end
 

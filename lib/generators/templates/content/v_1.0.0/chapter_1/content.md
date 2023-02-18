@@ -26,7 +26,8 @@ This is a summary of Chapter 1.
   "type": "::Diagram",
   "id":   1,
   "features": [],
-  "data": {}
+  "data": {},
+  "book_id": 1
 }
 -->
 
@@ -35,7 +36,8 @@ This is a summary of Chapter 1.
   "type": "::Diagram",
   "id":   2,
   "features": [],
-  "data": {}
+  "data": null,
+  "book_id": 1
 }
 -->
 
