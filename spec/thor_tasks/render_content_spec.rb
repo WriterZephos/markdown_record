@@ -57,6 +57,14 @@ RSpec.describe ::RenderContent do
     File.read("../rendered/custom_layout/content.pdf")
   }
 
+  let(:custom_layout_chapter_1_content_html){
+    File.read("../rendered/custom_layout/chapter_1/content.html")
+  }
+
+  let(:custom_layout_chapter_1_content_pdf){
+    File.read("../rendered/custom_layout/chapter_1/content.pdf")
+  }
+
   describe "render_content:html" do
     let(:terminal_output){
       <<~eos
@@ -78,7 +86,7 @@ RSpec.describe ::RenderContent do
 
     it "does a dry run render of html" do
       expect{ ::RenderContent.new.invoke(:html, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-      expect(verify_and_remove_files(files)).to eq(false)
+      expect(verify_files(files)).to eq(false)
     end
   end
 
@@ -101,9 +109,9 @@ RSpec.describe ::RenderContent do
       eos
     }
 
-    it "it does a dry run render of pdf" do
+    it "does a dry run render of pdf" do
       expect{ ::RenderContent.new.invoke(:pdf, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-      expect(verify_and_remove_files(files)).to eq(false)
+      expect(verify_files(files)).to eq(false)
     end
   end
 
@@ -128,7 +136,7 @@ RSpec.describe ::RenderContent do
 
     it "does a dry run render of json" do
       expect{ ::RenderContent.new.invoke(:json, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-      expect(verify_and_remove_files(files)).to eq(false)
+      expect(verify_files(files)).to eq(false)
     end
   end
 
@@ -160,7 +168,7 @@ RSpec.describe ::RenderContent do
 
     it "does a dry run render of html and pdf" do
       expect{ ::RenderContent.new.invoke(:html_pdf, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-      expect(verify_and_remove_files(files)).to eq(false)
+      expect(verify_files(files)).to eq(false)
     end
   end
 
@@ -190,9 +198,9 @@ RSpec.describe ::RenderContent do
       eos
     }
 
-    it "it does a dry run render of json and pdf" do
+    it "does a dry run render of json and pdf" do
       expect{ ::RenderContent.new.invoke(:json_pdf, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-      expect(verify_and_remove_files(files)).to eq(false)
+      expect(verify_files(files)).to eq(false)
     end
   end
 
@@ -224,7 +232,7 @@ RSpec.describe ::RenderContent do
 
     it "does a dry run render of html and json" do
       expect{ ::RenderContent.new.invoke(:html_json, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-      expect(verify_and_remove_files(files)).to eq(false)
+      expect(verify_files(files)).to eq(false)
     end
   end
 
@@ -482,9 +490,9 @@ RSpec.describe ::RenderContent do
         eos
       }
   
-      it "does a dry run render of html" do
+      it "renders html" do
         expect{ ::RenderContent.new.invoke(:html, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_and_remove_files(files)).to eq(true)
+        expect(verify_files(files)).to eq(true)
       end
     end
   
@@ -507,9 +515,9 @@ RSpec.describe ::RenderContent do
         eos
       }
       
-      it "it does a dry run render of pdf" do
+      it "renders pdf" do
         expect{ ::RenderContent.new.invoke(:pdf, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_and_remove_files(files)).to eq(true)
+        expect(verify_files(files)).to eq(true)
       end
     end
   
@@ -532,9 +540,9 @@ RSpec.describe ::RenderContent do
         eos
       }
 
-      it "does a dry run render of json" do
+      it "renders json" do
         expect{ ::RenderContent.new.invoke(:json, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_and_remove_files(files)).to eq(true)
+        expect(verify_files(files)).to eq(true)
       end
     end
   
@@ -564,9 +572,9 @@ RSpec.describe ::RenderContent do
         eos
       }
   
-      it "does a dry run render of html and pdf" do
+      it "renders html and pdf" do
         expect{ ::RenderContent.new.invoke(:html_pdf, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_and_remove_files(files)).to eq(true)
+        expect(verify_files(files)).to eq(true)
       end
     end
   
@@ -596,9 +604,9 @@ RSpec.describe ::RenderContent do
         eos
       }
   
-      it "it does a dry run render of json and pdf" do
+      it "renders json and pdf" do
         expect{ ::RenderContent.new.invoke(:json_pdf, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_and_remove_files(files)).to eq(true)
+        expect(verify_files(files)).to eq(true)
       end
     end
   
@@ -628,9 +636,9 @@ RSpec.describe ::RenderContent do
         eos
       }
   
-      it "does a dry run render of html and json" do
+      it "renders html and json" do
         expect{ ::RenderContent.new.invoke(:html_json, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_and_remove_files(files)).to eq(true)
+        expect(verify_files(files)).to eq(true)
       end
     end
 
@@ -667,16 +675,16 @@ RSpec.describe ::RenderContent do
         eos
       }
   
-      it "does a dry run render of html, json and pdf" do
+      it "renders html, json and pdf" do
         expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
         expect(verify_file_contents("./markdown_cms/rendered/content/v_1.0.0/chapter_1/content.html", chapter_1_content_html)).to eq(true)
         expect(verify_file_contents("./markdown_cms/rendered/content/v_1.0.0/chapter_1/content.json", chapter_1_content_json)).to eq(true)
-        # expect(verify_pdf_contents("./markdown_cms/rendered/content/v_1.0.0/chapter_1/content.pdf", "../rendered/chapter_1/content.pdf")).to eq(true)
+        # expect(verify_pdf_contents("./markdown_cms/rendered/content/v_1.0.0/chapter_1/content.pdf", chapter_1_content_pdf)).to eq(true)
         expect(verify_file_contents("./markdown_cms/rendered/content/v_1.0.0/chapter_2/content.html", chapter_2_content_html)).to eq(true)
         expect(verify_file_contents("./markdown_cms/rendered/content.html", concatenated_content_html)).to eq(true)
         expect(verify_file_contents("./markdown_cms/rendered/content.json", concatenated_content_json)).to eq(true)
-        # expect(verify_pdf_contents("./markdown_cms/rendered/content.pdf", "../rendered/concatenated/content.pdf")).to eq(true)
-        expect(verify_and_remove_files(files)).to eq(true)
+        # expect(verify_pdf_contents("./markdown_cms/rendered/content.pdf", concatenated_content_pdf)).to eq(true)
+        expect(verify_files(files)).to eq(true)
       end
     end
   end
@@ -709,9 +717,9 @@ RSpec.describe ::RenderContent do
         eos
       }
   
-      it "does a dry run render of html" do
+      it "renders html" do
         expect{ ::RenderContent.new.invoke(:html, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_and_remove_files(files)).to eq(true)
+        expect(verify_files(files)).to eq(true)
       end
     end
   
@@ -734,9 +742,9 @@ RSpec.describe ::RenderContent do
         eos
       }
   
-      it "it does a dry run render of pdf" do
+      it "renders pdf" do
         expect{ ::RenderContent.new.invoke(:pdf, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_and_remove_files(files)).to eq(true)
+        expect(verify_files(files)).to eq(true)
       end
     end
   
@@ -759,9 +767,9 @@ RSpec.describe ::RenderContent do
         eos
       }
   
-      it "does a dry run render of json" do
+      it "renders json" do
         expect{ ::RenderContent.new.invoke(:json, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_and_remove_files(files)).to eq(true)
+        expect(verify_files(files)).to eq(true)
       end
     end
   
@@ -791,9 +799,9 @@ RSpec.describe ::RenderContent do
         eos
       }
   
-      it "does a dry run render of html and pdf" do
+      it "renders html and pdf" do
         expect{ ::RenderContent.new.invoke(:html_pdf, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_and_remove_files(files)).to eq(true)
+        expect(verify_files(files)).to eq(true)
       end
     end
   
@@ -823,9 +831,9 @@ RSpec.describe ::RenderContent do
         eos
       }
   
-      it "it does a dry run render of json and pdf" do
+      it "renders json and pdf" do
         expect{ ::RenderContent.new.invoke(:json_pdf, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_and_remove_files(files)).to eq(true)
+        expect(verify_files(files)).to eq(true)
       end
     end
   
@@ -855,9 +863,9 @@ RSpec.describe ::RenderContent do
         eos
       }
   
-      it "does a dry run render of html and json" do
+      it "renders html and json" do
         expect{ ::RenderContent.new.invoke(:html_json, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_and_remove_files(files)).to eq(true)
+        expect(verify_files(files)).to eq(true)
       end
     end
 
@@ -894,17 +902,16 @@ RSpec.describe ::RenderContent do
         eos
       }
   
-      it "does a dry run render of html, json and pdf" do
+      it "renders html, json and pdf" do
         expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
         expect(verify_file_contents("./markdown_cms/rendered/content.html", custom_layout_content_html)).to eq(true)
-        # expect(verify_pdf_contents("./markdown_cms/rendered/content.pdf", "../rendered/custom_layout/content.pdf")).to eq(true)
-        expect(verify_file_contents("./markdown_cms/rendered/content.html", concatenated_content_html)).to eq(false)
-        expect(verify_and_remove_files(files)).to eq(true)
+        # expect(verify_pdf_contents("./markdown_cms/rendered/content.pdf", custom_layout_content_pdf)).to eq(true)
+        expect(verify_files(files)).to eq(true)
       end
     end
   end
 
-  context "when the directory strategy is specifies" do
+  context "when the directory strategy is specified" do
     let(:options){
       {
         :subdirectory => "",
@@ -938,23 +945,23 @@ RSpec.describe ::RenderContent do
         eos
       }
   
-      it "does a dry run render of html, json and pdf" do
+      it "renders html, json and pdf" do
         expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1/content.html"])).to eq(false)
-        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_2/content.html"])).to eq(false)
-        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1/content.pdf"])).to eq(false)
-        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_2/content.pdf"])).to eq(false)
-        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1/content.json"])).to eq(false)
-        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_2/content.json"])).to eq(false)
-        expect(verify_and_remove_files(["markdown_cms/rendered/content/demo.html"])).to eq(false)
-        expect(verify_and_remove_files(["markdown_cms/rendered/content/demo.pdf"])).to eq(false)
-        expect(verify_and_remove_files(["markdown_cms/rendered/content/demo.json"])).to eq(false)
-        expect(verify_and_remove_files(files)).to eq(true)
+        expect(verify_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1/content.html"])).to eq(false)
+        expect(verify_files(["markdown_cms/rendered/content/v_1.0.0/chapter_2/content.html"])).to eq(false)
+        expect(verify_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1/content.pdf"])).to eq(false)
+        expect(verify_files(["markdown_cms/rendered/content/v_1.0.0/chapter_2/content.pdf"])).to eq(false)
+        expect(verify_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1/content.json"])).to eq(false)
+        expect(verify_files(["markdown_cms/rendered/content/v_1.0.0/chapter_2/content.json"])).to eq(false)
+        expect(verify_files(["markdown_cms/rendered/content/demo.html"])).to eq(false)
+        expect(verify_files(["markdown_cms/rendered/content/demo.pdf"])).to eq(false)
+        expect(verify_files(["markdown_cms/rendered/content/demo.json"])).to eq(false)
+        expect(verify_files(files)).to eq(true)
       end
     end
   end
 
-  context "when the file strategy is specifies" do
+  context "when the file strategy is specified" do
     let(:options){
       {
         :subdirectory => "",
@@ -985,21 +992,21 @@ RSpec.describe ::RenderContent do
         eos
       }
   
-      it "does a dry run render of html, json and pdf" do
+      it "renders html, json and pdf" do
         expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_and_remove_files(["markdown_cms/rendered/content.html"])).to eq(false)
-        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0.html"])).to eq(false)
-        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1.html"])).to eq(false)
-        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1.html"])).to eq(false)
-        expect(verify_and_remove_files(["markdown_cms/rendered/content.pdf"])).to eq(false)
-        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0.pdf"])).to eq(false)
-        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1.pdf"])).to eq(false)
-        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1.pdf"])).to eq(false)
-        expect(verify_and_remove_files(["markdown_cms/rendered/content.json"])).to eq(false)
-        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0.json"])).to eq(false)
-        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1.json"])).to eq(false)
-        expect(verify_and_remove_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1.json"])).to eq(false)
-        expect(verify_and_remove_files(files)).to eq(true)
+        expect(verify_files(["markdown_cms/rendered/content.html"])).to eq(false)
+        expect(verify_files(["markdown_cms/rendered/content/v_1.0.0.html"])).to eq(false)
+        expect(verify_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1.html"])).to eq(false)
+        expect(verify_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1.html"])).to eq(false)
+        expect(verify_files(["markdown_cms/rendered/content.pdf"])).to eq(false)
+        expect(verify_files(["markdown_cms/rendered/content/v_1.0.0.pdf"])).to eq(false)
+        expect(verify_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1.pdf"])).to eq(false)
+        expect(verify_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1.pdf"])).to eq(false)
+        expect(verify_files(["markdown_cms/rendered/content.json"])).to eq(false)
+        expect(verify_files(["markdown_cms/rendered/content/v_1.0.0.json"])).to eq(false)
+        expect(verify_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1.json"])).to eq(false)
+        expect(verify_files(["markdown_cms/rendered/content/v_1.0.0/chapter_1.json"])).to eq(false)
+        expect(verify_files(files)).to eq(true)
       end
     end
   end

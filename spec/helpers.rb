@@ -14,11 +14,11 @@ module Helpers
     FileUtils.cd("spec/dummy")
   end
 
-  def verify_and_remove_files(files)
+  def verify_files(files, remove = true)
     all_exist = true
     files.each do |file|
       all_exist &= Pathname.new(file).exist?
-      FileUtils.remove_entry(file, true)
+      FileUtils.remove_entry(file, true) if remove
     end
     all_exist
   end

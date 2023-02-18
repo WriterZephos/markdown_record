@@ -13,6 +13,6 @@ RSpec.describe ::MarkdownCmsGenerator do
       "Thorfile"
     ]
 
-    expect(verify_and_remove_files(files_and_directories)).to eq(true)
+    expect(verify_files(files_and_directories, false)).to eq(true)
   end
 end

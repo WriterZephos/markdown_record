@@ -30,11 +30,14 @@ module MarkdownCms
       copy_file "markdown_cms/rendered/content.json", "spec/rendered/concatenated/content.json"
 
       # Run render content again with a custom layout
-      system "cd spec/dummy && thor render_content:all -s -l \"_custom_layout.html.erb\" -r directory"
+      system "cd spec/dummy && thor render_content:all -s -l \"_custom_layout.html.erb\" -r full"
 
       # Copy the new files to the spec directory
       copy_file "markdown_cms/rendered/content.html", "spec/rendered/custom_layout/content.html"
       copy_file "markdown_cms/rendered/content.pdf", "spec/rendered/custom_layout/content.pdf"
+      copy_file "markdown_cms/rendered/content/v_1.0.0/chapter_1/content.html", "spec/rendered/custom_layout/chapter_1/content.html"
+      copy_file "markdown_cms/rendered/content/v_1.0.0/chapter_1/content.pdf", "spec/rendered/custom_layout/chapter_1/content.pdf"
+      
 
       # Remove generated content and installed files
       FileUtils.remove_dir("spec/dummy/markdown_cms/rendered", true)

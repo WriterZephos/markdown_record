@@ -15,8 +15,7 @@ module MarkdownCms
 
     def render_models_for_subdirectory(subdirectory: "", **options)
       content = @indexer.index(subdirectory: subdirectory)
-
-      json_hash = render_models_recursively(subdirectory, content, subdirectory, options)
+      json_hash, _ = render_models_recursively(subdirectory, content, subdirectory, options)
 
       save_content_recursively(json_hash, options)
       @models
@@ -24,7 +23,7 @@ module MarkdownCms
 
     def render_models_for_file(file_path:, **options)
       file = @indexer.file(file_path)
-      json = render_models(file, Pathname.new(file_path).parent.to_s)
+      json = render_models(file, Pathname.new("/#{file_path}").parent.to_s)
       @file_saver.save_to_file(json.to_json, "#{file_path.gsub(/(\.concat|\.md)/,"")}.json", options)
       @models
     end
@@ -55,24 +54,29 @@ module MarkdownCms
       case file_or_directory.class.name;
       when Hash.name # if it is a directory
         directory_hash = { file_or_directory_name => {} } # hash representing the directory and its contents
-        
-        if options[:concat]
-          concatenated_content = concatenate_md_recursively(file_or_directory, []).join("\n")
-          directory_hash["#{file_or_directory_name}.concat"] = render_models(concatenated_content, full_path)
-        end
-
+        concat_hash = { file_or_directory_name => {} }
         # iterate through directory contents
         file_or_directory.each do |child_file_or_directory_name, child_file_or_directory|
-          child_content_hash = render_models_recursively(child_file_or_directory_name, child_file_or_directory, "#{file_or_directory_name}/#{child_file_or_directory_name}", options)
+          child_content_hash, child_concat_hash = render_models_recursively(child_file_or_directory_name, child_file_or_directory, "#{full_path}/#{child_file_or_directory_name}", options)
+
+          concat_hash[file_or_directory_name].merge!(child_concat_hash)
           directory_hash[file_or_directory_name].merge!(child_content_hash)
         end
-        directory_hash
-      when String.name # if it is a file
-        if options[:deep]
-          { file_or_directory_name => render_models(file_or_directory, full_path) }
-        else
-          { }
+
+        if options[:concat]
+          concatenated_json = {}
+          concatenate_json_recursively(concat_hash, concatenated_json)
+          directory_hash["#{file_or_directory_name}.concat"] = concatenated_json
         end
+
+        [directory_hash, concat_hash]
+      when String.name # if it is a file
+        content = render_models(file_or_directory, Pathname.new(full_path).parent.to_s)
+        content_hash = { file_or_directory_name => content }
+        result = [{}, {}]
+        result[0] = content_hash if options[:deep]
+        result[1] = content_hash if options[:concat]
+        result
       end
     end
 
@@ -84,16 +88,16 @@ module MarkdownCms
       @json_models.dup
     end
 
-    def concatenate_md_recursively(content, md)
-      case content.class.name
-      when Hash.name
-        content.each do |_, value|
-          concatenate_md_recursively(value, md)
+    def concatenate_json_recursively(directory_hash, concatenated_json)
+      directory_hash.each do |key, value|
+        case value.class.name
+        when Hash.name
+          concatenate_json_recursively(value, concatenated_json)
+        when Array.name
+          concatenated_json[key] ||= []
+          concatenated_json[key] += value
         end
-      when String.name
-        md << content
       end
-      md
     end
 
     def save_content_recursively(content, options, subdirectory = "")
