@@ -158,6 +158,7 @@ RSpec.describe ::RenderContent do
 
       it "does a dry run render of html" do
         expect{ ::RenderContent.new.invoke(:html, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
+        expect(verify_files(files)).to eq(false)
       end
     end
 
@@ -180,6 +181,7 @@ RSpec.describe ::RenderContent do
       
       it "does a dry run render of json" do
         expect{ ::RenderContent.new.invoke(:json, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
+        expect(verify_files(files)).to eq(false)
       end
     end
 
@@ -207,6 +209,7 @@ RSpec.describe ::RenderContent do
 
       it "does a dry run render of html and json" do
         expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
+        expect(verify_files(files)).to eq(false)
       end
     end
   end
@@ -266,7 +269,6 @@ RSpec.describe ::RenderContent do
 
       it "renders json" do
         expect{ ::RenderContent.new.invoke(:json, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        binding.pry
         expect(verify_files(files)).to eq(true)
       end
     end
@@ -299,6 +301,11 @@ RSpec.describe ::RenderContent do
   
       it "renders html and json" do
         expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
+        expect(verify_file_contents("./markdown_record/rendered/content/v_1.0.0/chapter_1/content.html", chapter_1_content_html)).to eq(true)
+        expect(verify_file_contents("./markdown_record/rendered/content/v_1.0.0/chapter_1/content.json", chapter_1_content_json)).to eq(true)
+        expect(verify_file_contents("./markdown_record/rendered/content/v_1.0.0/chapter_2/content.html", chapter_2_content_html)).to eq(true)
+        expect(verify_file_contents("./markdown_record/rendered/content.html", concatenated_content_html)).to eq(true)
+        expect(verify_file_contents("./markdown_record/rendered/content.json", concatenated_content_json)).to eq(true)
         expect(verify_files(files)).to eq(true)
       end
     end
@@ -391,6 +398,8 @@ RSpec.describe ::RenderContent do
   
       it "renders html and json" do
         expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
+        expect(verify_file_contents("./markdown_record/rendered/content.html", custom_layout_content_html)).to eq(true)
+        expect(verify_file_contents("./markdown_record/rendered/content.html", custom_layout_content_html)).to eq(true)
         expect(verify_files(files)).to eq(true)
       end
     end
