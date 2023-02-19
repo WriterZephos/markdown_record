@@ -2,12 +2,14 @@ module MarkdownRecord
   module ViewHelpers
     def link_to_markdown_record_html(model, name = nil, html_options = nil, &block)
       path = path_to_markdown_record_html(model)
+      name ||= model.name if model.respond_to?(:name)
 
       block_given? ? link_to(path, html_options, nil, &block) : link_to(name, path, html_options, &block)
     end
 
     def link_to_download_markdown_record_html(model, name = nil, html_options = nil, &block)
       path = path_to_markdown_record_html(model, true)
+      name ||= model.name if model.respond_to?(:name)
 
       block_given? ? link_to("/#{path}", html_options, nil, &block) : link_to(name, path, html_options, &block)
     end
@@ -24,12 +26,14 @@ module MarkdownRecord
 
     def link_to_markdown_record_json(model, name = nil, html_options = nil, &block)
       path = path_to_markdown_record_json(model)
+      name ||= model.name if model.respond_to?(:name)
 
       block_given? ? link_to(path, html_options, nil, &block) : link_to(name, path, html_options, &block)
     end
 
     def link_to_download_markdown_record_json(model, name = nil, html_options = nil, &block)
       path = path_to_markdown_record_json(model, true)
+      name ||= model.name if model.respond_to?(:name)
 
       block_given? ? link_to("/#{path}", html_options, nil, &block) : link_to(name, path, html_options, &block)
     end
@@ -47,10 +51,10 @@ module MarkdownRecord
     def path_to_markdown_record(model, ext, download = false)
       raise ArgumentError.new("A MarkdownRecord model must be provided.") unless model&.is_a?(::MarkdownRecord::Base)
 
-      subdirectory = model.subdirectory
+      subdirectory = model.subdirectory.delete_prefix("/")
 
       base_name = MarkdownRecord.config.content_root.basename
-      subdirectory = base_name.join(subdirectory.delete_prefix("/")) unless subdirectory == ""
+      subdirectory = base_name.join(subdirectory)
 
       path = Pathname.new(MarkdownRecord.config.mount_path).join(ext)
       path = path.join("download") if download

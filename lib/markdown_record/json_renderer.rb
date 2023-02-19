@@ -1,7 +1,7 @@
 require "redcarpet"
 
 module MarkdownRecord
-  class JsonRenderer < ::Redcarpet::Render::HTML
+  class JsonRenderer < ::MarkdownRecord::NullHtmlRenderer
 
     def initialize(file_saver: ::MarkdownRecord::FileSaver.new, indexer: ::MarkdownRecord.config.indexer_class.new)
       super(::MarkdownRecord.config.html_render_options)
@@ -23,7 +23,7 @@ module MarkdownRecord
 
     def render_models_for_file(file_path:, **options)
       file = @indexer.file(file_path)
-      json = render_models(file, Pathname.new("/#{file_path}").parent.to_s)
+      json = render_models(file, Pathname.new("/#{file_path}"))
       @file_saver.save_to_file(json.to_json, "#{file_path.gsub(/(\.concat|\.md)/,"")}.json", options)
       @models
     end
@@ -71,7 +71,7 @@ module MarkdownRecord
 
         [directory_hash, concat_hash]
       when String.name # if it is a file
-        content = render_models(file_or_directory, Pathname.new(full_path).parent.to_s)
+        content = render_models(file_or_directory, Pathname.new(full_path))
         content_hash = { file_or_directory_name => content }
         result = [{}, {}]
         result[0] = content_hash if options[:deep]
@@ -81,7 +81,8 @@ module MarkdownRecord
     end
 
     def render_models(content, full_path)
-      @subdirectory = full_path
+      @filename = full_path.basename.to_s
+      @subdirectory = full_path.parent.to_s
       @described_models = []
       @json_models = {}
       @markdown.render(content)
@@ -117,10 +118,17 @@ module MarkdownRecord
 
       model = JSON.parse(match[1])
       model["subdirectory"] = @subdirectory.gsub(/(\.concat|\.md)/,"")
+      model["filename"] = @filename.gsub(/(\.concat|\.md)/,"")
 
       return unless model["type"].present?
 
       klass = model["type"].delete_prefix("::")
+
+      # reset "type" to not have a prefix, in order to ensure
+      # consistent results between the internal only :klass filter
+      # which is used as an index in a hash (and has the prefix removed 
+      # for consistency and deterministic behavior)
+      # and the externally filterable :type field.
       model["type"] = klass
       
       @json_models[klass] ||= []

@@ -8,5 +8,6 @@ module MarkdownRecord
     attribute :id
     attribute :type
     attribute :subdirectory
+    attribute :filename
   end
 end

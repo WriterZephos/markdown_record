@@ -266,6 +266,7 @@ RSpec.describe ::RenderContent do
 
       it "renders json" do
         expect{ ::RenderContent.new.invoke(:json, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
+        binding.pry
         expect(verify_files(files)).to eq(true)
       end
     end
