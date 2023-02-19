@@ -8,6 +8,7 @@ RSpec.describe ::MarkdownRecordGenerator do
       "markdown_record/content/v_1.0.0/chapter_1/content.md",
       "markdown_record/content/v_1.0.0/chapter_2/content.md",
       "markdown_record/layouts/_markdown_record_layout.html.erb",
+      "markdown_record/layouts/_custom_layout.html.erb",
       "markdown_record/rendered",
       "config/initializers/markdown_record.rb",
       "Thorfile"

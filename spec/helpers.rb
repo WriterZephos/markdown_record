@@ -1,12 +1,11 @@
 module Helpers
   def uninstall_engine
-    FileUtils.remove_dir("markdown_record/content", true)
-    FileUtils.remove_dir("markdown_record/rendered", true)
-    FileUtils.remove_entry("markdown_record/layouts/_markdown_record_layout.html.erb", true)
+    FileUtils.remove_dir("markdown_record", true)
     FileUtils.remove_entry("lib/tasks/render_content.thor", true)
     FileUtils.remove_entry("lib/tasks/render_file.thor", true)
     FileUtils.remove_entry("config/initializers/markdown_record.rb", true)
     FileUtils.remove_entry("Thorfile", true)
+    FileUtils.remove_entry("public/ruby.jpeg", true)
   end
 
   def install_engine

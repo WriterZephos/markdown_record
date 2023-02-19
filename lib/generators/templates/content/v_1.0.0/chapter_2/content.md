@@ -16,7 +16,7 @@
 This is chapter one.
 
 Here is an image!
-![Test Image](/Users/bryantmorrill/Documents/repos/markdown_record/lib/generators/templates/content/images/ruby.jpeg)
+![Test Image](/ruby.jpeg)
 
 <!--describe_model_attribute: summary-->
 
