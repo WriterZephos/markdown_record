@@ -57,6 +57,10 @@ module MarkdownRecord
       MarkdownRecord::Association.new(filters.merge({:subdirectory => Regexp.new("#{subdirectory}.+")}).merge!(not_self))
     end
 
+    def children_of_type(type, filters = {})
+      MarkdownRecord::Association.new(filters.merge({:klass => type, :subdirectory => Regexp.new("#{subdirectory}.+")}).merge!(not_self))
+    end
+
     private
     def not_self
       {

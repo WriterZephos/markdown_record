@@ -15,6 +15,7 @@ module MarkdownRecord
     attr_accessor :html_routes
     attr_accessor :json_routes
     attr_accessor :content_routes
+    attr_accessor :mount_path
 
     RENDER_STRATEGIES = [:full, :directory, :file]
 
@@ -32,6 +33,7 @@ module MarkdownRecord
       @html_routes = [:show]
       @json_routes = [:show, :download]
       @content_routes = [:show, :download]
+      @mount_path = ""
     end
 
     def render_strategy_options(strategy = nil)

@@ -121,7 +121,8 @@ module MarkdownRecord
       return unless model["type"].present?
 
       klass = model["type"].delete_prefix("::")
-
+      model["type"] = klass
+      
       @json_models[klass] ||= []
       @json_models[klass] << model
 

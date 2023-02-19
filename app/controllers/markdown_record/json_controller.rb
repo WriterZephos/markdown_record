@@ -6,7 +6,7 @@ module MarkdownRecord
         return
       end
 
-      render file: rendered_content_path(json_content_path), layout: MarkdownRecord.config.public_layout
+      render file: rendered_content_path(json_content_path), layout: nil
     end
 
     def download
