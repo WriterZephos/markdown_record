@@ -1,4 +1,4 @@
-class Book < ::MarkdownRecord::Model::Base
+class Book < ::MarkdownRecord::Base
   attribute :name
 
   has_many_content :chapters

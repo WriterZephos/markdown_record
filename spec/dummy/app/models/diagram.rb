@@ -1,4 +1,4 @@
-class Diagram < ::MarkdownRecord::Model::Base
+class Diagram < ::MarkdownRecord::Base
   attribute :features
   attribute :meta
   attribute :data

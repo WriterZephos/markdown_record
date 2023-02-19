@@ -1,4 +1,4 @@
-class Chapter < ::MarkdownRecord::Model::Base
+class Chapter < ::MarkdownRecord::Base
   attribute :name
   attribute :foo
   attribute :bar

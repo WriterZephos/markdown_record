@@ -11,7 +11,7 @@ module MarkdownRecord
         raise ArgumentError.new("#{self} does not have the #{foreign_key} attribute required for this association.") unless self.attribute_names.include?(foreign_key)
 
         define_method(association) do
-          MarkdownRecord::Model::Association.new({:klass => klass}).where({:id => self[foreign_key.to_sym].map(&:to_i)})
+          MarkdownRecord::Association.new({:klass => klass}).where({:id => self[foreign_key.to_sym].map(&:to_i)})
         end
       end
 
@@ -23,7 +23,7 @@ module MarkdownRecord
         raise ArgumentError.new("#{self} does not have the #{foreign_key} attribute required for this association.") unless self.attribute_names.include?(foreign_key)
         
         define_method(association) do
-          MarkdownRecord::Model::Association.new({:klass => klass}).find({:id => self[foreign_key]})
+          MarkdownRecord::Association.new({:klass => klass}).find({:id => self[foreign_key]})
         end
       end
 
