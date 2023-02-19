@@ -1,7 +1,7 @@
-module MarkdownCms
+module MarkdownRecord
   class ModelInflator
     def initialize
-      @indexer = ::MarkdownCms::Indexer.new
+      @indexer = ::MarkdownRecord::Indexer.new
       @models = nil
     end
 
@@ -28,7 +28,7 @@ module MarkdownCms
     end
 
     def base_path
-      ::MarkdownCms.config.rendered_content_root.join(::MarkdownCms.config.content_root.basename)
+      ::MarkdownRecord.config.rendered_content_root.join(::MarkdownRecord.config.content_root.basename)
     end
 
     def passes_filters?(attributes, filters)

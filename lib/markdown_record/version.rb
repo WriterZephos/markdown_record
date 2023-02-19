@@ -1,3 +1,3 @@
-module MarkdownCms
+module MarkdownRecord
   VERSION = "0.1.0"
 end

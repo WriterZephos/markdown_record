@@ -34,7 +34,7 @@ RSpec.configure do |config|
 
   render_options = {
     :subdirectory => "",
-    :layout => ::MarkdownCms.config.html_layout_path,
+    :layout => ::MarkdownRecord.config.html_layout_path,
     :save => true,
     :strat => :directory
   }

@@ -1,4 +1,4 @@
-module MarkdownCms
+module MarkdownRecord
   module ContentAssociations
     extend ActiveSupport::Concern
 
@@ -11,7 +11,7 @@ module MarkdownCms
         raise ArgumentError.new("#{self} does not have the #{foreign_key} attribute required for this association.") unless self.attribute_names.include?(foreign_key)
 
         define_method(association) do
-          MarkdownCms::Model::Association.new({:klass => klass}).where({:id => self[foreign_key.to_sym].map(&:to_i)})
+          MarkdownRecord::Model::Association.new({:klass => klass}).where({:id => self[foreign_key.to_sym].map(&:to_i)})
         end
       end
 
@@ -23,7 +23,7 @@ module MarkdownCms
         raise ArgumentError.new("#{self} does not have the #{foreign_key} attribute required for this association.") unless self.attribute_names.include?(foreign_key)
         
         define_method(association) do
-          MarkdownCms::Model::Association.new({:klass => klass}).find({:id => self[foreign_key]})
+          MarkdownRecord::Model::Association.new({:klass => klass}).find({:id => self[foreign_key]})
         end
       end
 

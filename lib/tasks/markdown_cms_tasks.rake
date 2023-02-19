@@ -5,6 +5,6 @@ end
 
 
 def install_engine
-  system "cd spec/dummy && rails g markdown_cms"
+  system "cd spec/dummy && rails g markdown_record"
   FileUtils.cd("spec/dummy")
 end

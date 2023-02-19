@@ -1,11 +1,8 @@
-::MarkdownCms::Engine.routes.draw do
-  routing_config = ::MarkdownCms.config.routing
+::MarkdownRecord::Engine.routes.draw do
+  routing_config = ::MarkdownRecord.config.routing
 
   get "download/*content_path", to: "content#download" if routing_config[:content].include?(:download)
   get "/*content_path", to: "content#show" if routing_config[:content].include?(:show)
-
-  get "pdf/download/*content_path", to: "pdf#download" if routing_config[:pdf].include?(:download)
-  get "pdf/*content_path", to: "pdf#show" if routing_config[:pdf].include?(:show)
 
   get "html/download/*content_path", to: "html#download" if routing_config[:html].include?(:download)
   get "html/*content_path", to: "html#show" if routing_config[:html].include?(:show)

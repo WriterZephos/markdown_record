@@ -1,4 +1,4 @@
-# MarkdownCms
+# MarkdownRecord
 Short description and motivation.
 
 ## Usage
@@ -8,7 +8,7 @@ How to use my plugin.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "markdown_cms"
+gem "markdown_record"
 ```
 
 And then execute:
@@ -18,7 +18,7 @@ $ bundle
 
 Or install it yourself as:
 ```bash
-$ gem install markdown_cms
+$ gem install markdown_record
 ```
 
 ## Contributing

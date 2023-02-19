@@ -17,7 +17,7 @@ require "action_view/railtie"
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
-require "markdown_cms"
+require "markdown_record"
 
 module Dummy
   class Application < Rails::Application

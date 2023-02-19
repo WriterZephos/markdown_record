@@ -4,7 +4,7 @@ require "spec_helper"
 
 RSpec.describe :models, :render => true do
 
-  describe "MarkdownCms models" do
+  describe "MarkdownRecord models" do
     describe "Book" do
       describe "attributes" do
         it "has base model attributes" do

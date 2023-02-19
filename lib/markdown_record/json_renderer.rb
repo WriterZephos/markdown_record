@@ -1,12 +1,12 @@
 require "redcarpet"
 
-module MarkdownCms
+module MarkdownRecord
   class JsonRenderer < ::Redcarpet::Render::HTML
 
-    def initialize(file_saver: ::MarkdownCms::FileSaver.new, indexer: ::MarkdownCms.config.indexer_class.new)
-      super(::MarkdownCms.config.html_render_options)
+    def initialize(file_saver: ::MarkdownRecord::FileSaver.new, indexer: ::MarkdownRecord.config.indexer_class.new)
+      super(::MarkdownRecord.config.html_render_options)
       @indexer = indexer
-      @markdown = ::Redcarpet::Markdown.new(self, ::MarkdownCms.config.markdown_extensions)
+      @markdown = ::Redcarpet::Markdown.new(self, ::MarkdownRecord.config.markdown_extensions)
       @json_models = {}
       @described_models = []
       @file_saver = file_saver

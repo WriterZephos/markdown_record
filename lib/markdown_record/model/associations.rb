@@ -1,4 +1,4 @@
-module MarkdownCms
+module MarkdownRecord
   module Model
     module Associations
       extend ActiveSupport::Concern
@@ -11,7 +11,7 @@ module MarkdownCms
           foreign_key = self.name.demodulize.underscore
 
           define_method(association) do
-            MarkdownCms::Model::Association.new({:klass => klass, "#{foreign_key}_id".to_sym => self.id})
+            MarkdownRecord::Model::Association.new({:klass => klass, "#{foreign_key}_id".to_sym => self.id})
           end
         end
 
@@ -23,20 +23,20 @@ module MarkdownCms
           self.attribute foreign_key unless self.attributes[foreign_key].present?
           
           define_method(association) do
-            MarkdownCms::Model::Association.new({:klass => klass}).find({:id => self[foreign_key]})
+            MarkdownRecord::Model::Association.new({:klass => klass}).find({:id => self[foreign_key]})
           end
         end
 
         def all
-          MarkdownCms::Model::Association.new({ :klass => self }).all
+          MarkdownRecord::Model::Association.new({ :klass => self }).all
         end
 
         def where(filters = {})
-          MarkdownCms::Model::Association.new({ :klass => self }, filters)
+          MarkdownRecord::Model::Association.new({ :klass => self }, filters)
         end
 
         def find(id)
-          MarkdownCms::Model::Association.new({ :klass => self }).find(id)
+          MarkdownRecord::Model::Association.new({ :klass => self }).find(id)
         end
 
         def infer_klass(association, options)
@@ -47,15 +47,15 @@ module MarkdownCms
       end
 
       def siblings(filters = {})
-        MarkdownCms::Model::Association.new(filters.merge({:subdirectory => subdirectory}).merge!(not_self))
+        MarkdownRecord::Model::Association.new(filters.merge({:subdirectory => subdirectory}).merge!(not_self))
       end
 
       def class_siblings(filters = {})
-        MarkdownCms::Model::Association.new(filters.merge({:klass => self.class, :subdirectory => subdirectory, :__not__ => { :id => self.id }}))
+        MarkdownRecord::Model::Association.new(filters.merge({:klass => self.class, :subdirectory => subdirectory, :__not__ => { :id => self.id }}))
       end
 
       def children(filters = {})
-        MarkdownCms::Model::Association.new(filters.merge({:subdirectory => Regexp.new("#{subdirectory}.+")}).merge!(not_self))
+        MarkdownRecord::Model::Association.new(filters.merge({:subdirectory => Regexp.new("#{subdirectory}.+")}).merge!(not_self))
       end
 
       private

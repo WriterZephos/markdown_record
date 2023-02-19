@@ -3,6 +3,6 @@
 require "rubygems"
 require "thor"
 require "rails"
-require "markdown_cms"
+require "markdown_record"
 
-MarkdownCms::Cli.start( ARGV )
+MarkdownRecord::Cli.start( ARGV )

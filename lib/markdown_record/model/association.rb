@@ -1,4 +1,4 @@
-module MarkdownCms
+module MarkdownRecord
   module Model
     class Association
       attr_accessor :klass
@@ -16,7 +16,7 @@ module MarkdownCms
       def execute
         reset
         final_filters = self.search_filters.merge(self.base_filters)
-        results = MarkdownCms::ModelInflator.new.where(final_filters)
+        results = MarkdownRecord::ModelInflator.new.where(final_filters)
         @data.push(*results)
         @fulfilled = true
       end

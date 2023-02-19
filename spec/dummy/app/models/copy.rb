@@ -1,5 +1,5 @@
 class Copy < ::ActiveRecord::Base
-  include MarkdownCms::ContentAssociations
+  include MarkdownRecord::ContentAssociations
   
   belongs_to_content :book
 end

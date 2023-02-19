@@ -1,15 +1,15 @@
-module MarkdownCms
+module MarkdownRecord
   class Indexer
 
     def index(subdirectory: "")
-      content_path = ::MarkdownCms.config.content_root.join(subdirectory)
+      content_path = ::MarkdownRecord.config.content_root.join(subdirectory)
       index = {}
       recursive_index(content_path, index)
       index
     end
 
     def file(path)
-      file_path = ::MarkdownCms.config.content_root.join(path)
+      file_path = ::MarkdownRecord.config.content_root.join(path)
 
       if Pathname.new(path).extname == ".md" && file_path.exist?
         File.read(file_path)

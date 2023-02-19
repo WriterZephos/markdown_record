@@ -1,6 +1,6 @@
 require "redcarpet"
 
-module MarkdownCms
+module MarkdownRecord
   class NullHtmlRenderer < ::Redcarpet::Render::HTML
 
     def block_html(raw_html); end

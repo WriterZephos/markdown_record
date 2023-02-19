@@ -1,4 +1,4 @@
-module MarkdownCms
+module MarkdownRecord
   class JsonController < ApplicationController
     def show
       unless rendered?(json_content_path)
@@ -6,7 +6,7 @@ module MarkdownCms
         return
       end
 
-      render file: rendered_content_path(json_content_path), layout: MarkdownCms.config.public_layout
+      render file: rendered_content_path(json_content_path), layout: MarkdownRecord.config.public_layout
     end
 
     def download

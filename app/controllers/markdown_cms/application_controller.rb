@@ -1,4 +1,4 @@
-module MarkdownCms
+module MarkdownRecord
   class ApplicationController < ActionController::Base
 
     def rendered_content_path(content_path)
@@ -10,7 +10,7 @@ module MarkdownCms
     end
 
     def base_path
-      ::MarkdownCms.config.rendered_content_root.join(::MarkdownCms.config.content_root.basename)
+      ::MarkdownRecord.config.rendered_content_root.join(::MarkdownRecord.config.content_root.basename)
     end
   end
 end

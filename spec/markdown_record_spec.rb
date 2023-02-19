@@ -2,8 +2,8 @@
 
 require "spec_helper"
 
-RSpec.describe MarkdownCms do
+RSpec.describe MarkdownRecord do
   it "has a version number" do
-    expect(MarkdownCms::VERSION).not_to be nil
+    expect(MarkdownRecord::VERSION).not_to be nil
   end
 end

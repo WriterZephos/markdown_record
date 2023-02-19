@@ -1,4 +1,4 @@
-module MarkdownCms
+module MarkdownRecord
   class HtmlRenderer
     class ERBContext
       def initialize(hash)
@@ -24,20 +24,20 @@ module MarkdownCms
     }
 
     def initialize(
-        file_saver: ::MarkdownCms::FileSaver.new, 
-        indexer: ::MarkdownCms.config.indexer_class.new, 
-        html_renderer: ::MarkdownCms.config.html_renderer_class.new(::MarkdownCms.config.html_render_options))
+        file_saver: ::MarkdownRecord::FileSaver.new, 
+        indexer: ::MarkdownRecord.config.indexer_class.new, 
+        html_renderer: ::MarkdownRecord.config.html_renderer_class.new(::MarkdownRecord.config.html_render_options))
       @indexer = indexer
       @html_renderer = html_renderer
-      @markdown = ::Redcarpet::Markdown.new(@html_renderer, ::MarkdownCms.config.markdown_extensions)
+      @markdown = ::Redcarpet::Markdown.new(@html_renderer, ::MarkdownRecord.config.markdown_extensions)
       @file_saver = file_saver
       @layout = nil
     end
 
     def render_html_for_subdirectory(subdirectory: "", **options)
       unless options.key?(:layout) && options[:layout].nil?
-        layout_path = options[:layout] || ::MarkdownCms.config.html_layout_path
-        @layout = File.read(::MarkdownCms.config.html_layout_directory.join(layout_path))
+        layout_path = options[:layout] || ::MarkdownRecord.config.html_layout_path
+        @layout = File.read(::MarkdownRecord.config.html_layout_directory.join(layout_path))
       end
 
       content = @indexer.index(subdirectory: subdirectory)
@@ -52,8 +52,8 @@ module MarkdownCms
 
     def render_html_for_file(file_path:, **options)
       unless options.key?(:layout) && options[:layout].nil?
-        layout_path = options[:layout] || ::MarkdownCms.config.html_layout_path
-        @layout = File.read(::MarkdownCms.config.html_layout_directory.join(layout_path))
+        layout_path = options[:layout] || ::MarkdownRecord.config.html_layout_path
+        @layout = File.read(::MarkdownRecord.config.html_layout_directory.join(layout_path))
       end
 
       file = @indexer.file(file_path)
@@ -141,7 +141,7 @@ module MarkdownCms
       match = html.match(/<!--\s*use_layout\s*:\s*(.*)\s*-->/)
       return nil if match.nil?
 
-      File.read(::MarkdownCms.config.html_layout_directory.join(match[1].strip))
+      File.read(::MarkdownRecord.config.html_layout_directory.join(match[1].strip))
     end
 
     def save_content_recursively(content, options, subdirectory = "")

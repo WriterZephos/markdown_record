@@ -1,4 +1,4 @@
-module MarkdownCms
+module MarkdownRecord
   module ApplicationHelper
   end
 end

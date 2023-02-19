@@ -1,4 +1,4 @@
-module MarkdownCms
+module MarkdownRecord
   class FileSaver
 
     attr_accessor :saved_files
@@ -16,7 +16,7 @@ module MarkdownCms
         file_path = "#{base_content_name}/#{file_path}"
       end
 
-      save_path = ::MarkdownCms.config.rendered_content_root.join(file_path)
+      save_path = ::MarkdownRecord.config.rendered_content_root.join(file_path)
       
       relative_path = save_path.to_s.gsub(Rails.root.to_s, "")
       @saved_files.unshift(relative_path)
@@ -31,11 +31,11 @@ module MarkdownCms
     end
 
     def base_content_name
-      ::MarkdownCms.config.content_root.basename
+      ::MarkdownRecord.config.content_root.basename
     end
 
     def file_name(subdirectory, extension)
-      base_name = ::MarkdownCms.config.content_root.join(subdirectory).basename
+      base_name = ::MarkdownRecord.config.content_root.join(subdirectory).basename
       "#{base_name}.#{extension}"
     end
   end

@@ -1,1 +1,1 @@
-//= link_directory ../stylesheets/markdown_cms .css
+//= link_directory ../stylesheets/markdown_record .css

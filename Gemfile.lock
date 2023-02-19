@@ -1,13 +1,11 @@
 PATH
   remote: .
   specs:
-    markdown_cms (0.1.0)
+    markdown_record (0.1.0)
       active_attr (~> 0.15.4)
       rails (>= 7.0.4.2)
       redcarpet (~> 3.5)
       thor (~> 1.2)
-      wicked_pdf (~> 2.6)
-      wkhtmltopdf-binary (~> 0.12.6)
 
 GEM
   remote: https://rubygems.org/
@@ -187,16 +185,13 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    wicked_pdf (2.6.3)
-      activesupport
-    wkhtmltopdf-binary (0.12.6.6)
     zeitwerk (2.6.6)
 
 PLATFORMS
   x86_64-darwin-20
 
 DEPENDENCIES
-  markdown_cms!
+  markdown_record!
   pg (~> 1.4)
   pry
   rspec (~> 3.12)

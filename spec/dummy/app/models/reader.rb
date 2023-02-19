@@ -1,5 +1,5 @@
 class Reader < ::ActiveRecord::Base
-  include ::MarkdownCms::ContentAssociations
+  include ::MarkdownRecord::ContentAssociations
   
   has_many_content :books
 end
