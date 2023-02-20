@@ -1,12 +1,12 @@
 module MarkdownRecord
   class Association
-    attr_accessor :klass
     attr_accessor :base_filters
     attr_accessor :search_filters
     attr_reader :fulfilled
 
     def initialize(base_filters, search_filters = {})
       @base_filters = base_filters
+      @include_fragments = false
       @search_filters = search_filters
       @data = []
       @fulfilled = false
@@ -15,9 +15,20 @@ module MarkdownRecord
     def execute
       reset
       final_filters = self.search_filters.merge(self.base_filters)
+      if @include_fragments
+        final_filters.merge!(:klass => ::MarkdownRecord::ContentFragment)
+      else
+        final_filters.merge!(:exclude_fragments => true)
+      end
       results = MarkdownRecord::ModelInflator.new.where(final_filters)
       @data.push(*results)
       @fulfilled = true
+    end
+
+    def fragments
+      reset
+      @include_fragments = true
+      self
     end
     
     def reset

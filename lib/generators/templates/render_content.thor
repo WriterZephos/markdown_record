@@ -5,6 +5,7 @@ class RenderContent < Thor
   class_option :layout, required: false, type: :string, aliases: :l, default: ::MarkdownRecord.config.html_layout_path
   class_option :save, type: :boolean, aliases: :s, default: false
   class_option :strat, type: :string, aliases: :r
+  class_option :frag, type: :boolean, aliases: :f
 
   desc "html", "renders html content"
   def html
@@ -46,14 +47,16 @@ class RenderContent < Thor
 
   no_tasks do
     def generate_render_strategy_options(options)
-      strategy_options = MarkdownRecord.config
-                          .render_strategy_options.merge(:save => options[:save], :layout => options[:layout])
 
-      if options[:strat].present?
-        strategy_options.merge(::MarkdownRecord.config.render_strategy_options(options[:strat].to_sym))
-      else
-        strategy_options
-      end
+      strategy_options = if options[:strat].present?
+                           ::MarkdownRecord.config.render_strategy_options(options[:strat].to_sym)
+                         else
+                           ::MarkdownRecord.config.render_strategy_options
+                         end
+
+      strategy_options.merge!(:save => options[:save], :layout => options[:layout])
+      strategy_options[:render_content_fragment_json] = options[:frag] || ::MarkdownRecord.config.render_content_fragment_json
+      strategy_options
     end
 
     def report_start(strategy_options, formats)

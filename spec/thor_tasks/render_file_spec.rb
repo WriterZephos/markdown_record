@@ -27,7 +27,7 @@ RSpec.describe ::RenderFile do
   }
 
   let(:chapter_1_content_json){
-    File.read("../rendered/chapter_1/content.json")
+    File.read("../rendered/chapter_1/no_frag_content.json")
   }
 
   let(:custom_layout_chapter_1_content_html){

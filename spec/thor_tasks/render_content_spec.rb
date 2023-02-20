@@ -52,7 +52,7 @@ RSpec.describe ::RenderContent do
     let(:terminal_output){
       <<~eos
       ---------------------------------------------------------------
-      rendering html content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb"} ...
+      rendering html content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
       ---------------------------------------------------------------
       rendered: /markdown_record/rendered/content.html
       rendered: /markdown_record/rendered/content/demo.html
@@ -77,7 +77,7 @@ RSpec.describe ::RenderContent do
     let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb"} ...
+        rendering json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content.json
         rendered: /markdown_record/rendered/content/demo.json
@@ -102,7 +102,7 @@ RSpec.describe ::RenderContent do
     let(:terminal_output){
       <<~eos
       ---------------------------------------------------------------
-      rendering html and json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb"} ...
+      rendering html and json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
       ---------------------------------------------------------------
       rendered: /markdown_record/rendered/content.json
       rendered: /markdown_record/rendered/content/demo.json
@@ -143,7 +143,7 @@ RSpec.describe ::RenderContent do
       let(:terminal_output){
         <<~eos
           ---------------------------------------------------------------
-          rendering html content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb"} ...
+          rendering html content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
           ---------------------------------------------------------------
           rendered: /markdown_record/rendered/content/v_1.0.0.html
           rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.html
@@ -166,7 +166,7 @@ RSpec.describe ::RenderContent do
       let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb"} ...
+        rendering json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content/v_1.0.0.json
         rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.json
@@ -189,7 +189,7 @@ RSpec.describe ::RenderContent do
       let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering html and json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb"} ...
+        rendering html and json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content/v_1.0.0.json
         rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.json
@@ -227,7 +227,7 @@ RSpec.describe ::RenderContent do
       let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering html content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_markdown_record_layout.html.erb"} ...
+        rendering html content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content.html
         rendered: /markdown_record/rendered/content/demo.html
@@ -252,7 +252,7 @@ RSpec.describe ::RenderContent do
       let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_markdown_record_layout.html.erb"} ...
+        rendering json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content.json
         rendered: /markdown_record/rendered/content/demo.json
@@ -277,7 +277,7 @@ RSpec.describe ::RenderContent do
       let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering html and json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_markdown_record_layout.html.erb"} ...
+        rendering html and json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content.json
         rendered: /markdown_record/rendered/content/demo.json
@@ -324,7 +324,7 @@ RSpec.describe ::RenderContent do
       let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering html content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_custom_layout.html.erb"} ...
+        rendering html content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_custom_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content.html
         rendered: /markdown_record/rendered/content/demo.html
@@ -349,7 +349,7 @@ RSpec.describe ::RenderContent do
       let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_custom_layout.html.erb"} ...
+        rendering json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_custom_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content.json
         rendered: /markdown_record/rendered/content/demo.json
@@ -374,7 +374,7 @@ RSpec.describe ::RenderContent do
       let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering html and json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_custom_layout.html.erb"} ...
+        rendering html and json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_custom_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content.json
         rendered: /markdown_record/rendered/content/demo.json
@@ -399,7 +399,7 @@ RSpec.describe ::RenderContent do
       it "renders html and json" do
         expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
         expect(verify_file_contents("./markdown_record/rendered/content.html", custom_layout_content_html)).to eq(true)
-        expect(verify_file_contents("./markdown_record/rendered/content.html", custom_layout_content_html)).to eq(true)
+        expect(verify_file_contents("./markdown_record/rendered/content/v_1.0.0/chapter_1/content.html", custom_layout_chapter_1_content_html)).to eq(true)
         expect(verify_files(files)).to eq(true)
       end
     end
@@ -419,7 +419,7 @@ RSpec.describe ::RenderContent do
       let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering html and json content with options {:concat=>true, :deep=>false, :save=>true, :layout=>"_markdown_record_layout.html.erb"} ...
+        rendering html and json content with options {:concat=>true, :deep=>false, :save=>true, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content.json
         rendered: /markdown_record/rendered/content/v_1.0.0.json
@@ -462,7 +462,7 @@ RSpec.describe ::RenderContent do
       let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering html and json content with options {:concat=>false, :deep=>true, :save=>true, :layout=>"_markdown_record_layout.html.erb"} ...
+        rendering html and json content with options {:concat=>false, :deep=>true, :save=>true, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content/demo.json
         rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2/content.json

@@ -11,6 +11,7 @@ require "markdown_record/association"
 require "markdown_record/associations"
 require "markdown_record/content_associations"
 require "markdown_record/base"
+require "markdown_record/content_fragment"
 require "markdown_record/cli"
 
 module MarkdownRecord

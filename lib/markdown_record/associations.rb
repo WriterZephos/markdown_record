@@ -10,7 +10,7 @@ module MarkdownRecord
         foreign_key = self.name.demodulize.underscore
 
         define_method(association) do
-          MarkdownRecord::Association.new({:klass => klass, "#{foreign_key}_id".to_sym => self.id})
+          self.class.new_association({:klass => klass, "#{foreign_key}_id".to_sym => self.id})
         end
       end
 
@@ -22,20 +22,20 @@ module MarkdownRecord
         self.attribute foreign_key unless self.attributes[foreign_key].present?
         
         define_method(association) do
-          MarkdownRecord::Association.new({:klass => klass}).find({:id => self[foreign_key]})
+          self.class.new_association({:klass => klass}).find({:id => self[foreign_key]})
         end
       end
 
       def all
-        MarkdownRecord::Association.new({ :klass => self }).all
+        new_association({ :klass => self }).all
       end
 
       def where(filters = {})
-        MarkdownRecord::Association.new({ :klass => self }, filters)
+        new_association({ :klass => self }, filters)
       end
 
       def find(id)
-        MarkdownRecord::Association.new({ :klass => self }).find(id)
+        new_association({ :klass => self }).find(id)
       end
 
       def infer_klass(association, options)
@@ -46,22 +46,34 @@ module MarkdownRecord
     end
 
     def siblings(filters = {})
-      MarkdownRecord::Association.new(filters.merge({:subdirectory => subdirectory}).merge!(not_self))
+      self.class.new_association(filters.merge({:subdirectory => subdirectory}).merge!(not_self))
     end
 
     def class_siblings(filters = {})
-      MarkdownRecord::Association.new(filters.merge({:klass => self.class, :subdirectory => subdirectory, :__not__ => { :id => self.id }}))
+      self.class.new_association(filters.merge({:klass => self.class, :subdirectory => subdirectory, :__not__ => { :id => self.id }}))
     end
 
     def children(filters = {})
-      MarkdownRecord::Association.new(filters.merge({:subdirectory => Regexp.new("#{subdirectory}.+")}).merge!(not_self))
+      sub_start = "#{subdirectory}/".delete_prefix("/")
+      self.class.new_association(filters.merge({:subdirectory => Regexp.new("#{sub_start}[\\S|\\w]+")}).merge!(not_self))
     end
 
     def children_of_type(type, filters = {})
-      MarkdownRecord::Association.new(filters.merge({:klass => type, :subdirectory => Regexp.new("#{subdirectory}.+")}).merge!(not_self))
+      sub_start = "#{subdirectory}/".delete_prefix("/")
+      self.class.new_association(filters.merge({:klass => type, :subdirectory => Regexp.new("#{sub_start}[\\S|\\w]+")}).merge!(not_self))
     end
 
-    private
+    def child_fragments(filters = {})
+      sub_start = "#{subdirectory}/".delete_prefix("/")
+      self.class.new_association(filters.merge({:subdirectory => Regexp.new("#{sub_start}[\\S|\\w]+")}).merge!(not_self)).fragments
+    end
+
+    def sibling_fragments(filters = {})
+      self.class.new_association(filters.merge({:subdirectory => subdirectory, :__not__ => { :id => self.id }})).fragments
+    end
+
+  private
+    
     def not_self
       {
         :__or__ => [

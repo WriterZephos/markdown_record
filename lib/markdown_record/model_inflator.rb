@@ -7,7 +7,6 @@ module MarkdownRecord
 
     def where(filters, subdirectory = nil)
       path = if subdirectory.nil?
-               base_path
                "#{base_path}.json"
              else
               "#{base_path}/#{subdirectory}.json"
@@ -15,6 +14,7 @@ module MarkdownRecord
 
       json = JSON.parse(File.read(path))
 
+      json.delete(::MarkdownRecord::ContentFragment.name) if filters.delete(:exclude_fragments)
       json = filters[:klass].present? ? json[filters.delete(:klass).name] : json.values.flatten
       json ||= []
 

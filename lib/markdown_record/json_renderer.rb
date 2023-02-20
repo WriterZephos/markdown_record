@@ -23,8 +23,13 @@ module MarkdownRecord
 
     def render_models_for_file(file_path:, **options)
       file = @indexer.file(file_path)
-      json = render_models(file, Pathname.new("/#{file_path}"))
+      
+      # render json models
+      json = render_models(file, file_path, options)
+      
+      # save json
       @file_saver.save_to_file(json.to_json, "#{file_path.gsub(/(\.concat|\.md)/,"")}.json", options)
+      
       @models
     end
 
@@ -57,21 +62,43 @@ module MarkdownRecord
         concat_hash = { file_or_directory_name => {} }
         # iterate through directory contents
         file_or_directory.each do |child_file_or_directory_name, child_file_or_directory|
-          child_content_hash, child_concat_hash = render_models_recursively(child_file_or_directory_name, child_file_or_directory, "#{full_path}/#{child_file_or_directory_name}", options)
-
+          
+          # get full path for next recursion
+          child_full_path = "#{full_path}/#{child_file_or_directory_name}"
+          
+          # get response from next recursion
+          child_content_hash, child_concat_hash = render_models_recursively(
+                                                    child_file_or_directory_name, 
+                                                    child_file_or_directory, 
+                                                    child_full_path, 
+                                                    options
+                                                  )
+          # merge response hashes                                                  
           concat_hash[file_or_directory_name].merge!(child_concat_hash)
           directory_hash[file_or_directory_name].merge!(child_content_hash)
         end
-
+        
+        # concatenate child hashes if :concat = true
         if options[:concat]
           concatenated_json = {}
+          
+          # add content fragments if render_content_fragment_json = true
+          if options[:render_content_fragment_json]
+            add_content_fragment_for_file(concat_hash[file_or_directory_name], full_path)
+          end
+
           concatenate_json_recursively(concat_hash, concatenated_json)
           directory_hash["#{file_or_directory_name}.concat"] = concatenated_json
         end
 
         [directory_hash, concat_hash]
       when String.name # if it is a file
-        content = render_models(file_or_directory, Pathname.new(full_path))
+        content = render_models(file_or_directory, full_path, options)
+
+        if options[:deep] && options[:render_content_fragment_json]
+          add_content_fragment_for_file(content, full_path)
+        end
+
         content_hash = { file_or_directory_name => content }
         result = [{}, {}]
         result[0] = content_hash if options[:deep]
@@ -80,13 +107,39 @@ module MarkdownRecord
       end
     end
 
-    def render_models(content, full_path)
-      @filename = full_path.basename.to_s
-      @subdirectory = full_path.parent.to_s
+    def render_models(content, full_path, options)
+      rendered_path = base_content_path.join(full_path)
+      @filename = rendered_path.basename.to_s.gsub(/(\.concat|\.md)/,"").delete_prefix("/")
+      @subdirectory = rendered_path.parent.to_s.gsub(/(\.concat|\.md)/,"").delete_prefix("/")
       @described_models = []
       @json_models = {}
       @markdown.render(content)
       @json_models.dup
+    end
+
+    def add_content_fragment_for_file(json, full_path)
+      rendered_path = base_content_path.join(full_path.delete_prefix("/"))
+      filename = rendered_path.basename.to_s.gsub(/(\.concat|\.md)/,"")
+      filename = filename.empty? ? base_content_path.to_s : filename
+      subdirectory = rendered_path.parent.to_s.gsub(/(\.concat|\.md)/,"").delete_prefix("/")
+      
+      content_fragment = {
+        "id" => rendered_path.to_s.gsub(/(\.concat|\.md)/,"").delete_prefix("/"),
+        "type" => "MarkdownRecord::ContentFragment",
+        "subdirectory" => subdirectory,
+        "filename" => filename
+      }
+
+      json["MarkdownRecord::ContentFragment"] ||= []
+      json["MarkdownRecord::ContentFragment"] << content_fragment
+    end
+
+    def base_content_path
+      basename = ::MarkdownRecord.config.content_root.basename
+
+      # must use "/" so that .parent returns correctly
+      # for top level paths.
+      Pathname.new("/").join(basename)
     end
 
     def concatenate_json_recursively(directory_hash, concatenated_json)

@@ -9,7 +9,8 @@ RSpec.describe :models, :render => true do
       describe "attributes" do
         it "has base model attributes" do
           expect(Book.attribute_names.include?("id")).to eq(true)
-          expect(Book.attribute_names.include?("id")).to eq(true)
+          expect(Book.attribute_names.include?("subdirectory")).to eq(true)
+          expect(Book.attribute_names.include?("filename")).to eq(true)
         end
       end
   
@@ -78,6 +79,21 @@ RSpec.describe :models, :render => true do
         it "has a sibling association with diagrams in the same subdirectory" do
           expect(Diagram.find(1).class_siblings.all).to eq([Diagram.find(2)])
         end
+      end
+    end
+  end
+
+  describe "MarkdownRecord::ContentFragment" do
+    describe "fragments" do
+      let(:fragments) {
+        [
+          MarkdownRecord::ContentFragment.find("content/v_1.0.0/chapter_1"),
+          MarkdownRecord::ContentFragment.find("content/v_1.0.0/chapter_2"),
+          MarkdownRecord::ContentFragment.find("content/v_1.0.0")
+        ]
+      }
+      it "can be retrieved via association" do
+        expect(Book.find(1).child_fragments.all).to eq(fragments)
       end
     end
   end
