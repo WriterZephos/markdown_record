@@ -88,36 +88,57 @@ RSpec.describe :models, :render => true do
       describe "child_fragments" do
         let(:fragments) {
           [
+            MarkdownRecord::ContentFragment.find("content/v_1.0.0/chapter_1/content"),
             MarkdownRecord::ContentFragment.find("content/v_1.0.0/chapter_1"),
-            MarkdownRecord::ContentFragment.find("content/v_1.0.0/chapter_2"),
-            MarkdownRecord::ContentFragment.find("content/v_1.0.0")
+            MarkdownRecord::ContentFragment.find("content/v_1.0.0/chapter_2/content"),
+            MarkdownRecord::ContentFragment.find("content/v_1.0.0/chapter_2")
           ]
         }
   
         it "can be retrieved via model association" do
-          expect(Book.find(1).child_fragments.all).to eq(fragments)
+          expect(Book.find(1).child_fragments.all).to match_array(fragments)
         end
   
         it "can be retrived via the fragment model" do
-          expect(MarkdownRecord::ContentFragment.find("content").child_fragments.all).to eq(fragments)
+          expect(MarkdownRecord::ContentFragment.find("content/demo").child_fragments.all).to match_array(fragments)
         end
       end
       
       describe "sibling_fragments" do
-        let(:fragments) {
+        let(:fragment) {
           [
-            MarkdownRecord::ContentFragment.find("content/v_1.0.0/chapter_2")
+            MarkdownRecord::ContentFragment.find("content/v_1.0.0")
           ]
         }
 
         # TODO: Add fragment and parent_fragment methods to base model,
         # to allow traversing the tree
         it "can be retrieved via model association" do
-          expect(Chapter.find(1).sibling_fragments.all).to eq(fragments)
+          expect(Book.find(1).sibling_fragments.all).to eq(fragment)
         end
 
         it "can be retrived via the fragment model" do
-          expect(MarkdownRecord::ContentFragment.find("content/v_1.0.0/chapter_1").sibling_fragments.all).to eq(fragments)
+          expect(MarkdownRecord::ContentFragment.find("content/demo").sibling_fragments.all).to match_array(fragment)
+        end
+      end
+
+      describe "fragment" do
+        let(:fragment) {
+          MarkdownRecord::ContentFragment.find("content/demo")
+        }
+
+        it "can be retrieved via model association" do
+          expect(Book.find(1).fragment).to eq(fragment)
+        end
+      end
+
+      describe "parent_fragment" do
+        let(:fragment) {
+          MarkdownRecord::ContentFragment.find("content")
+        }
+
+        it "can be retrieved via model association" do
+          expect(Book.find(1).parent_fragment).to eq(fragment)
         end
       end
     end

@@ -51,10 +51,7 @@ module MarkdownRecord
     def path_to_markdown_record(model, ext, download = false)
       raise ArgumentError.new("A MarkdownRecord model must be provided.") unless model&.is_a?(::MarkdownRecord::Base)
 
-      subdirectory = model.subdirectory.delete_prefix("/")
-
-      base_name = MarkdownRecord.config.content_root.basename
-      subdirectory = base_name.join(subdirectory)
+      subdirectory = model.fragment_id
 
       path = Pathname.new(MarkdownRecord.config.mount_path).join(ext)
       path = path.join("download") if download

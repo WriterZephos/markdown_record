@@ -64,8 +64,7 @@ module MarkdownRecord
     end
 
     def fragment
-      id = Pathname.new(subdirectory).join(filename).to_s
-      self.class.new_association.fragments.find(id)
+      self.class.new_association.fragments.find(fragment_id)
     end
 
     def parent_fragment
@@ -74,11 +73,11 @@ module MarkdownRecord
 
     def child_fragments(filters = {})
       sub_start = "#{subdirectory}/".delete_prefix("/")
-      self.class.new_association(filters.merge({:subdirectory => Regexp.new("#{sub_start}[\\S|\\w]+")}).merge!(not_self)).fragments
+      self.class.new_association(filters.merge({:subdirectory => Regexp.new("#{sub_start}[\\S|\\w]+"), :__not__ => { :id => fragment_id }})).fragments
     end
 
     def sibling_fragments(filters = {})
-      self.class.new_association(filters.merge({:subdirectory => subdirectory, :__not__ => { :id => self.id }})).fragments
+      self.class.new_association(filters.merge({:subdirectory => subdirectory, :__not__ => { :id => fragment_id }})).fragments
     end
 
   private

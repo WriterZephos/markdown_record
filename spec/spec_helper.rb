@@ -36,7 +36,7 @@ RSpec.configure do |config|
     :subdirectory => "",
     :layout => ::MarkdownRecord.config.html_layout_path,
     :save => true,
-    :strat => :directory
+    :strat => :full
   }
 
   config.before(:all, :render => true) do
