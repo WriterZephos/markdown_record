@@ -65,7 +65,7 @@ module MarkdownRecord
           
           # get full path for next recursion
           child_full_path = "#{full_path}/#{child_file_or_directory_name}"
-          
+
           # get response from next recursion
           child_content_hash, child_concat_hash = render_models_recursively(
                                                     child_file_or_directory_name, 
@@ -108,7 +108,7 @@ module MarkdownRecord
     end
 
     def render_models(content, full_path, options)
-      rendered_path = base_content_path.join(full_path)
+      rendered_path = base_content_path.join(full_path.delete_prefix("/"))
       @filename = rendered_path.basename.to_s.gsub(/(\.concat|\.md)/,"").delete_prefix("/")
       @subdirectory = rendered_path.parent.to_s.gsub(/(\.concat|\.md)/,"").delete_prefix("/")
       @described_models = []

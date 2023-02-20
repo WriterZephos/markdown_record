@@ -85,15 +85,40 @@ RSpec.describe :models, :render => true do
 
   describe "MarkdownRecord::ContentFragment" do
     describe "fragments" do
-      let(:fragments) {
-        [
-          MarkdownRecord::ContentFragment.find("content/v_1.0.0/chapter_1"),
-          MarkdownRecord::ContentFragment.find("content/v_1.0.0/chapter_2"),
-          MarkdownRecord::ContentFragment.find("content/v_1.0.0")
-        ]
-      }
-      it "can be retrieved via association" do
-        expect(Book.find(1).child_fragments.all).to eq(fragments)
+      describe "child_fragments" do
+        let(:fragments) {
+          [
+            MarkdownRecord::ContentFragment.find("content/v_1.0.0/chapter_1"),
+            MarkdownRecord::ContentFragment.find("content/v_1.0.0/chapter_2"),
+            MarkdownRecord::ContentFragment.find("content/v_1.0.0")
+          ]
+        }
+  
+        it "can be retrieved via model association" do
+          expect(Book.find(1).child_fragments.all).to eq(fragments)
+        end
+  
+        it "can be retrived via the fragment model" do
+          expect(MarkdownRecord::ContentFragment.find("content").child_fragments.all).to eq(fragments)
+        end
+      end
+      
+      describe "sibling_fragments" do
+        let(:fragments) {
+          [
+            MarkdownRecord::ContentFragment.find("content/v_1.0.0/chapter_2")
+          ]
+        }
+
+        # TODO: Add fragment and parent_fragment methods to base model,
+        # to allow traversing the tree
+        it "can be retrieved via model association" do
+          expect(Chapter.find(1).sibling_fragments.all).to eq(fragments)
+        end
+
+        it "can be retrived via the fragment model" do
+          expect(MarkdownRecord::ContentFragment.find("content/v_1.0.0/chapter_1").sibling_fragments.all).to eq(fragments)
+        end
       end
     end
   end

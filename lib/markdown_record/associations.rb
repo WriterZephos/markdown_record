@@ -63,6 +63,15 @@ module MarkdownRecord
       self.class.new_association(filters.merge({:klass => type, :subdirectory => Regexp.new("#{sub_start}[\\S|\\w]+")}).merge!(not_self))
     end
 
+    def fragment
+      id = Pathname.new(subdirectory).join(filename).to_s
+      self.class.new_association.fragments.find(id)
+    end
+
+    def parent_fragment
+      self.class.new_association.fragments.find(subdirectory)
+    end
+
     def child_fragments(filters = {})
       sub_start = "#{subdirectory}/".delete_prefix("/")
       self.class.new_association(filters.merge({:subdirectory => Regexp.new("#{sub_start}[\\S|\\w]+")}).merge!(not_self)).fragments
