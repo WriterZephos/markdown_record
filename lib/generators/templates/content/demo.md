@@ -8,6 +8,21 @@
 
 # Demo Content Book
 
-This demo content. This book has a `has_many` association to Chapters.
+This a demo of MarkdownRecord.
+
+The content seen here represents a book of some kind. The Book model defined in this content has a `has_many` association to Chapters and Illustrations, as follows:
+
+```ruby
+class Book < ::MarkdownRecord::Base
+  attribute :name
+
+  has_many_content :chapters
+  has_many_content :illustrations
+end
+```
+
+Of course, this is a contrived example for testing/demo purposes only. It is intended to show how you can define as many models of various types in your source markdown files, and then define their relationships independently using your ruby models.
+
+Please see the README for a detailed guide on how to use MarkdownRecord.
 
 <!--end_describe_model-->

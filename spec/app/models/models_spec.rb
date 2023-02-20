@@ -22,22 +22,22 @@ RSpec.describe :models, :render => true do
       end
 
       describe "children" do
-        it "has a parent/child association with chapters and diagrams" do
-          expect(Book.find(1).children.all).to eq([Chapter.find(1), Chapter.find(2), Diagram.find(1), Diagram.find(2)])
+        it "has a parent/child association with chapters and illustrations" do
+          expect(Book.find(1).children.all).to eq([Chapter.find(1), Chapter.find(2), Illustration.find(1), Illustration.find(2)])
         end
       end
 
       describe "where" do
         it "filters by not_null" do
-          expect(Diagram.where(:data => :not_null).all).to eq([Diagram.find(1)])
+          expect(Illustration.where(:data => :not_null).all).to eq([Illustration.find(1)])
         end
 
         it "filters by null" do
-          expect(Diagram.where(:data => :null).all).to eq([Diagram.find(2)])
+          expect(Illustration.where(:data => :null).all).to eq([Illustration.find(2)])
         end
 
         it "filters by nil" do
-          expect(Diagram.where(:data => nil).all).to eq([Diagram.find(2)])
+          expect(Illustration.where(:data => nil).all).to eq([Illustration.find(2)])
         end
 
         it "filters by regex" do
@@ -62,22 +62,22 @@ RSpec.describe :models, :render => true do
       end
   
       describe "siblings" do
-        it "has a sibling association with diagrams in the same subdirectory" do
-          expect(Chapter.find(1).siblings.all).to eq([Diagram.find(1), Diagram.find(2)])
+        it "has a sibling association with illustrations in the same subdirectory" do
+          expect(Chapter.find(1).siblings.all).to eq([Illustration.find(1), Illustration.find(2)])
         end
       end
     end
 
-    describe "Diagram" do
+    describe "Illustration" do
       describe "siblings" do
-        it "has a sibling association with diagrams in the same subdirectory" do
-          expect(Diagram.find(1).siblings.all).to eq([Chapter.find(1), Diagram.find(2)])
+        it "has a sibling association with illustrations in the same subdirectory" do
+          expect(Illustration.find(1).siblings.all).to eq([Chapter.find(1), Illustration.find(2)])
         end
       end
 
       describe "class_siblings" do
-        it "has a sibling association with diagrams in the same subdirectory" do
-          expect(Diagram.find(1).class_siblings.all).to eq([Diagram.find(2)])
+        it "has a sibling association with illustrations in the same subdirectory" do
+          expect(Illustration.find(1).class_siblings.all).to eq([Illustration.find(2)])
         end
       end
     end
@@ -88,10 +88,10 @@ RSpec.describe :models, :render => true do
       describe "child_fragments" do
         let(:fragments) {
           [
-            MarkdownRecord::ContentFragment.find("content/v_1.0.0/chapter_1/content"),
-            MarkdownRecord::ContentFragment.find("content/v_1.0.0/chapter_1"),
-            MarkdownRecord::ContentFragment.find("content/v_1.0.0/chapter_2/content"),
-            MarkdownRecord::ContentFragment.find("content/v_1.0.0/chapter_2")
+            MarkdownRecord::ContentFragment.find("content/part_1/chapter_1/content"),
+            MarkdownRecord::ContentFragment.find("content/part_1/chapter_1"),
+            MarkdownRecord::ContentFragment.find("content/part_1/chapter_2/content"),
+            MarkdownRecord::ContentFragment.find("content/part_1/chapter_2")
           ]
         }
   
@@ -107,7 +107,7 @@ RSpec.describe :models, :render => true do
       describe "sibling_fragments" do
         let(:fragment) {
           [
-            MarkdownRecord::ContentFragment.find("content/v_1.0.0")
+            MarkdownRecord::ContentFragment.find("content/part_1")
           ]
         }
 

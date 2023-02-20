@@ -20,8 +20,8 @@ class MarkdownRecordGenerator < Rails::Generators::Base
 
   def copy_content_file
     copy_file "content/demo.md", "markdown_record/content/demo.md"
-    copy_file "content/v_1.0.0/chapter_1/content.md", "markdown_record/content/v_1.0.0/chapter_1/content.md"
-    copy_file "content/v_1.0.0/chapter_2/content.md", "markdown_record/content/v_1.0.0/chapter_2/content.md"
+    copy_file "content/part_1/chapter_1/content.md", "markdown_record/content/part_1/chapter_1/content.md"
+    copy_file "content/part_1/chapter_2/content.md", "markdown_record/content/part_1/chapter_2/content.md"
     copy_file "content/images/ruby.jpeg", "public/ruby.jpeg"
   end
 

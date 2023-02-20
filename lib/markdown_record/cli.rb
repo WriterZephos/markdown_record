@@ -17,11 +17,11 @@ module MarkdownRecord
       system "cd spec/dummy && thor render_content:all -s"
 
       # Copy the generated content to the spec folder for the specs to use
-      copy_file "markdown_record/rendered/content/v_1.0.0/chapter_1/content.html", "spec/rendered/chapter_1/content.html"
-      copy_file "markdown_record/rendered/content/v_1.0.0/chapter_1/content.json", "spec/rendered/chapter_1/content.json"
+      copy_file "markdown_record/rendered/content/part_1/chapter_1/content.html", "spec/rendered/chapter_1/content.html"
+      copy_file "markdown_record/rendered/content/part_1/chapter_1/content.json", "spec/rendered/chapter_1/content.json"
 
-      copy_file "markdown_record/rendered/content/v_1.0.0/chapter_2/content.html", "spec/rendered/chapter_2/content.html"
-      copy_file "markdown_record/rendered/content/v_1.0.0/chapter_2/content.json", "spec/rendered/chapter_2/content.json"
+      copy_file "markdown_record/rendered/content/part_1/chapter_2/content.html", "spec/rendered/chapter_2/content.html"
+      copy_file "markdown_record/rendered/content/part_1/chapter_2/content.json", "spec/rendered/chapter_2/content.json"
 
       copy_file "markdown_record/rendered/content.html", "spec/rendered/concatenated/content.html"
       copy_file "markdown_record/rendered/content.json", "spec/rendered/concatenated/content.json"
@@ -31,11 +31,11 @@ module MarkdownRecord
 
       # Copy the new files to the spec directory
       copy_file "markdown_record/rendered/content.html", "spec/rendered/custom_layout/content.html"
-      copy_file "markdown_record/rendered/content/v_1.0.0/chapter_1/content.html", "spec/rendered/custom_layout/chapter_1/content.html"
+      copy_file "markdown_record/rendered/content/part_1/chapter_1/content.html", "spec/rendered/custom_layout/chapter_1/content.html"
       
       # Run render content again with a custom layout
-      system "cd spec/dummy && thor render_file:json -s -f v_1.0.0/chapter_1/content.md"
-      copy_file "markdown_record/rendered/content/v_1.0.0/chapter_1/content.json", "spec/rendered/chapter_1/no_frag_content.json"
+      system "cd spec/dummy && thor render_file:json -s -f part_1/chapter_1/content.md"
+      copy_file "markdown_record/rendered/content/part_1/chapter_1/content.json", "spec/rendered/chapter_1/no_frag_content.json"
 
       # Remove generated content and installed files
       FileUtils.remove_dir("spec/dummy/markdown_record/rendered", true)

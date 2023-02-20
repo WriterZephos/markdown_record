@@ -13,7 +13,6 @@ module MarkdownRecord
     end
 
     HTML_SUBSTITUTIONS = {
-      /<!--\s*page_break\s*-->/ => "<div class='page-break'></div>",
       /<!--\s*describe_model\s+({[\s|"|'|\\|\w|:|,|.|\[|\]|\{|\}]*})\s+-->/ => "",
       /<!--\s*describe_model_attribute\s*:\s*(.*)\s*-->/ => "",
       /<!--\s*end_describe_model_attribute\s*-->/ => "",

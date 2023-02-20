@@ -55,12 +55,12 @@ RSpec.describe ::RenderContent do
       rendering html content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
       ---------------------------------------------------------------
       rendered: /markdown_record/rendered/content.html
+      rendered: /markdown_record/rendered/content/part_1.html
+      rendered: /markdown_record/rendered/content/part_1/chapter_2.html
+      rendered: /markdown_record/rendered/content/part_1/chapter_2/content.html
+      rendered: /markdown_record/rendered/content/part_1/chapter_1.html
+      rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
       rendered: /markdown_record/rendered/content/demo.html
-      rendered: /markdown_record/rendered/content/v_1.0.0.html
-      rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.html
-      rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2/content.html
-      rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1.html
-      rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.html
       ---------------------------------------------------------------
       7 files rendered.
       0 files saved.
@@ -80,12 +80,12 @@ RSpec.describe ::RenderContent do
         rendering json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content.json
+        rendered: /markdown_record/rendered/content/part_1.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_2.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_1.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
         rendered: /markdown_record/rendered/content/demo.json
-        rendered: /markdown_record/rendered/content/v_1.0.0.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2/content.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.json
         ---------------------------------------------------------------
         7 files rendered.
         0 files saved.
@@ -105,19 +105,19 @@ RSpec.describe ::RenderContent do
       rendering html and json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
       ---------------------------------------------------------------
       rendered: /markdown_record/rendered/content.json
+      rendered: /markdown_record/rendered/content/part_1.json
+      rendered: /markdown_record/rendered/content/part_1/chapter_2.json
+      rendered: /markdown_record/rendered/content/part_1/chapter_2/content.json
+      rendered: /markdown_record/rendered/content/part_1/chapter_1.json
+      rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
       rendered: /markdown_record/rendered/content/demo.json
-      rendered: /markdown_record/rendered/content/v_1.0.0.json
-      rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.json
-      rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2/content.json
-      rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1.json
-      rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.json
       rendered: /markdown_record/rendered/content.html
+      rendered: /markdown_record/rendered/content/part_1.html
+      rendered: /markdown_record/rendered/content/part_1/chapter_2.html
+      rendered: /markdown_record/rendered/content/part_1/chapter_2/content.html
+      rendered: /markdown_record/rendered/content/part_1/chapter_1.html
+      rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
       rendered: /markdown_record/rendered/content/demo.html
-      rendered: /markdown_record/rendered/content/v_1.0.0.html
-      rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.html
-      rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2/content.html
-      rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1.html
-      rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.html
       ---------------------------------------------------------------
       14 files rendered.
       0 files saved.
@@ -133,7 +133,7 @@ RSpec.describe ::RenderContent do
   context "when a subdirectory is specified" do
     let(:options){
       {
-        :subdirectory => "v_1.0.0",
+        :subdirectory => "part_1",
         :layout => ::MarkdownRecord.config.html_layout_path,
         :save => false
       }
@@ -145,11 +145,11 @@ RSpec.describe ::RenderContent do
           ---------------------------------------------------------------
           rendering html content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
           ---------------------------------------------------------------
-          rendered: /markdown_record/rendered/content/v_1.0.0.html
-          rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.html
-          rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2/content.html
-          rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1.html
-          rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.html
+          rendered: /markdown_record/rendered/content/part_1.html
+          rendered: /markdown_record/rendered/content/part_1/chapter_2.html
+          rendered: /markdown_record/rendered/content/part_1/chapter_2/content.html
+          rendered: /markdown_record/rendered/content/part_1/chapter_1.html
+          rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
           ---------------------------------------------------------------
           5 files rendered.
           0 files saved.
@@ -168,11 +168,11 @@ RSpec.describe ::RenderContent do
         ---------------------------------------------------------------
         rendering json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
-        rendered: /markdown_record/rendered/content/v_1.0.0.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2/content.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.json
+        rendered: /markdown_record/rendered/content/part_1.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_2.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_1.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
         ---------------------------------------------------------------
         5 files rendered.
         0 files saved.
@@ -191,16 +191,16 @@ RSpec.describe ::RenderContent do
         ---------------------------------------------------------------
         rendering html and json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
-        rendered: /markdown_record/rendered/content/v_1.0.0.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2/content.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.json
-        rendered: /markdown_record/rendered/content/v_1.0.0.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2/content.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.html
+        rendered: /markdown_record/rendered/content/part_1.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_2.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_1.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
+        rendered: /markdown_record/rendered/content/part_1.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_2.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_1.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
         ---------------------------------------------------------------
         10 files rendered.
         0 files saved.
@@ -230,12 +230,12 @@ RSpec.describe ::RenderContent do
         rendering html content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content.html
+        rendered: /markdown_record/rendered/content/part_1.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_2.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_1.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
         rendered: /markdown_record/rendered/content/demo.html
-        rendered: /markdown_record/rendered/content/v_1.0.0.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2/content.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.html
         ---------------------------------------------------------------
         7 files rendered.
         7 files saved.
@@ -255,12 +255,12 @@ RSpec.describe ::RenderContent do
         rendering json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content.json
+        rendered: /markdown_record/rendered/content/part_1.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_2.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_1.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
         rendered: /markdown_record/rendered/content/demo.json
-        rendered: /markdown_record/rendered/content/v_1.0.0.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2/content.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.json
         ---------------------------------------------------------------
         7 files rendered.
         7 files saved.
@@ -280,19 +280,19 @@ RSpec.describe ::RenderContent do
         rendering html and json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content.json
+        rendered: /markdown_record/rendered/content/part_1.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_2.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_1.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
         rendered: /markdown_record/rendered/content/demo.json
-        rendered: /markdown_record/rendered/content/v_1.0.0.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2/content.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.json
         rendered: /markdown_record/rendered/content.html
+        rendered: /markdown_record/rendered/content/part_1.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_2.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_1.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
         rendered: /markdown_record/rendered/content/demo.html
-        rendered: /markdown_record/rendered/content/v_1.0.0.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2/content.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.html
         ---------------------------------------------------------------
         14 files rendered.
         14 files saved.
@@ -301,9 +301,9 @@ RSpec.describe ::RenderContent do
   
       it "renders html and json" do
         expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_file_contents("./markdown_record/rendered/content/v_1.0.0/chapter_1/content.html", chapter_1_content_html)).to eq(true)
-        expect(verify_file_contents("./markdown_record/rendered/content/v_1.0.0/chapter_1/content.json", chapter_1_content_json)).to eq(true)
-        expect(verify_file_contents("./markdown_record/rendered/content/v_1.0.0/chapter_2/content.html", chapter_2_content_html)).to eq(true)
+        expect(verify_file_contents("./markdown_record/rendered/content/part_1/chapter_1/content.html", chapter_1_content_html)).to eq(true)
+        expect(verify_file_contents("./markdown_record/rendered/content/part_1/chapter_1/content.json", chapter_1_content_json)).to eq(true)
+        expect(verify_file_contents("./markdown_record/rendered/content/part_1/chapter_2/content.html", chapter_2_content_html)).to eq(true)
         expect(verify_file_contents("./markdown_record/rendered/content.html", concatenated_content_html)).to eq(true)
         expect(verify_file_contents("./markdown_record/rendered/content.json", concatenated_content_json)).to eq(true)
         expect(verify_files(files)).to eq(true)
@@ -327,12 +327,12 @@ RSpec.describe ::RenderContent do
         rendering html content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_custom_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content.html
+        rendered: /markdown_record/rendered/content/part_1.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_2.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_1.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
         rendered: /markdown_record/rendered/content/demo.html
-        rendered: /markdown_record/rendered/content/v_1.0.0.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2/content.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.html
         ---------------------------------------------------------------
         7 files rendered.
         7 files saved.
@@ -352,12 +352,12 @@ RSpec.describe ::RenderContent do
         rendering json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_custom_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content.json
+        rendered: /markdown_record/rendered/content/part_1.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_2.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_1.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
         rendered: /markdown_record/rendered/content/demo.json
-        rendered: /markdown_record/rendered/content/v_1.0.0.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2/content.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.json
         ---------------------------------------------------------------
         7 files rendered.
         7 files saved.
@@ -377,19 +377,19 @@ RSpec.describe ::RenderContent do
         rendering html and json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_custom_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content.json
+        rendered: /markdown_record/rendered/content/part_1.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_2.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_1.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
         rendered: /markdown_record/rendered/content/demo.json
-        rendered: /markdown_record/rendered/content/v_1.0.0.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2/content.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.json
         rendered: /markdown_record/rendered/content.html
+        rendered: /markdown_record/rendered/content/part_1.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_2.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_1.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
         rendered: /markdown_record/rendered/content/demo.html
-        rendered: /markdown_record/rendered/content/v_1.0.0.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2/content.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.html
         ---------------------------------------------------------------
         14 files rendered.
         14 files saved.
@@ -399,7 +399,7 @@ RSpec.describe ::RenderContent do
       it "renders html and json" do
         expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
         expect(verify_file_contents("./markdown_record/rendered/content.html", custom_layout_content_html)).to eq(true)
-        expect(verify_file_contents("./markdown_record/rendered/content/v_1.0.0/chapter_1/content.html", custom_layout_chapter_1_content_html)).to eq(true)
+        expect(verify_file_contents("./markdown_record/rendered/content/part_1/chapter_1/content.html", custom_layout_chapter_1_content_html)).to eq(true)
         expect(verify_files(files)).to eq(true)
       end
     end
@@ -422,13 +422,13 @@ RSpec.describe ::RenderContent do
         rendering html and json content with options {:concat=>true, :deep=>false, :save=>true, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content.json
-        rendered: /markdown_record/rendered/content/v_1.0.0.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1.json
+        rendered: /markdown_record/rendered/content/part_1.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_2.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_1.json
         rendered: /markdown_record/rendered/content.html
-        rendered: /markdown_record/rendered/content/v_1.0.0.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1.html
+        rendered: /markdown_record/rendered/content/part_1.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_2.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_1.html
         ---------------------------------------------------------------
         8 files rendered.
         8 files saved.
@@ -437,10 +437,10 @@ RSpec.describe ::RenderContent do
   
       it "renders html and json" do
         expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_files(["markdown_record/rendered/content/v_1.0.0/chapter_1/content.html"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/v_1.0.0/chapter_2/content.html"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/v_1.0.0/chapter_1/content.json"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/v_1.0.0/chapter_2/content.json"])).to eq(false)
+        expect(verify_files(["markdown_record/rendered/content/part_1/chapter_1/content.html"])).to eq(false)
+        expect(verify_files(["markdown_record/rendered/content/part_1/chapter_2/content.html"])).to eq(false)
+        expect(verify_files(["markdown_record/rendered/content/part_1/chapter_1/content.json"])).to eq(false)
+        expect(verify_files(["markdown_record/rendered/content/part_1/chapter_2/content.json"])).to eq(false)
         expect(verify_files(["markdown_record/rendered/content/demo.html"])).to eq(false)
         expect(verify_files(["markdown_record/rendered/content/demo.json"])).to eq(false)
         expect(verify_files(files)).to eq(true)
@@ -464,12 +464,12 @@ RSpec.describe ::RenderContent do
         ---------------------------------------------------------------
         rendering html and json content with options {:concat=>false, :deep=>true, :save=>true, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
+        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
         rendered: /markdown_record/rendered/content/demo.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2/content.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
         rendered: /markdown_record/rendered/content/demo.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_2/content.html
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.html
         ---------------------------------------------------------------
         6 files rendered.
         6 files saved.
@@ -479,13 +479,13 @@ RSpec.describe ::RenderContent do
       it "renders html and json" do
         expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
         expect(verify_files(["markdown_record/rendered/content.html"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/v_1.0.0.html"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/v_1.0.0/chapter_1.html"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/v_1.0.0/chapter_1.html"])).to eq(false)
+        expect(verify_files(["markdown_record/rendered/content/part_1.html"])).to eq(false)
+        expect(verify_files(["markdown_record/rendered/content/part_1/chapter_1.html"])).to eq(false)
+        expect(verify_files(["markdown_record/rendered/content/part_1/chapter_1.html"])).to eq(false)
         expect(verify_files(["markdown_record/rendered/content.json"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/v_1.0.0.json"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/v_1.0.0/chapter_1.json"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/v_1.0.0/chapter_1.json"])).to eq(false)
+        expect(verify_files(["markdown_record/rendered/content/part_1.json"])).to eq(false)
+        expect(verify_files(["markdown_record/rendered/content/part_1/chapter_1.json"])).to eq(false)
+        expect(verify_files(["markdown_record/rendered/content/part_1/chapter_1.json"])).to eq(false)
         expect(verify_files(files)).to eq(true)
       end
     end

@@ -5,7 +5,7 @@ Dir["lib/generators/templates/render_file.thor"].sort.each { |f| load f }
 RSpec.describe ::RenderFile do
   let(:options){
     {
-      :file_path => "v_1.0.0/chapter_1/content.md",
+      :file_path => "part_1/chapter_1/content.md",
       :layout => ::MarkdownRecord.config.html_layout_path,
       :save => false
     }
@@ -40,7 +40,7 @@ RSpec.describe ::RenderFile do
       ---------------------------------------------------------------
       rendering html content with options {:save=>false, :layout=>"_markdown_record_layout.html.erb"} ...
       ---------------------------------------------------------------
-      rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.html
+      rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
       ---------------------------------------------------------------
       1 files rendered.
       0 files saved.
@@ -59,7 +59,7 @@ RSpec.describe ::RenderFile do
       ---------------------------------------------------------------
       rendering json content with options {:save=>false, :layout=>"_markdown_record_layout.html.erb"} ...
       ---------------------------------------------------------------
-      rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.json
+      rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
       ---------------------------------------------------------------
       1 files rendered.
       0 files saved.
@@ -78,8 +78,8 @@ RSpec.describe ::RenderFile do
       ---------------------------------------------------------------
       rendering html and json content with options {:save=>false, :layout=>"_markdown_record_layout.html.erb"} ...
       ---------------------------------------------------------------
-      rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.json
-      rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.html
+      rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
+      rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
       ---------------------------------------------------------------
       2 files rendered.
       0 files saved.
@@ -95,7 +95,7 @@ RSpec.describe ::RenderFile do
   context "when save is specified" do
     let(:options){
       {
-        :file_path => "v_1.0.0/chapter_1/content.md",
+        :file_path => "part_1/chapter_1/content.md",
         :layout => ::MarkdownRecord.config.html_layout_path,
         :save => true
       }
@@ -107,7 +107,7 @@ RSpec.describe ::RenderFile do
         ---------------------------------------------------------------
         rendering html content with options {:save=>true, :layout=>"_markdown_record_layout.html.erb"} ...
         ---------------------------------------------------------------
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
         ---------------------------------------------------------------
         1 files rendered.
         1 files saved.
@@ -126,7 +126,7 @@ RSpec.describe ::RenderFile do
         ---------------------------------------------------------------
         rendering json content with options {:save=>true, :layout=>"_markdown_record_layout.html.erb"} ...
         ---------------------------------------------------------------
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
         ---------------------------------------------------------------
         1 files rendered.
         1 files saved.
@@ -145,8 +145,8 @@ RSpec.describe ::RenderFile do
         ---------------------------------------------------------------
         rendering html and json content with options {:save=>true, :layout=>"_markdown_record_layout.html.erb"} ...
         ---------------------------------------------------------------
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
         ---------------------------------------------------------------
         2 files rendered.
         2 files saved.
@@ -155,8 +155,8 @@ RSpec.describe ::RenderFile do
   
       it "renders html and json" do
         expect{ ::RenderFile.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_file_contents("./markdown_record/rendered/content/v_1.0.0/chapter_1/content.html", chapter_1_content_html)).to eq(true)
-        expect(verify_file_contents("./markdown_record/rendered/content/v_1.0.0/chapter_1/content.json", chapter_1_content_json)).to eq(true)
+        expect(verify_file_contents("./markdown_record/rendered/content/part_1/chapter_1/content.html", chapter_1_content_html)).to eq(true)
+        expect(verify_file_contents("./markdown_record/rendered/content/part_1/chapter_1/content.json", chapter_1_content_json)).to eq(true)
         expect(verify_files(files)).to eq(true)
       end
     end
@@ -165,7 +165,7 @@ RSpec.describe ::RenderFile do
   context "when a layout is specified" do
     let(:options){
       {
-        :file_path => "v_1.0.0/chapter_1/content.md",
+        :file_path => "part_1/chapter_1/content.md",
         :layout => "_custom_layout.html.erb",
         :save => true
       }
@@ -177,7 +177,7 @@ RSpec.describe ::RenderFile do
         ---------------------------------------------------------------
         rendering html content with options {:save=>true, :layout=>"_custom_layout.html.erb"} ...
         ---------------------------------------------------------------
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
         ---------------------------------------------------------------
         1 files rendered.
         1 files saved.
@@ -196,7 +196,7 @@ RSpec.describe ::RenderFile do
         ---------------------------------------------------------------
         rendering json content with options {:save=>true, :layout=>"_custom_layout.html.erb"} ...
         ---------------------------------------------------------------
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
         ---------------------------------------------------------------
         1 files rendered.
         1 files saved.
@@ -215,8 +215,8 @@ RSpec.describe ::RenderFile do
         ---------------------------------------------------------------
         rendering html and json content with options {:save=>true, :layout=>"_custom_layout.html.erb"} ...
         ---------------------------------------------------------------
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.json
-        rendered: /markdown_record/rendered/content/v_1.0.0/chapter_1/content.html
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
+        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
         ---------------------------------------------------------------
         2 files rendered.
         2 files saved.
@@ -225,7 +225,7 @@ RSpec.describe ::RenderFile do
   
       it "renders html and json" do
         expect{ ::RenderFile.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_file_contents("./markdown_record/rendered/content/v_1.0.0/chapter_1/content.html", custom_layout_chapter_1_content_html)).to eq(true)
+        expect(verify_file_contents("./markdown_record/rendered/content/part_1/chapter_1/content.html", custom_layout_chapter_1_content_html)).to eq(true)
         expect(verify_files(files)).to eq(true)
       end
     end
