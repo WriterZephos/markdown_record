@@ -6,6 +6,15 @@ module Helpers
     FileUtils.remove_entry("config/initializers/markdown_record.rb", true)
     FileUtils.remove_entry("Thorfile", true)
     FileUtils.remove_entry("public/ruby.jpeg", true)
+
+    lines = File.readlines("config/routes.rb")
+    lines[1] = ""
+
+    File.open("config/routes.rb", "w") do |f|
+      lines.each do |line|
+        f.write line
+      end
+    end
   end
 
   def install_engine

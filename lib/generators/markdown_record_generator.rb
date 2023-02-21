@@ -37,4 +37,8 @@ class MarkdownRecordGenerator < Rails::Generators::Base
     copy_file "render_content.thor", "lib/tasks/render_content.thor"
     copy_file "render_file.thor", "lib/tasks/render_file.thor"
   end
+
+  def mount_engine
+    gsub_file "config/routes.rb", /Rails.application.routes.draw do/, "Rails.application.routes.draw do\n  mount MarkdownRecord::Engine, at: MarkdownRecord.config.mount_path, as: \"markdown_record\""
+  end
 end

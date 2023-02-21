@@ -2,8 +2,8 @@ require "spec_helper"
 require "./lib/generators/markdown_record_generator"
 
 RSpec.describe ::MarkdownRecordGenerator do
-  it "copies the correct files" do
-    files_and_directories = [
+  let(:files_and_directories){
+      [
       "markdown_record/content/demo.md",
       "markdown_record/content/part_1/chapter_1/content.md",
       "markdown_record/content/part_1/chapter_2/content.md",
@@ -13,7 +13,17 @@ RSpec.describe ::MarkdownRecordGenerator do
       "config/initializers/markdown_record.rb",
       "Thorfile"
     ]
+  }
 
+  let(:routes_top_lines){
+    <<~eos
+      Rails.application.routes.draw do
+        mount MarkdownRecord::Engine, at: MarkdownRecord.config.mount_path, as: "markdown_record"
+    eos
+  }
+
+  it "copies the correct files" do
     expect(verify_files(files_and_directories, false)).to eq(true)
+    expect(File.read("config/routes.rb")).to include(routes_top_lines)
   end
 end

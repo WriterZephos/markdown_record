@@ -8,24 +8,76 @@ The MarkdownRecord engine also provides basic controllers out of the box for ser
 
 MarkdownRecord is a solution for when you need to render written content in your web application, but also need object oriented and relational representations of your content and the concepts it describes. This is a fairly narrow use case, but there are a few obvious situations where this could come in handy, such as:
 
-- API documentation that is queryable, such that a client could query for available endpoints, required and optional parameters, etc. By embedding the json data returned from such queries directly within the documentation, you don't have to maintain multiple sources of truth. With ready to go, out of the box controllers and routing, the data will be available to query immediately without without having to implement any endpoints yourself.
+- API documentation that is queryable, such that a client could query for available endpoints, required and optional parameters, etc. By embedding the json data returned from such queries directly within the documentation, you don't have to maintain multiple sources of truth. With ready to go, out of the box controllers and routing, the data will be available to query immediately without having to implement any endpoints yourself.
 - A website containing a blog or other static content, where you want to objectify the various pieces of content and their hierarchy to more easily navigate between them. Instead of creating a Post model with a table in your database, simply organize your posts as markdown files within a directory structure reflecting your desired hierarchy (for example: `year/month/day`), and use the MarkdownRecord view helpers to build your site navigation to traverse the hierarchy of pre-rendered content. You can easily do all of this without creating a single model class to encapsulate your static content by using the engine's built in `ContentFragment` class. Of course, you can still create more sophisticated models to represent your static data without ever touching a database, if desired.
 - Hosting the rules for a table top game in an application that allows you to build characters or assemble armies using the options described by the rules. By using MarkdownRecord for this use case, you can easily populate drop downs and other form elements with the options defined in your markdown without hard coding values in your application code or creating unecessary database tables that will become a maintenance problem as new versions of the rules are released. You can even build a versioning system into your markdown content directory structure, allowing you to release new versions of your content with the utmost ease.
 - Any situation where you have relational static content or versioned static content and you want to represent those relationships in an your application code, but putting your static content in the database is overkill or just doesn't make sense given the dynamic nature of a database and the extra overhead involved.
 
-MarkdownRecord is very specifically designed for cases where the content is mostly **static** and **controlled by the developer**. It's goal is to cut out a lot of the boiler plate code and setup needed to host and encapsulate relational static content in your application. While it could be coupled with a user interface to allow client side creating and editing of markdown source files, that is not its intended purpose. MarkdownRecord could be described as a *server side content management system*, as opposed to client side systems such as WordPress, common blogging platforms, etc.
+MarkdownRecord is very specifically designed for cases where the content is mostly **static** and **controlled by the developer**. It's goal is to cut out a lot of the boiler plate code and setup needed to host and encapsulate relational static content in your application. While it could be coupled with a user interface to allow client side creating and editing of markdown source files, that is not its intended purpose. MarkdownRecord could be described as a *server side content management system*, as opposed to client side systems such as WordPress, other common blogging platforms, etc.
 
 ## Why not use MarkdownRecord?
 
 MarkdownRecord should not be used if the code repository the host application lives in cannot be pushed to whenever content changes (unless there is some work around in place to fetch updated content and render it automatically). Without additional automation in place, you must run a command to have the engine pre-render your content locally, then push the results to whereever your application is hosted. As such, content that requires creating or editing from the client side is not something this engine can handle on its own.
 
+---
 # Usage
+
+## Installation
+Add this line to your application's Gemfile:
+
+```ruby
+gem "markdown_record"
+```
+
+And then execute:
+```bash
+$ bundle
+```
+
+Then, from the root directory of your application run:
+```bash
+$ rails g markdown_record
+```
+
+The above command will install the engine, resulting in the following output and changes to your application:
+```
+create  markdown_record/layouts/_markdown_record_layout.html.erb
+create  markdown_record/layouts/_custom_layout.html.erb
+create  markdown_record/content
+create  markdown_record/rendered
+create  markdown_record/content/demo.md
+create  markdown_record/content/part_1/chapter_1/content.md
+create  markdown_record/content/part_1/chapter_2/content.md
+create  public/ruby.jpeg
+create  config/initializers/markdown_record.rb
+create  Thorfile
+create  lib/tasks/render_content.thor
+create  lib/tasks/render_file.thor
+  gsub  config/routes.rb
+```
+
+The files and folders inside `markdown_record/content`, `markdown_record/layouts` and `public` are for demo purposes only, and can be deleted once youare are ready to create your own content.
+
+By default, MarkdownRecord will look in the `markdown_record/content` for all your content, and all rendered content will be saved to `markdown_record/rendered`.
+
+The engine will be mounted in `config/routes.rb` under the `content` path.
+
+An initializer will be created for you, where you will be able to configure the engine to use different directories and change other default settings. A later section of this guide will provide more details on configuration options.
+
+A `Thorfile` and some thor tasks will also be added to your application. These tasks are used to render your content to HTML and JSON.
 
 ## Overview
 
-### Writing Content
+The general workflow while using MarkdownRecord, once installed in your application, is as follows:
 
-The general workflow while using MarkdownRecord, once installed in your application, is to write your content in markdown files within a specified directory inside your application (the default directory is `<application_root>/markdown_record/content`). You can use the modeling DSL the engine provides for defining models data alongside your markdown text within html comments, like so:
+1. Write markdown content, using the modeling data DSL provided by MarkdownRecord to define model data within your markdown content.
+2. Run the provided Thor task to render your markdown content into HTML and JSON.
+3. Use the provided view helpers to link to the rendered content in your application's views, relying on the controllers provided by the engine for serving the content.
+4. Use model classes inheritiing from `MarkdownRecord::Base` to interact with your html and json rendered content, taking advantage for user defined associations, automatic associations based on content location, and the built in `ContentFragment` model, 
+
+## Writing Content
+
+ is to write your content in markdown files within a specified directory inside your application (the default directory is `<application_root>/markdown_record/content`). You can use the modeling DSL the engine provides for defining model data alongside your markdown text within html comments, like so:
 
 *markdown_record/content/part_1/chapter_1/content.md*
 ```md
@@ -108,27 +160,6 @@ Chapter.find(1)
 In addition to all of the above features, MarkdownRecord also provides view helpers to make it easy to serve your rendered content within your application.
 
 The many features and ways to use MarkdownRecord are too many for a complete guide in this README but a full usage guide is in the works.
-
-## Installation
-Add this line to your application's Gemfile:
-
-```ruby
-gem "markdown_record"
-```
-
-And then execute:
-```bash
-$ bundle
-```
-
-Then, from the root directory of your application run:
-```bash
-$ rails g markdown_record
-```
-
-The above command will install the engine and create the default `markdown_record` directory in your application root.
-
-More installation steps coming soon!
 
 ## Contributing
 Contribution guides coming soon.

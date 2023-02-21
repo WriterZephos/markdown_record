@@ -34,7 +34,7 @@ module MarkdownRecord
       @html_routes = [:show]
       @json_routes = [:show, :download]
       @content_routes = [:show, :download]
-      @mount_path = ""
+      @mount_path = "content"
       @render_content_fragment_json = true
     end
 
