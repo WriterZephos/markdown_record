@@ -7,10 +7,10 @@ module MarkdownRecord
         klass = infer_klass(association, options)
         raise ArgumentError.new("The association class name could not be inferred, and was not provided") if klass.nil?
 
-        foreign_key = self.name.demodulize.underscore
+        foreign_key = "#{self.name.demodulize.underscore}_id".to_sym
 
         define_method(association) do
-          self.class.new_association({:klass => klass, "#{foreign_key}_id".to_sym => self.id})
+          self.class.new_association({:klass => klass, foreign_key => self.id})
         end
       end
 
