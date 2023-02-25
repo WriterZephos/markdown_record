@@ -7,9 +7,13 @@ module MarkdownRecord
 
     def where(filters, subdirectory = nil)
       path = if subdirectory.nil?
-               "#{base_path}.json"
+               file_path = base_path
+               file_path = "#{file_path}_fragments" if filters[:klass] == ::MarkdownRecord::ContentFragment
+               "#{file_path}.json"
              else
-              "#{base_path}/#{subdirectory}.json"
+              file_path = subdirectory
+              file_path = "#{file_path}_fragments" if filters[:klass] == ::MarkdownRecord::ContentFragment
+              "#{base_path}/#{file_path}.json"
              end
 
       json = JSON.parse(File.read(path))

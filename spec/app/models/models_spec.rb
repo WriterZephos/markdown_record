@@ -142,6 +142,26 @@ RSpec.describe :models, :render => true do
         end
       end
     end
+
+    describe "read_json" do
+      let(:file){
+        File.read("markdown_record/rendered/content/demo.json")
+      }
+
+      it "reads the associated file" do
+        expect(MarkdownRecord::ContentFragment.find("content/demo").read_json).to eq (file)
+      end
+    end
+
+    describe "read_html" do
+      let(:file){
+        File.read("markdown_record/rendered/content/demo.html")
+      }
+
+      it "reads the associated file" do
+        expect(MarkdownRecord::ContentFragment.find("content/demo").read_html).to eq (file)
+      end
+    end
   end
 
   describe "ActiveRecord Models" do

@@ -1,11 +1,39 @@
 module MarkdownRecord
   module ControllerHelpers
-    def rendered_content_path(content_path)
-      ::MarkdownRecord.config.rendered_content_root.join("#{content_path}#{Pathname.new(request.path).extname}")
+    def render_html(fragment = content_fragment, layout = MarkdownRecord.config.public_layout)
+      if fragment.html_exists?
+        render file: fragment.html_path, layout: layout
+      else
+        head :not_found
+      end
     end
 
-    def rendered?(content_path)
-      rendered_content_path(content_path).exist? && rendered_content_path(content_path).file?
+    def render_json(fragment = content_fragment)
+      if fragment.json_exists?
+        render file: fragment.json_path, layout: nil
+      else
+        head :not_found
+      end
+    end
+
+    def download_html(fragment = content_fragment, layout = MarkdownRecord.config.public_layout)
+      if fragment.html_exists?
+        send_file fragment.html_path, layout: layout
+      else
+        head :not_found
+      end
+    end
+
+    def download_json(fragment = content_fragment)
+      if fragment.json_exists?
+        send_file fragment.json_path, layout: nil
+      else
+        head :not_found
+      end
+    end
+
+    def content_fragment(content_path = params[:content_path])
+      ::MarkdownRecord::ContentFragment.find(content_path)
     end
   end
 end

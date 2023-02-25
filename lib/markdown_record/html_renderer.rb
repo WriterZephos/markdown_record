@@ -18,6 +18,7 @@ module MarkdownRecord
       /<!--\s*end_describe_model_attribute\s*-->/ => "",
       /<!--\s*end_describe_model\s*-->/ => "",
       /<!--\s*use_layout\s*:\s*(.*)\s*-->/ => "",
+      /<!--\s*fragment\s+({[\s|"|'|\\|\w|:|,|.|\[|\]|\{|\}]*})\s+-->/ => "",
       /^(\s*\n){2,}/ => "\n",
       /^(\s*\r\n){2,}/ => "\n"
     }
@@ -110,6 +111,7 @@ module MarkdownRecord
       HTML_SUBSTITUTIONS.each do |regex, html_replacement|
         processed_html = processed_html.gsub(regex, html_replacement)
       end
+      
       layout = forced_layout || custom_layout(html) || @layout
       return processed_html if layout.nil?
 

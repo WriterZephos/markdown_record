@@ -29,12 +29,12 @@ module MarkdownRecord
       @html_layout_directory = Rails.root.join("markdown_record","layouts")
       @html_layout_path = "_markdown_record_layout.html.erb"
       @markdown_extensions = {}
-      @public_layout = "layouts/application"
+      @public_layout = "layouts/application.html.erb"
       @render_strategy = :full
       @html_routes = [:show]
       @json_routes = [:show, :download]
       @content_routes = [:show, :download]
-      @mount_path = "content"
+      @mount_path = "mdr"
       @render_content_fragment_json = true
     end
 

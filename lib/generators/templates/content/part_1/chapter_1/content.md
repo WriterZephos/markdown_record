@@ -50,3 +50,9 @@ Fusce pharetra faucibus finibus. Integer ex lorem, vestibulum quis odio quis, ru
 -->
 
 <!--end_describe_model-->
+
+<!--fragment
+{
+  "foo": "bar"
+}
+-->
