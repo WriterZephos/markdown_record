@@ -56,3 +56,14 @@ Fusce pharetra faucibus finibus. Integer ex lorem, vestibulum quis odio quis, ru
   "foo": "bar"
 }
 -->
+
+<span> In a span </span>
+
+```ruby
+class Book < ::MarkdownRecord::Base
+  attribute :name
+
+  has_many_content :chapters
+  has_many_content :illustrations
+end
+```

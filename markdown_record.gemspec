@@ -28,6 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "redcarpet", "~> 3.5"
   spec.add_dependency "active_attr", "~> 0.15.4"
   spec.add_dependency "thor", "~> 1.2"
+  spec.add_dependency "htmlbeautifier"
 
   spec.add_development_dependency "pry"
   spec.add_development_dependency "rspec", "~> 3.12"

@@ -17,6 +17,7 @@ module MarkdownRecord
     attr_accessor :content_routes
     attr_accessor :mount_path
     attr_accessor :render_content_fragment_json
+    attr_accessor :render_controller
 
     RENDER_STRATEGIES = [:full, :directory, :file]
 
@@ -27,15 +28,16 @@ module MarkdownRecord
       @html_renderer_class = ::Redcarpet::Render::HTML
       @html_render_options = {}
       @html_layout_directory = Rails.root.join("markdown_record","layouts")
+      @markdown_extensions = { :fenced_code_blocks => true, :disable_indented_code_blocks => true}
       @html_layout_path = "_markdown_record_layout.html.erb"
-      @markdown_extensions = {}
-      @public_layout = "layouts/application.html.erb"
+      @public_layout = "layouts/application"
       @render_strategy = :full
       @html_routes = [:show]
       @json_routes = [:show, :download]
       @content_routes = [:show, :download]
       @mount_path = "mdr"
       @render_content_fragment_json = true
+      @render_controller = nil
     end
 
     def render_strategy_options(strategy = nil)

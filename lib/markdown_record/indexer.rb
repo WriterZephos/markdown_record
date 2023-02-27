@@ -26,7 +26,7 @@ module MarkdownRecord
           index[child] = {}
           recursive_index(pathname, index[child])
         else
-          index[child] = File.read(pathname) if pathname.extname == ".md"
+          index[child] = File.read(pathname) if (pathname.extname == ".md" || pathname.to_s =~ /\.md\.erb$/)
         end
       end
     end

@@ -13,6 +13,7 @@ require "markdown_record/content_associations"
 require "markdown_record/base"
 require "markdown_record/content_fragment"
 require "markdown_record/cli"
+require "markdown_record/path_utilities"
 
 module MarkdownRecord
   def self.config

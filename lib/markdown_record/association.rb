@@ -65,7 +65,6 @@ module MarkdownRecord
       reset
       search_filters.merge!({:id => id})
       execute
-
       raise "Invalide id. There are multiple records with this id. Please correct this in your static content." if @data.count > 1
       @data.first
     end

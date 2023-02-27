@@ -1,16 +1,10 @@
+require "redcarpet"
+require "markdown_record/path_utilities"
+require "htmlbeautifier"
+
 module MarkdownRecord
-  class HtmlRenderer
-    class ERBContext
-      def initialize(hash)
-        hash.each_pair do |key, value|
-          instance_variable_set('@' + key.to_s, value)
-        end
-      end
-    
-      def get_binding
-        binding
-      end
-    end
+  class HtmlRenderer < ::Redcarpet::Render::HTML
+    include ::MarkdownRecord::PathUtilities
 
     HTML_SUBSTITUTIONS = {
       /<!--\s*describe_model\s+({[\s|"|'|\\|\w|:|,|.|\[|\]|\{|\}]*})\s+-->/ => "",
@@ -20,16 +14,16 @@ module MarkdownRecord
       /<!--\s*use_layout\s*:\s*(.*)\s*-->/ => "",
       /<!--\s*fragment\s+({[\s|"|'|\\|\w|:|,|.|\[|\]|\{|\}]*})\s+-->/ => "",
       /^(\s*\n){2,}/ => "\n",
-      /^(\s*\r\n){2,}/ => "\n"
+      /^(\s*\r\n){2,}/ => "\n",
+
     }
 
     def initialize(
         file_saver: ::MarkdownRecord::FileSaver.new, 
-        indexer: ::MarkdownRecord.config.indexer_class.new, 
-        html_renderer: ::MarkdownRecord.config.html_renderer_class.new(::MarkdownRecord.config.html_render_options))
+        indexer: ::MarkdownRecord.config.indexer_class.new)
+      super(::MarkdownRecord.config.html_render_options)
       @indexer = indexer
-      @html_renderer = html_renderer
-      @markdown = ::Redcarpet::Markdown.new(@html_renderer, ::MarkdownRecord.config.markdown_extensions)
+      @markdown = ::Redcarpet::Markdown.new(self, ::MarkdownRecord.config.markdown_extensions)
       @file_saver = file_saver
       @layout = nil
     end
@@ -44,7 +38,7 @@ module MarkdownRecord
       
       html_content = render_html_recursively(subdirectory, content)
       
-      processed_html = process_html_recursively(subdirectory, html_content[subdirectory], options)
+      processed_html = process_html_recursively(subdirectory, html_content[subdirectory], options, subdirectory)
 
       save_content_recursively(processed_html, options)
       { :html_content => processed_html, :saved_files => @file_saver.saved_files }
@@ -59,8 +53,8 @@ module MarkdownRecord
       file = @indexer.file(file_path)
       unless file.nil?
         html = @markdown.render(file)
-        processed_html = process_html(html)
-        @file_saver.save_to_file(processed_html, "#{file_path.gsub(/(\.concat|\.md)/,"")}.html", options)
+        processed_html = process_html(html, file_path)
+        @file_saver.save_to_file(processed_html, "#{clean_path(file_path)}.html", options)
         processed_html
       end
     end
@@ -82,42 +76,56 @@ module MarkdownRecord
       end
     end
 
-    def process_html_recursively(file_or_directory_name, file_or_directory, options)
+    def process_html_recursively(file_or_directory_name, file_or_directory, options, full_path)
       case file_or_directory.class.name
       when Hash.name
         directory_hash = { file_or_directory_name => {} } # hash representing the directory and its contents
 
         if options[:concat]
           concatenated_html = concatenate_html_recursively(file_or_directory, []).join("\r\n")
-          directory_hash["#{file_or_directory_name}.concat"] = process_html(concatenated_html, @layout)
+          directory_hash["#{file_or_directory_name}.concat"] = process_html(concatenated_html, full_path, @layout)
         end
 
         file_or_directory.each do |child_file_or_directory_name, child_file_or_directory|
-          child_content_hash = process_html_recursively(child_file_or_directory_name, child_file_or_directory, options)
+          child_content_hash = process_html_recursively(child_file_or_directory_name, child_file_or_directory, options, "#{full_path}/#{child_file_or_directory_name}")
           directory_hash[file_or_directory_name].merge!(child_content_hash)
         end
         directory_hash
       when String.name # if it is a file
         if options[:deep]
-          { file_or_directory_name => process_html(file_or_directory) }
+          { file_or_directory_name => process_html(file_or_directory, full_path) }
         else
           { }
         end
       end
     end
 
-    def process_html(html, forced_layout = nil)
+    def process_html(html, full_path, forced_layout = nil)
       processed_html = html
       HTML_SUBSTITUTIONS.each do |regex, html_replacement|
         processed_html = processed_html.gsub(regex, html_replacement)
       end
-      
-      layout = forced_layout || custom_layout(html) || @layout
-      return processed_html if layout.nil?
 
-      erb = ERB.new(layout)
-      erb_context = self.class::ERBContext.new(:html => processed_html)
-      erb.result(erb_context.get_binding)
+      processed_html = processed_html.gsub(/<p>(\&lt;%(\S|\s)*%\&gt;)<\/p>/){ CGI.unescapeHTML($1) }
+      processed_html = processed_html.gsub(/(\&lt;%(\S|\s)*%\&gt;)/){ CGI.unescapeHTML($1) }
+
+      layout = forced_layout || custom_layout(html) || @layout
+
+      locals = erb_locals_from_path(full_path)
+      processed_html = render_erb(processed_html, locals)
+      processed_html = render_erb(layout, locals.merge(html: processed_html)) if layout
+      processed_html = processed_html.squeeze("\n")
+      processed_html = HtmlBeautifier.beautify(processed_html)
+      processed_html
+    end
+
+    def render_erb(html, locals)
+      render_controller = ::MarkdownRecord.config.render_controller || ::ApplicationController
+      rendered_html = render_controller.render(
+        inline: html,
+        locals: locals
+      ).to_str
+      rendered_html
     end
 
     def concatenate_html_recursively(content, html)
@@ -153,7 +161,7 @@ module MarkdownRecord
           save_content_recursively(value, options, child_path)
         end
       when String.name
-        @file_saver.save_to_file(content, "#{subdirectory.to_s.gsub(/(\.concat|\.md)/,"")}.html", options)
+        @file_saver.save_to_file(content, "#{clean_path(subdirectory)}.html", options)
       end
     end
   end

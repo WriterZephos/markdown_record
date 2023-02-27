@@ -19,7 +19,7 @@ class MarkdownRecordGenerator < Rails::Generators::Base
   end
 
   def copy_content_file
-    copy_file "content/demo.md", "markdown_record/content/demo.md"
+    copy_file "content/demo.md.erb", "markdown_record/content/demo.md.erb"
     copy_file "content/part_1/chapter_1/content.md", "markdown_record/content/part_1/chapter_1/content.md"
     copy_file "content/part_1/chapter_2/content.md", "markdown_record/content/part_1/chapter_2/content.md"
     copy_file "content/images/ruby.jpeg", "public/ruby.jpeg"
@@ -40,5 +40,9 @@ class MarkdownRecordGenerator < Rails::Generators::Base
 
   def mount_engine
     gsub_file "config/routes.rb", /Rails.application.routes.draw do/, "Rails.application.routes.draw do\n  mount MarkdownRecord::Engine, at: MarkdownRecord.config.mount_path, as: \"markdown_record\""
+  end
+
+  def install_render_controller
+    
   end
 end

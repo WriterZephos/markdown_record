@@ -1,23 +1,26 @@
+require "markdown_record/path_utilities"
+
 module MarkdownRecord
   class ModelInflator
-    def initialize
+    include ::MarkdownRecord::PathUtilities
+    
+    def initialize(source_models = nil)
       @indexer = ::MarkdownRecord::Indexer.new
-      @models = nil
     end
 
     def where(filters, subdirectory = nil)
       path = if subdirectory.nil?
-               file_path = base_path
+               file_path = base_rendered_path
                file_path = "#{file_path}_fragments" if filters[:klass] == ::MarkdownRecord::ContentFragment
                "#{file_path}.json"
              else
               file_path = subdirectory
               file_path = "#{file_path}_fragments" if filters[:klass] == ::MarkdownRecord::ContentFragment
-              "#{base_path}/#{file_path}.json"
+              "#{base_rendered_path}/#{file_path}.json"
              end
 
-      json = JSON.parse(File.read(path))
-
+      json = json_source(path, subdirectory || "")
+      
       json.delete(::MarkdownRecord::ContentFragment.name) if filters.delete(:exclude_fragments)
       json = filters[:klass].present? ? json[filters.delete(:klass).name] : json.values.flatten
       json ||= []
@@ -31,8 +34,24 @@ module MarkdownRecord
       end
     end
 
-    def base_path
-      ::MarkdownRecord.config.rendered_content_root.join(::MarkdownRecord.config.content_root.basename)
+    def json_source(path, subdirectory)
+      if Pathname.new(path).exist?
+        json = JSON.parse(File.read(path))
+        return json
+      end
+      
+      json = ::MarkdownRecord::JsonRenderer.new
+        .render_models_for_subdirectory(
+          subdirectory: subdirectory,
+          :concat => true, 
+          :deep => true, 
+          :save => true, 
+          :render_content_fragment_json => true)
+
+      tokens = subdirectory.split("/")
+      last = tokens.pop
+      tokens << "#{last}.concat"
+      json = json.dig(*tokens)
     end
 
     def passes_filters?(attributes, filters)
