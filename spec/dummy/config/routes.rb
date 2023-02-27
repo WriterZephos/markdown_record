@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
+  mount MarkdownRecord::Engine, at: MarkdownRecord.config.mount_path, as: "markdown_record"
+  mount MarkdownRecord::Engine, at: MarkdownRecord.config.mount_path, as: "markdown_record"
 
-  resources :foo
+  resource :foo
 
   root :to => "home#index"
 end
