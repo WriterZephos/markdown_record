@@ -41,19 +41,89 @@ module MarkdownRecord
       nil
     end
 
+    def raw_html(raw_html)
+      set_described_model_attribute(raw_html)
+      pop_described_model_attribute(raw_html)
+      nil
+    end
+
+    def list_item(text, list_type)
+      describe_attribute(text)
+    end
+
     def paragraph(text)
+      describe_attribute(text)
+    end
+
+    def block_quote(quote)
+      describe_attribute(quote)
+    end
+
+    def header(text, header_level)
+      describe_attribute(text)
+    end
+    
+    # def double_emphasis(text)
+    #   describe_attribute(text)
+    # end
+    
+    # def emphasis(text)
+    #   describe_attribute(text)
+    # end
+
+    # def linebreak()
+    #   describe_attribute("\n")
+    # end
+
+    # def link(link, title, content)
+    #   describe_attribute(link)
+    # end
+
+    # def triple_emphasis(text)
+    #   describe_attribute(text)
+    # end
+
+    # def strikethrough(text)
+    #   describe_attribute(text)
+    # end
+    
+    # def superscript(text)
+    #   describe_attribute(text)
+    # end
+    
+    # def underline(text)
+    #   describe_attribute(text)
+    # end
+    
+    # def highlight(text)
+    #   describe_attribute(text)
+    # end
+    
+    # def quote(text)
+    #   describe_attribute(text)
+    # end
+
+  private
+
+    def describe_attribute(text)
       return if @described_models.empty?
+
+      raw_markdown = CGI.unescapeHTML(text)
+      set_described_model_attribute(raw_markdown)
+      
+      clean_text = raw_markdown.gsub(/<!--\s*describe_model_attribute\s*:\s*\w+\s*-->/, "")
+                               .gsub(/<!--\s*end_describe_model_attribute\s*-->/, "")
+      clean_text = CGI.escapeHTML(clean_text)
 
       @described_models.each do |model|
         next unless model[:described_attribute].present?
         model[model[:described_attribute]] ||= []
-        model[model[:described_attribute]] << text
+        model[model[:described_attribute]] << clean_text
       end
 
+      pop_described_model_attribute(raw_markdown)
       nil
     end
-
-  private
 
     def render_models_recursively(file_or_directory_name, file_or_directory, full_path, options)
       case file_or_directory.class.name;
@@ -128,7 +198,7 @@ module MarkdownRecord
       @described_models.each do |model|
         next if model[:described_attribute].nil?
         attribute = model.delete(:described_attribute)
-        model[attribute] = model[attribute].join("\n")
+        model[attribute] = model[attribute].join("")
       end
       @json_models.dup
     end
@@ -211,7 +281,7 @@ module MarkdownRecord
     def set_described_model_attribute(html)
       return if @described_models.empty?
 
-      match = html.match(/<!--\s*describe_model_attribute\s*:\s*(.*)\s*-->/)
+      match = html.match(/<!--\s*describe_model_attribute\s*:\s*(\w+)\s*-->/)
       return if match.nil?
 
       attribute = match[1].strip

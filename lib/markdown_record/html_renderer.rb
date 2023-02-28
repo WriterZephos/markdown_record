@@ -8,14 +8,11 @@ module MarkdownRecord
 
     HTML_SUBSTITUTIONS = {
       /<!--\s*describe_model\s+({[\s|"|'|\\|\w|:|,|.|\[|\]|\{|\}]*})\s+-->/ => "",
-      /<!--\s*describe_model_attribute\s*:\s*(.*)\s*-->/ => "",
+      /<!--\s*describe_model_attribute\s*:\s*\w+\s*-->/ => "",
       /<!--\s*end_describe_model_attribute\s*-->/ => "",
       /<!--\s*end_describe_model\s*-->/ => "",
       /<!--\s*use_layout\s*:\s*(.*)\s*-->/ => "",
-      /<!--\s*fragment\s+({[\s|"|'|\\|\w|:|,|.|\[|\]|\{|\}]*})\s+-->/ => "",
-      /^(\s*\n){2,}/ => "\n",
-      /^(\s*\r\n){2,}/ => "\n",
-
+      /<!--\s*fragment\s+({[\s|"|'|\\|\w|:|,|.|\[|\]|\{|\}]*})\s+-->/ => ""
     }
 
     def initialize(
@@ -72,8 +69,17 @@ module MarkdownRecord
         end
         directory_hash
       when String.name # if it is a file
-        { file_or_directory_name => @markdown.render(file_or_directory) }
+        { file_or_directory_name => render_html(file_or_directory) }
       end
+    end
+
+    def render_html(html)
+      cleaned_up_html = html
+      HTML_SUBSTITUTIONS.each do |regex, html_replacement|
+        cleaned_up_html = cleaned_up_html.gsub(regex, html_replacement)
+      end
+
+      @markdown.render(cleaned_up_html)
     end
 
     def process_html_recursively(file_or_directory_name, file_or_directory, options, full_path)
@@ -101,12 +107,7 @@ module MarkdownRecord
     end
 
     def process_html(html, full_path, forced_layout = nil)
-      processed_html = html
-      HTML_SUBSTITUTIONS.each do |regex, html_replacement|
-        processed_html = processed_html.gsub(regex, html_replacement)
-      end
-
-      processed_html = processed_html.gsub(/<p>(\&lt;%(\S|\s)*%\&gt;)<\/p>/){ CGI.unescapeHTML($1) }
+      processed_html = html.gsub(/<p>(\&lt;%(\S|\s)*%\&gt;)<\/p>/){ CGI.unescapeHTML($1) }
       processed_html = processed_html.gsub(/(\&lt;%(\S|\s)*%\&gt;)/){ CGI.unescapeHTML($1) }
 
       layout = forced_layout || custom_layout(html) || @layout

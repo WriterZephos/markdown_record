@@ -1,0 +1,25 @@
+{
+  "example": [
+    {
+      "type": "example",
+      "id": 1,
+      "name": "api_docs",
+      "subdirectory": "content",
+      "filename": "home"
+    },
+    {
+      "type": "example",
+      "id": 2,
+      "name": "blog",
+      "subdirectory": "content",
+      "filename": "home"
+    },
+    {
+      "type": "example",
+      "id": 3,
+      "name": "table_top_rpg",
+      "subdirectory": "content",
+      "filename": "home"
+    }
+  ]
+}
