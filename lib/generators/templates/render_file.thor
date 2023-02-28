@@ -2,6 +2,8 @@ require "thor"
 require "pry"
 
 class RenderFile < Thor
+  include MarkdownRecord::Rendering
+
   class_option :file_path, required: false, type: :string, aliases: :f
   class_option :layout, required: false, type: :string, aliases: :l, default: ::MarkdownRecord.config.html_layout_path
   class_option :save, type: :boolean, aliases: :s, default: false
@@ -44,26 +46,5 @@ class RenderFile < Thor
     ::MarkdownRecord::JsonRenderer.new(file_saver: file_saver).render_models_for_file(file_path: options[:file_path], **render_options)
     
     report_rendered_files(file_saver)
-  end
-
-  no_tasks do
-    def report_start(render_options, formats)
-      say "---------------------------------------------------------------"
-      say "rendering #{formats} content with options #{render_options} ..."
-    end
-
-    def report_rendered_files(file_saver)
-      say "---------------------------------------------------------------"
-      file_saver.saved_files.each do |file_name|
-        say "rendered: #{file_name}", report_line_color(options[:save])
-      end
-      say "---------------------------------------------------------------"
-      say "#{file_saver.saved_files.count} files rendered."
-      say "#{options[:save] ? file_saver.saved_files.count : 0} files saved."
-    end
-
-    def report_line_color(saved)
-      color = saved ? :green : :yellow
-    end
   end
 end

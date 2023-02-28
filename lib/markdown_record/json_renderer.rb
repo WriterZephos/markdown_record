@@ -2,6 +2,7 @@ require "redcarpet"
 
 module MarkdownRecord
   class JsonRenderer < ::MarkdownRecord::NullHtmlRenderer
+    include ::MarkdownRecord::PathUtilities
 
     def initialize(file_saver: ::MarkdownRecord::FileSaver.new, indexer: ::MarkdownRecord.config.indexer_class.new)
       super(::MarkdownRecord.config.html_render_options)
@@ -10,7 +11,6 @@ module MarkdownRecord
       @json_models = {}
       @described_models = []
       @file_saver = file_saver
-      @models = {}
     end
 
     def render_models_for_subdirectory(subdirectory: "", **options)
@@ -18,7 +18,7 @@ module MarkdownRecord
       json_hash, _ = render_models_recursively(subdirectory, content, subdirectory, options)
 
       save_content_recursively(json_hash, options)
-      @models
+      json_hash
     end
 
     def render_models_for_file(file_path:, **options)
@@ -28,9 +28,9 @@ module MarkdownRecord
       json = render_models(file, file_path, options)
       
       # save json
-      @file_saver.save_to_file(json.to_json, "#{file_path.gsub(/(\.concat|\.md)/,"")}.json", options)
+      @file_saver.save_to_file(json.to_json, "#{clean_path(file_path)}.json", options)
       
-      @models
+      json
     end
 
     def block_html(raw_html)
@@ -118,12 +118,12 @@ module MarkdownRecord
     end
 
     def render_models(content, full_path, options)
-      rendered_path = base_content_path.join(full_path.delete_prefix("/"))
-      @filename = rendered_path.basename.to_s.gsub(/(\.concat|\.md)/,"").delete_prefix("/")
-      @subdirectory = rendered_path.parent.to_s.gsub(/(\.concat|\.md)/,"").delete_prefix("/")
+      @filename, @subdirectory = full_path_to_parts(full_path)
+
       @described_models = []
       @json_models = {}
       @fragment_meta = {}
+
       @markdown.render(content)
       @described_models.each do |model|
         next if model[:described_attribute].nil?
@@ -134,18 +134,7 @@ module MarkdownRecord
     end
 
     def add_content_fragment_for_file(json, full_path)
-      rendered_path = base_content_path.join(full_path.delete_prefix("/"))
-      filename = rendered_path.basename.to_s.gsub(/(\.concat|\.md)/,"")
-      filename = filename.empty? ? base_content_path.to_s : filename
-      subdirectory = rendered_path.parent.to_s.gsub(/(\.concat|\.md)/,"").delete_prefix("/")
-      
-      content_fragment = {
-        "id" => rendered_path.to_s.gsub(/(\.concat|\.md)/,"").delete_prefix("/"),
-        "type" => "MarkdownRecord::ContentFragment",
-        "subdirectory" => subdirectory,
-        "filename" => filename,
-        "meta" => @fragment_meta
-      }
+      content_fragment = fragment_attributes_path(full_path).merge("meta" => @fragment_meta)
 
       json["MarkdownRecord::ContentFragment"] ||= []
       json["MarkdownRecord::ContentFragment"] << content_fragment
@@ -173,9 +162,11 @@ module MarkdownRecord
 
     def save_content_recursively(content, options, subdirectory = "")
       if content&.values&.first.is_a?(Array)
-        fragments = content.delete("MarkdownRecord::ContentFragment")
-        @file_saver.save_to_file(content.to_json, "#{subdirectory.to_s.gsub(/(\.concat|\.md)/,"")}.json", options)
-        @file_saver.save_to_file({ "MarkdownRecord::ContentFragment" => fragments}.to_json, "#{subdirectory.to_s.gsub(/(\.concat|\.md)/,"")}.json", options, true)
+        fragments = content.slice("MarkdownRecord::ContentFragment")
+        non_fragments = content.except("MarkdownRecord::ContentFragment")
+        path = clean_path(subdirectory)
+        @file_saver.save_to_file(non_fragments.to_json, "#{path}.json", options)
+        @file_saver.save_to_file(fragments.to_json, "#{path}.json", options, true)
       else
         content.each do |key, value|
           child_path = Pathname.new(subdirectory).join(key)
@@ -189,8 +180,8 @@ module MarkdownRecord
 
       if match
         model = JSON.parse(match[1])
-        model["subdirectory"] = @subdirectory.gsub(/(\.concat|\.md)/,"")
-        model["filename"] = @filename.gsub(/(\.concat|\.md)/,"")
+        model["subdirectory"] = clean_path(@subdirectory)
+        model["filename"] = clean_path(@filename)
   
         return unless model["type"].present?
   

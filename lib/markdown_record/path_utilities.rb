@@ -2,7 +2,6 @@
 
 module MarkdownRecord
   module PathUtilities
-
     def full_path_to_parts(full_path)
       rendered_path = base_content_path.join(clean_path(full_path))
       filename = clean_path(rendered_path.basename)
@@ -44,22 +43,17 @@ module MarkdownRecord
       filename, subdirectory = *full_path_to_parts(full_path)
 
       frag_id = path_to_fragment_id(full_path)
-      fragment = ::MarkdownRecord::ContentFragment.find(frag_id)
       
       {
+        id: frag_id,
         type: MarkdownRecord::ContentFragment.name,
-        filename: filename, 
-        subdirectory: subdirectory, 
-        id: frag_id
+        subdirectory: subdirectory,
+        filename: filename
       }.stringify_keys
     end
 
     def clean_path(path)
       path.to_s.gsub("_fragments", "").gsub(/(\.concat|\.md\.erb|\.md|\.json|\.html)/,"").delete_prefix("/")
-    end
-
-    def file_to_path
-      
     end
 
     def base_rendered_path

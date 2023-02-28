@@ -155,8 +155,8 @@ RSpec.describe ::RenderFile do
   
       it "renders html and json" do
         expect{ ::RenderFile.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_file_contents("./markdown_record/rendered/content/part_1/chapter_1/content.html", chapter_1_content_html)).to eq(true)
-        expect(verify_file_contents("./markdown_record/rendered/content/part_1/chapter_1/content.json", chapter_1_content_json)).to eq(true)
+        expect(File.read("./markdown_record/rendered/content/part_1/chapter_1/content.html")).to eq(chapter_1_content_html)
+        expect(File.read("./markdown_record/rendered/content/part_1/chapter_1/content.json")).to eq(chapter_1_content_json)
         expect(verify_files(files)).to eq(true)
       end
     end
@@ -225,7 +225,7 @@ RSpec.describe ::RenderFile do
   
       it "renders html and json" do
         expect{ ::RenderFile.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_file_contents("./markdown_record/rendered/content/part_1/chapter_1/content.html", custom_layout_chapter_1_content_html)).to eq(true)
+        expect(File.read("./markdown_record/rendered/content/part_1/chapter_1/content.html")).to eq(custom_layout_chapter_1_content_html)
         expect(verify_files(files)).to eq(true)
       end
     end

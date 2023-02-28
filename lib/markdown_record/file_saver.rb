@@ -4,7 +4,7 @@ module MarkdownRecord
     attr_accessor :saved_files
 
     def initialize
-      @saved_files = []
+      @saved_files = {:html => [], :json => []}
     end
 
     def save_to_file(content, file_path, options, fragments = false)
@@ -20,7 +20,7 @@ module MarkdownRecord
       save_path = ::MarkdownRecord.config.rendered_content_root.join(file_path)
       
       relative_path = save_path.to_s.gsub(Rails.root.to_s, "")
-      @saved_files.unshift(relative_path)
+      @saved_files[parts.second.to_sym].unshift(relative_path)
 
       if options[:save]
         save_path.dirname.mkpath

@@ -35,8 +35,4 @@ module Helpers
     end
     all_exist
   end
-
-  def verify_file_contents(file, content)
-    File.read(file) == content
-  end
 end

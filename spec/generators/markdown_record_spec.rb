@@ -4,7 +4,7 @@ require "./lib/generators/markdown_record_generator"
 RSpec.describe ::MarkdownRecordGenerator do
   let(:files_and_directories){
       [
-      "markdown_record/content/demo.md",
+      "markdown_record/content/demo.md.erb",
       "markdown_record/content/part_1/chapter_1/content.md",
       "markdown_record/content/part_1/chapter_2/content.md",
       "markdown_record/layouts/_markdown_record_layout.html.erb",

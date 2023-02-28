@@ -14,6 +14,7 @@ require "markdown_record/base"
 require "markdown_record/content_fragment"
 require "markdown_record/cli"
 require "markdown_record/path_utilities"
+require "markdown_record/rendering"
 
 module MarkdownRecord
   def self.config
