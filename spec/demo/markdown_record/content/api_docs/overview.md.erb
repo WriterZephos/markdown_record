@@ -18,6 +18,9 @@ To do this, simply write an HTML comment like this in your markdown files:
 --&gt;
 </code></pre>
 
+```
+<!--describe_model { "type": "dsl_command", "id": 1, "name": "describe_model", "example_id": 1 } -->
+```
 *Note: you can write these JSON object inline as well to be more concise.*
 
 As you can see, all that is required is a JSON object inside the comment that defines your data. The `describe_model` part of the comment is a DSL commant that tells MarkdownRecord how to process the comment, and in this case it will take your JSON object and include it in its final output and/or make it available via the provided routes and controllers. If this part is missing or unrecognized, then the comment will be treated as a plain HTML comment and nothing will be done with its contents.

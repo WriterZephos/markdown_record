@@ -39,14 +39,14 @@ module MarkdownRecord
       }
     end
 
-    def fragment_attributes_path(full_path)
+    def fragment_attributes_from_path(full_path)
       filename, subdirectory = *full_path_to_parts(full_path)
 
       frag_id = path_to_fragment_id(full_path)
       
       {
         id: frag_id,
-        type: MarkdownRecord::ContentFragment.name,
+        type: MarkdownRecord::ContentFragment.name.underscore,
         subdirectory: subdirectory,
         filename: filename
       }.stringify_keys

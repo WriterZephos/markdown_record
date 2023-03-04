@@ -27227,3 +27227,407 @@ Completed 200 OK in 2ms (Views: 2.0ms | Allocations: 1584)
   Rendered inline template (Duration: 0.3ms | Allocations: 211)
   Rendering inline template
   Rendered inline template (Duration: 0.2ms | Allocations: 134)
+  Rendering inline template
+  Rendered inline template (Duration: 0.7ms | Allocations: 401)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 177)
+  Rendering inline template
+  Rendered inline template (Duration: 3.5ms | Allocations: 1250)
+  Rendering inline template
+  Rendered inline template (Duration: 0.5ms | Allocations: 401)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 177)
+  Rendering inline template
+  Rendered inline template (Duration: 5542.1ms | Allocations: 28692)
+  Rendering inline template
+  Rendered inline template (Duration: 0.6ms | Allocations: 401)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 177)
+  Rendering inline template
+  Rendered inline template (Duration: 0.8ms | Allocations: 837)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 155)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 163)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 136)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 211)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 134)
+Started GET "/mdr/html/content" for ::1 at 2023-03-04 13:02:31 -0700
+Processing by MarkdownRecord::HtmlController#show as HTML
+  Parameters: {"content_path"=>"content"}
+Completed 500 Internal Server Error in 0ms (Allocations: 286)
+
+
+  
+NoMethodError (undefined method `html_exists?' for nil:NilClass):
+  
+/Users/bryantmorrill/Documents/repos/markdown_record/app/helpers/markdown_record/controller_helpers.rb:4:in `render_html'
+/Users/bryantmorrill/Documents/repos/markdown_record/app/controllers/markdown_record/html_controller.rb:4:in `show'
+actionpack (7.0.4.2) lib/action_controller/metal/basic_implicit_render.rb:6:in `send_action'
+actionpack (7.0.4.2) lib/abstract_controller/base.rb:215:in `process_action'
+actionpack (7.0.4.2) lib/action_controller/metal/rendering.rb:53:in `process_action'
+actionpack (7.0.4.2) lib/abstract_controller/callbacks.rb:234:in `block in process_action'
+activesupport (7.0.4.2) lib/active_support/callbacks.rb:107:in `run_callbacks'
+actionpack (7.0.4.2) lib/abstract_controller/callbacks.rb:233:in `process_action'
+actionpack (7.0.4.2) lib/action_controller/metal/rescue.rb:22:in `process_action'
+actionpack (7.0.4.2) lib/action_controller/metal/instrumentation.rb:67:in `block in process_action'
+activesupport (7.0.4.2) lib/active_support/notifications.rb:206:in `block in instrument'
+activesupport (7.0.4.2) lib/active_support/notifications/instrumenter.rb:24:in `instrument'
+activesupport (7.0.4.2) lib/active_support/notifications.rb:206:in `instrument'
+actionpack (7.0.4.2) lib/action_controller/metal/instrumentation.rb:66:in `process_action'
+actionpack (7.0.4.2) lib/action_controller/metal/params_wrapper.rb:259:in `process_action'
+activerecord (7.0.4.2) lib/active_record/railties/controller_runtime.rb:27:in `process_action'
+actionpack (7.0.4.2) lib/abstract_controller/base.rb:151:in `process'
+actionview (7.0.4.2) lib/action_view/rendering.rb:39:in `process'
+actionpack (7.0.4.2) lib/action_controller/metal.rb:188:in `dispatch'
+actionpack (7.0.4.2) lib/action_controller/metal.rb:251:in `dispatch'
+actionpack (7.0.4.2) lib/action_dispatch/routing/route_set.rb:49:in `dispatch'
+actionpack (7.0.4.2) lib/action_dispatch/routing/route_set.rb:32:in `serve'
+actionpack (7.0.4.2) lib/action_dispatch/journey/router.rb:50:in `block in serve'
+actionpack (7.0.4.2) lib/action_dispatch/journey/router.rb:32:in `each'
+actionpack (7.0.4.2) lib/action_dispatch/journey/router.rb:32:in `serve'
+actionpack (7.0.4.2) lib/action_dispatch/routing/route_set.rb:852:in `call'
+railties (7.0.4.2) lib/rails/engine.rb:530:in `call'
+railties (7.0.4.2) lib/rails/railtie.rb:226:in `public_send'
+railties (7.0.4.2) lib/rails/railtie.rb:226:in `method_missing'
+actionpack (7.0.4.2) lib/action_dispatch/routing/mapper.rb:19:in `block in <class:Constraints>'
+actionpack (7.0.4.2) lib/action_dispatch/routing/mapper.rb:48:in `serve'
+actionpack (7.0.4.2) lib/action_dispatch/journey/router.rb:50:in `block in serve'
+actionpack (7.0.4.2) lib/action_dispatch/journey/router.rb:32:in `each'
+actionpack (7.0.4.2) lib/action_dispatch/journey/router.rb:32:in `serve'
+actionpack (7.0.4.2) lib/action_dispatch/routing/route_set.rb:852:in `call'
+rack (2.2.6.2) lib/rack/tempfile_reaper.rb:15:in `call'
+rack (2.2.6.2) lib/rack/etag.rb:27:in `call'
+rack (2.2.6.2) lib/rack/conditional_get.rb:27:in `call'
+rack (2.2.6.2) lib/rack/head.rb:12:in `call'
+actionpack (7.0.4.2) lib/action_dispatch/http/permissions_policy.rb:38:in `call'
+actionpack (7.0.4.2) lib/action_dispatch/http/content_security_policy.rb:36:in `call'
+rack (2.2.6.2) lib/rack/session/abstract/id.rb:266:in `context'
+rack (2.2.6.2) lib/rack/session/abstract/id.rb:260:in `call'
+actionpack (7.0.4.2) lib/action_dispatch/middleware/cookies.rb:704:in `call'
+actionpack (7.0.4.2) lib/action_dispatch/middleware/callbacks.rb:27:in `block in call'
+activesupport (7.0.4.2) lib/active_support/callbacks.rb:99:in `run_callbacks'
+actionpack (7.0.4.2) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+actionpack (7.0.4.2) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.0.4.2) lib/action_dispatch/middleware/actionable_exceptions.rb:17:in `call'
+actionpack (7.0.4.2) lib/action_dispatch/middleware/debug_exceptions.rb:28:in `call'
+actionpack (7.0.4.2) lib/action_dispatch/middleware/show_exceptions.rb:26:in `call'
+railties (7.0.4.2) lib/rails/rack/logger.rb:40:in `call_app'
+railties (7.0.4.2) lib/rails/rack/logger.rb:25:in `block in call'
+activesupport (7.0.4.2) lib/active_support/tagged_logging.rb:99:in `block in tagged'
+activesupport (7.0.4.2) lib/active_support/tagged_logging.rb:37:in `tagged'
+activesupport (7.0.4.2) lib/active_support/tagged_logging.rb:99:in `tagged'
+railties (7.0.4.2) lib/rails/rack/logger.rb:25:in `call'
+sprockets-rails (3.4.2) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (7.0.4.2) lib/action_dispatch/middleware/remote_ip.rb:93:in `call'
+actionpack (7.0.4.2) lib/action_dispatch/middleware/request_id.rb:26:in `call'
+rack (2.2.6.2) lib/rack/method_override.rb:24:in `call'
+rack (2.2.6.2) lib/rack/runtime.rb:22:in `call'
+activesupport (7.0.4.2) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (7.0.4.2) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (7.0.4.2) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (7.0.4.2) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (7.0.4.2) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.0.4.2) lib/action_dispatch/middleware/static.rb:23:in `call'
+rack (2.2.6.2) lib/rack/sendfile.rb:110:in `call'
+actionpack (7.0.4.2) lib/action_dispatch/middleware/host_authorization.rb:137:in `call'
+railties (7.0.4.2) lib/rails/engine.rb:530:in `call'
+rack (2.2.6.2) lib/rack/handler/webrick.rb:95:in `service'
+webrick (1.8.1) lib/webrick/httpserver.rb:140:in `service'
+webrick (1.8.1) lib/webrick/httpserver.rb:96:in `run'
+webrick (1.8.1) lib/webrick/server.rb:310:in `block in start_thread'
+Started GET "/mdr/html/content" for ::1 at 2023-03-04 13:05:59 -0700
+Processing by MarkdownRecord::HtmlController#show as HTML
+  Parameters: {"content_path"=>"content"}
+  Rendering layout layouts/application.html.erb
+  Rendering markdown_record/rendered/content.html within layouts/application
+  Rendered markdown_record/rendered/content.html within layouts/application (Duration: 0.1ms | Allocations: 11)
+  Rendered layout layouts/application.html.erb (Duration: 10.5ms | Allocations: 3848)
+Completed 200 OK in 102520ms (Views: 19.9ms | Allocations: 92298)
+
+
+Started GET "/mdr/html/content" for ::1 at 2023-03-04 13:07:45 -0700
+Processing by MarkdownRecord::HtmlController#show as HTML
+  Parameters: {"content_path"=>"content"}
+  Rendering layout layouts/application.html.erb
+  Rendering markdown_record/rendered/content.html within layouts/application
+  Rendered markdown_record/rendered/content.html within layouts/application (Duration: 0.1ms | Allocations: 7)
+  Rendered layout layouts/application.html.erb (Duration: 1.9ms | Allocations: 1132)
+Completed 200 OK in 7229ms (Views: 2.3ms | Allocations: 11168)
+
+
+Started GET "/mdr/html/content" for ::1 at 2023-03-04 13:08:10 -0700
+Processing by MarkdownRecord::HtmlController#show as HTML
+  Parameters: {"content_path"=>"content"}
+  Rendering layout layouts/application.html.erb
+  Rendering markdown_record/rendered/content.html within layouts/application
+  Rendered markdown_record/rendered/content.html within layouts/application (Duration: 0.1ms | Allocations: 11)
+  Rendered layout layouts/application.html.erb (Duration: 9.7ms | Allocations: 3861)
+Completed 200 OK in 16ms (Views: 15.4ms | Allocations: 6897)
+
+
+Started GET "/mdr/content" for ::1 at 2023-03-04 13:08:15 -0700
+Processing by MarkdownRecord::ContentController#show as HTML
+  Parameters: {"content_path"=>"content"}
+  Rendering layout layouts/application.html.erb
+  Rendering markdown_record/rendered/content.html within layouts/application
+  Rendered markdown_record/rendered/content.html within layouts/application (Duration: 0.1ms | Allocations: 7)
+  Rendered layout layouts/application.html.erb (Duration: 2.0ms | Allocations: 1210)
+Completed 200 OK in 4ms (Views: 2.9ms | Allocations: 1992)
+
+
+  Rendering inline template
+  Rendered inline template (Duration: 0.7ms | Allocations: 401)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 177)
+  Rendering inline template
+  Rendered inline template (Duration: 1.0ms | Allocations: 839)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 155)
+  Rendering inline template
+  Rendered inline template (Duration: 0.3ms | Allocations: 165)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 136)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 213)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 134)
+Started GET "/mdr/content" for ::1 at 2023-03-04 13:10:39 -0700
+Processing by MarkdownRecord::ContentController#show as HTML
+  Parameters: {"content_path"=>"content"}
+  Rendering layout layouts/application.html.erb
+  Rendering markdown_record/rendered/content.html within layouts/application
+  Rendered markdown_record/rendered/content.html within layouts/application (Duration: 0.1ms | Allocations: 7)
+  Rendered layout layouts/application.html.erb (Duration: 2.0ms | Allocations: 1142)
+Completed 200 OK in 3ms (Views: 2.5ms | Allocations: 1667)
+
+
+Started GET "/mdr/content" for ::1 at 2023-03-04 13:10:40 -0700
+Processing by MarkdownRecord::ContentController#show as HTML
+  Parameters: {"content_path"=>"content"}
+  Rendering layout layouts/application.html.erb
+  Rendering markdown_record/rendered/content.html within layouts/application
+  Rendered markdown_record/rendered/content.html within layouts/application (Duration: 0.1ms | Allocations: 7)
+  Rendered layout layouts/application.html.erb (Duration: 1.6ms | Allocations: 1138)
+Completed 200 OK in 2ms (Views: 2.0ms | Allocations: 1659)
+
+
+  Rendering inline template
+  Rendered inline template (Duration: 0.6ms | Allocations: 401)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 177)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 140)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 135)
+Started GET "/mdr/content" for ::1 at 2023-03-04 13:19:29 -0700
+Processing by MarkdownRecord::ContentController#show as HTML
+  Parameters: {"content_path"=>"content"}
+  Rendering layout layouts/application.html.erb
+  Rendering markdown_record/rendered/content.html within layouts/application
+  Rendered markdown_record/rendered/content.html within layouts/application (Duration: 0.1ms | Allocations: 7)
+  Rendered layout layouts/application.html.erb (Duration: 1.7ms | Allocations: 1151)
+Completed 200 OK in 3ms (Views: 2.1ms | Allocations: 1675)
+
+
+Started GET "/mdr/content" for ::1 at 2023-03-04 13:19:30 -0700
+Processing by MarkdownRecord::ContentController#show as HTML
+  Parameters: {"content_path"=>"content"}
+  Rendering layout layouts/application.html.erb
+  Rendering markdown_record/rendered/content.html within layouts/application
+  Rendered markdown_record/rendered/content.html within layouts/application (Duration: 0.1ms | Allocations: 7)
+  Rendered layout layouts/application.html.erb (Duration: 1.7ms | Allocations: 1138)
+Completed 200 OK in 3ms (Views: 2.1ms | Allocations: 1659)
+
+
+Started GET "/mdr/content" for ::1 at 2023-03-04 13:19:31 -0700
+Processing by MarkdownRecord::ContentController#show as HTML
+  Parameters: {"content_path"=>"content"}
+  Rendering layout layouts/application.html.erb
+  Rendering markdown_record/rendered/content.html within layouts/application
+  Rendered markdown_record/rendered/content.html within layouts/application (Duration: 0.1ms | Allocations: 7)
+  Rendered layout layouts/application.html.erb (Duration: 1.9ms | Allocations: 1141)
+Completed 200 OK in 3ms (Views: 2.3ms | Allocations: 1662)
+
+
+Started GET "/mdr/content" for ::1 at 2023-03-04 13:19:32 -0700
+Processing by MarkdownRecord::ContentController#show as HTML
+  Parameters: {"content_path"=>"content"}
+  Rendering layout layouts/application.html.erb
+  Rendering markdown_record/rendered/content.html within layouts/application
+  Rendered markdown_record/rendered/content.html within layouts/application (Duration: 0.1ms | Allocations: 7)
+  Rendered layout layouts/application.html.erb (Duration: 1.7ms | Allocations: 1159)
+Completed 200 OK in 3ms (Views: 2.1ms | Allocations: 1680)
+
+
+  Rendering inline template
+  Rendered inline template (Duration: 0.7ms | Allocations: 401)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 177)
+  Rendering inline template
+  Rendered inline template (Duration: 1.2ms | Allocations: 837)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 155)
+  Rendering inline template
+  Rendered inline template (Duration: 0.3ms | Allocations: 163)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 136)
+  Rendering inline template
+  Rendered inline template (Duration: 0.3ms | Allocations: 211)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 134)
+Started GET "/mdr/content" for ::1 at 2023-03-04 13:20:18 -0700
+Processing by MarkdownRecord::ContentController#show as HTML
+  Parameters: {"content_path"=>"content"}
+  Rendering layout layouts/application.html.erb
+  Rendering markdown_record/rendered/content.html within layouts/application
+  Rendered markdown_record/rendered/content.html within layouts/application (Duration: 0.1ms | Allocations: 7)
+  Rendered layout layouts/application.html.erb (Duration: 2.0ms | Allocations: 1160)
+Completed 200 OK in 3ms (Views: 2.4ms | Allocations: 1684)
+
+
+  Rendering inline template
+  Rendered inline template (Duration: 0.6ms | Allocations: 401)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 177)
+  Rendering inline template
+  Rendered inline template (Duration: 0.9ms | Allocations: 837)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 155)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 163)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 136)
+  Rendering inline template
+  Rendered inline template (Duration: 0.3ms | Allocations: 211)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 134)
+Started GET "/mdr/content" for ::1 at 2023-03-04 13:21:14 -0700
+Processing by MarkdownRecord::ContentController#show as HTML
+  Parameters: {"content_path"=>"content"}
+  Rendering layout layouts/application.html.erb
+  Rendering markdown_record/rendered/content.html within layouts/application
+  Rendered markdown_record/rendered/content.html within layouts/application (Duration: 0.1ms | Allocations: 7)
+  Rendered layout layouts/application.html.erb (Duration: 1.7ms | Allocations: 1148)
+Completed 200 OK in 3ms (Views: 2.0ms | Allocations: 1672)
+
+
+  Rendering inline template
+  Rendered inline template (Duration: 0.6ms | Allocations: 401)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 177)
+  Rendering inline template
+  Rendered inline template (Duration: 0.8ms | Allocations: 837)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 155)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 163)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 136)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 211)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 134)
+  Rendering inline template
+  Rendered inline template (Duration: 0.5ms | Allocations: 401)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 177)
+  Rendering inline template
+  Rendered inline template (Duration: 0.8ms | Allocations: 837)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 155)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 163)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 136)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 211)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 134)
+  Rendering inline template
+  Rendered inline template (Duration: 0.6ms | Allocations: 401)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 177)
+  Rendering inline template
+  Rendered inline template (Duration: 0.9ms | Allocations: 840)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 155)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 165)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 136)
+  Rendering inline template
+  Rendered inline template (Duration: 0.3ms | Allocations: 213)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 134)
+Started GET "/mdr/content" for ::1 at 2023-03-04 13:23:35 -0700
+Processing by MarkdownRecord::ContentController#show as HTML
+  Parameters: {"content_path"=>"content"}
+  Rendering layout layouts/application.html.erb
+  Rendering markdown_record/rendered/content.html within layouts/application
+  Rendered markdown_record/rendered/content.html within layouts/application (Duration: 0.1ms | Allocations: 7)
+  Rendered layout layouts/application.html.erb (Duration: 1.7ms | Allocations: 1133)
+Completed 200 OK in 3ms (Views: 2.0ms | Allocations: 1657)
+
+
+  Rendering inline template
+  Rendered inline template (Duration: 0.6ms | Allocations: 401)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 177)
+  Rendering inline template
+  Rendered inline template (Duration: 0.9ms | Allocations: 840)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 155)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 165)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 136)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 213)
+  Rendering inline template
+  Rendered inline template (Duration: 0.1ms | Allocations: 134)
+  Rendering inline template
+  Rendered inline template (Duration: 0.7ms | Allocations: 401)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 177)
+  Rendering inline template
+  Rendered inline template (Duration: 1.0ms | Allocations: 840)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 155)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 165)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 136)
+  Rendering inline template
+  Rendered inline template (Duration: 0.3ms | Allocations: 213)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 134)
+  Rendering inline template
+  Rendered inline template (Duration: 0.7ms | Allocations: 401)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 177)
+  Rendering inline template
+  Rendered inline template (Duration: 1.0ms | Allocations: 847)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 155)
+  Rendering inline template
+  Rendered inline template (Duration: 0.3ms | Allocations: 172)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 136)
+  Rendering inline template
+  Rendered inline template (Duration: 0.3ms | Allocations: 220)
+  Rendering inline template
+  Rendered inline template (Duration: 0.2ms | Allocations: 134)
+Started GET "/mdr/content" for ::1 at 2023-03-04 13:49:41 -0700
+Processing by MarkdownRecord::ContentController#show as HTML
+  Parameters: {"content_path"=>"content"}
+  Rendering layout layouts/application.html.erb
+  Rendering markdown_record/rendered/content.html within layouts/application
+  Rendered markdown_record/rendered/content.html within layouts/application (Duration: 0.1ms | Allocations: 7)
+  Rendered layout layouts/application.html.erb (Duration: 1.9ms | Allocations: 1145)
+Completed 200 OK in 3ms (Views: 2.2ms | Allocations: 1669)
+
+

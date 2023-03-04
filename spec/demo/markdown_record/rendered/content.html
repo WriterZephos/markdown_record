@@ -93,7 +93,16 @@
     <h2>Content DSL</h2>
     <p>While writing documentation for your API (or any other software, such as this Rails engine), you can define json data using HTML comments which will then be made available to you within your application code (if you define matching models), or directly served via the routes and controllers that with MarkdownRecord.</p>
     <p>To do this, simply write an HTML comment like this in your markdown files:</p>
-    <pre><code class="html">
+    <pre><code class="html">&lt;!--describe_model
+  {
+    "type": "dsl_command",
+    "id":   1,
+    "name": "describe_model",
+    "example_id": 1
+  }
+--&gt;
+</code></pre>
+    <pre><code>&lt;!--describe_model { &quot;type&quot;: &quot;dsl_command&quot;, &quot;id&quot;: 1, &quot;name&quot;: &quot;describe_model&quot;, &quot;example_id&quot;: 1 } --&gt;
 </code></pre>
     <p><em>Note: you can write these JSON object inline as well to be more concise.</em></p>
     <p>As you can see, all that is required is a JSON object inside the comment that defines your data. The <code>describe_model</code> part of the comment is a DSL commant that tells MarkdownRecord how to process the comment, and in this case it will take your JSON object and include it in its final output and/or make it available via the provided routes and controllers. If this part is missing or unrecognized, then the comment will be treated as a plain HTML comment and nothing will be done with its contents.</p>

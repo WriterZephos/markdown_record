@@ -2,7 +2,7 @@ module MarkdownRecord
   module ContentDsl
     module RenderStrategy
       REGEX = /<!--\s*render_strategy\s*:\s*(.*)\s*-->/
-      ENCODED_REGEX = /&lt;!--\s*render_strategy\s*:\s*(.*)\s*--&gt;/
+      ENCODED_REGEX = /(?<!<code>|<code class="html">)&lt;!--\s*render_strategy\s*:\s*(.*)\s*--&gt;(?!<\/code>)/
 
       def render_strategy_dsl(text)
         match = text.match(REGEX)

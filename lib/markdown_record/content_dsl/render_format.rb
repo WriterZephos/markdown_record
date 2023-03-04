@@ -2,7 +2,7 @@ module MarkdownRecord
   module ContentDsl
     module RenderFormat
       REGEX = /<!--\s*render_format\s*:\s*(.*)\s*-->/
-      ENCODED_REGEX = /&lt;!--\s*render_format\s*:\s*(.*)\s*--&gt;/
+      ENCODED_REGEX = /(?<!<code>|<code class="html">)&lt;!--\s*render_format\s*:\s*(.*)\s*--&gt;(?!<\/code>)/
 
       def render_format_dsl(text)
         match = text.match(REGEX)

@@ -122,10 +122,10 @@ module MarkdownRecord
     end
 
     def add_content_fragment_for_file(json, full_path)
-      content_fragment = fragment_attributes_path(full_path).merge("meta" => @fragment_meta)
+      content_fragment = fragment_attributes_from_path(full_path).merge("meta" => @fragment_meta)
 
-      json["MarkdownRecord::ContentFragment"] ||= []
-      json["MarkdownRecord::ContentFragment"] << content_fragment
+      json["markdown_record/content_fragment"] ||= []
+      json["markdown_record/content_fragment"] << content_fragment
     end
 
     def concatenate_json_recursively(directory_hash, concatenated_json)
@@ -142,10 +142,9 @@ module MarkdownRecord
 
     def save_content_recursively(content, options, subdirectory = "")
       if content&.values&.first.is_a?(Array)
-        fragments = content.slice("MarkdownRecord::ContentFragment")
-        non_fragments = content.except("MarkdownRecord::ContentFragment")
+        fragments = content.slice("markdown_record/content_fragment")
+        non_fragments = content.except("markdown_record/content_fragment")
         path = clean_path(subdirectory)
-        binding.pry
         @file_saver.save_to_file(non_fragments.to_json, "#{path}.json", options)
         @file_saver.save_to_file(fragments.to_json, "#{path}.json", options, true)
       else

@@ -20,7 +20,6 @@ module MarkdownRecord
              end
 
       json = json_source(path, subdirectory || "")
-      
       json.delete(::MarkdownRecord::ContentFragment.json_klass) if filters.delete(:exclude_fragments)
       json = filters[:klass].present? ? json[filters.delete(:klass).json_klass] : json.values.flatten
       json ||= []
