@@ -6,7 +6,7 @@ RSpec.describe ::RenderFile do
   let(:options){
     {
       :file_path => "part_1/chapter_1/content.md",
-      :layout => ::MarkdownRecord.config.html_layout_path,
+      :layout => ::MarkdownRecord.config.concatenated_layout_path,
       :save => false
     }
   }
@@ -38,7 +38,7 @@ RSpec.describe ::RenderFile do
     let(:terminal_output){
       <<~eos
       ---------------------------------------------------------------
-      rendering html content with options {:save=>false, :layout=>"_markdown_record_layout.html.erb"} ...
+      rendering html content with options {:save=>false, :layout=>"_concatenated_layout.html.erb"} ...
       ---------------------------------------------------------------
       rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
       ---------------------------------------------------------------
@@ -57,7 +57,7 @@ RSpec.describe ::RenderFile do
     let(:terminal_output){
       <<~eos
       ---------------------------------------------------------------
-      rendering json content with options {:save=>false, :layout=>"_markdown_record_layout.html.erb"} ...
+      rendering json content with options {:save=>false, :layout=>"_concatenated_layout.html.erb"} ...
       ---------------------------------------------------------------
       rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
       ---------------------------------------------------------------
@@ -76,7 +76,7 @@ RSpec.describe ::RenderFile do
     let(:terminal_output){
       <<~eos
       ---------------------------------------------------------------
-      rendering html and json content with options {:save=>false, :layout=>"_markdown_record_layout.html.erb"} ...
+      rendering html and json content with options {:save=>false, :layout=>"_concatenated_layout.html.erb"} ...
       ---------------------------------------------------------------
       rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
       rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
@@ -96,7 +96,7 @@ RSpec.describe ::RenderFile do
     let(:options){
       {
         :file_path => "part_1/chapter_1/content.md",
-        :layout => ::MarkdownRecord.config.html_layout_path,
+        :layout => ::MarkdownRecord.config.concatenated_layout_path,
         :save => true
       }
     }
@@ -105,7 +105,7 @@ RSpec.describe ::RenderFile do
       let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering html content with options {:save=>true, :layout=>"_markdown_record_layout.html.erb"} ...
+        rendering html content with options {:save=>true, :layout=>"_concatenated_layout.html.erb"} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
         ---------------------------------------------------------------
@@ -124,7 +124,7 @@ RSpec.describe ::RenderFile do
       let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering json content with options {:save=>true, :layout=>"_markdown_record_layout.html.erb"} ...
+        rendering json content with options {:save=>true, :layout=>"_concatenated_layout.html.erb"} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
         ---------------------------------------------------------------
@@ -143,7 +143,7 @@ RSpec.describe ::RenderFile do
       let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering html and json content with options {:save=>true, :layout=>"_markdown_record_layout.html.erb"} ...
+        rendering html and json content with options {:save=>true, :layout=>"_concatenated_layout.html.erb"} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
         rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html

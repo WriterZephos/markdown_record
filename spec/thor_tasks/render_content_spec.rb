@@ -4,7 +4,7 @@ RSpec.describe ::RenderContent do
   let(:options){
     {
       :subdirectory => "",
-      :layout => ::MarkdownRecord.config.html_layout_path,
+      :layout => ::MarkdownRecord.config.concatenated_layout_path,
       :save => false
     }
   }
@@ -60,7 +60,7 @@ RSpec.describe ::RenderContent do
     let(:terminal_output){
       <<~eos
       ---------------------------------------------------------------
-      rendering html content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
+      rendering html content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
       ---------------------------------------------------------------
       rendered: /markdown_record/rendered/content.html
       rendered: /markdown_record/rendered/content/part_1.html
@@ -85,7 +85,7 @@ RSpec.describe ::RenderContent do
     let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
+        rendering json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content_fragments.json
         rendered: /markdown_record/rendered/content.json
@@ -118,7 +118,7 @@ RSpec.describe ::RenderContent do
     let(:terminal_output){
       <<~eos
       ---------------------------------------------------------------
-      rendering html and json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
+      rendering html and json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
       ---------------------------------------------------------------
       rendered: /markdown_record/rendered/content_fragments.json
       rendered: /markdown_record/rendered/content.json
@@ -157,7 +157,7 @@ RSpec.describe ::RenderContent do
     let(:options){
       {
         :subdirectory => "part_1",
-        :layout => ::MarkdownRecord.config.html_layout_path,
+        :layout => ::MarkdownRecord.config.concatenated_layout_path,
         :save => false
       }
     }
@@ -166,7 +166,7 @@ RSpec.describe ::RenderContent do
       let(:terminal_output){
         <<~eos
           ---------------------------------------------------------------
-          rendering html content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
+          rendering html content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
           ---------------------------------------------------------------
           rendered: /markdown_record/rendered/content/part_1.html
           rendered: /markdown_record/rendered/content/part_1/chapter_2.html
@@ -189,7 +189,7 @@ RSpec.describe ::RenderContent do
       let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
+        rendering json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content/part_1_fragments.json
         rendered: /markdown_record/rendered/content/part_1.json
@@ -217,7 +217,7 @@ RSpec.describe ::RenderContent do
       let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering html and json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
+        rendering html and json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content/part_1_fragments.json
         rendered: /markdown_record/rendered/content/part_1.json
@@ -251,7 +251,7 @@ RSpec.describe ::RenderContent do
     let(:options){
       {
         :subdirectory => "",
-        :layout => ::MarkdownRecord.config.html_layout_path,
+        :layout => ::MarkdownRecord.config.concatenated_layout_path,
         :save => true
       }
     }
@@ -260,7 +260,7 @@ RSpec.describe ::RenderContent do
       let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering html content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
+        rendering html content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content.html
         rendered: /markdown_record/rendered/content/part_1.html
@@ -285,7 +285,7 @@ RSpec.describe ::RenderContent do
       let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
+        rendering json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content_fragments.json
         rendered: /markdown_record/rendered/content.json
@@ -317,7 +317,7 @@ RSpec.describe ::RenderContent do
       let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering html and json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
+        rendering html and json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content_fragments.json
         rendered: /markdown_record/rendered/content.json
@@ -473,7 +473,7 @@ RSpec.describe ::RenderContent do
     let(:options){
       {
         :subdirectory => "",
-        :layout => ::MarkdownRecord.config.html_layout_path,
+        :layout => ::MarkdownRecord.config.concatenated_layout_path,
         :save => true,
         :strat => :directory
       }
@@ -483,7 +483,7 @@ RSpec.describe ::RenderContent do
       let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering html and json content with options {:concat=>true, :deep=>false, :save=>true, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
+        rendering html and json content with options {:concat=>true, :deep=>false, :save=>true, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content_fragments.json
         rendered: /markdown_record/rendered/content.json
@@ -523,7 +523,7 @@ RSpec.describe ::RenderContent do
     let(:options){
       {
         :subdirectory => "",
-        :layout => ::MarkdownRecord.config.html_layout_path,
+        :layout => ::MarkdownRecord.config.concatenated_layout_path,
         :save => true,
         :strat => :file
       }
@@ -533,7 +533,7 @@ RSpec.describe ::RenderContent do
       let(:terminal_output){
         <<~eos
         ---------------------------------------------------------------
-        rendering html and json content with options {:concat=>false, :deep=>true, :save=>true, :layout=>"_markdown_record_layout.html.erb", :render_content_fragment_json=>true} ...
+        rendering html and json content with options {:concat=>false, :deep=>true, :save=>true, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
         ---------------------------------------------------------------
         rendered: /markdown_record/rendered/content/part_1/chapter_2/content_fragments.json
         rendered: /markdown_record/rendered/content/part_1/chapter_2/content.json

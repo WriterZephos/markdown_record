@@ -1,0 +1,16 @@
+<style>
+  body{
+    background-color: black;
+  }
+
+  .concatenated {
+    background-color: #3d3d5c;
+    padding: 10px;
+  }
+</style>
+
+
+<div class="concatenated">
+  <%= raw(html) %>
+  <%= raw("<!--#{subdirectory}/#{filename}-->") %>
+</div>

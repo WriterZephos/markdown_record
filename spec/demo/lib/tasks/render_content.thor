@@ -4,7 +4,7 @@ class RenderContent < Thor
   include MarkdownRecord::Rendering
   
   class_option :subdirectory, required: false, type: :string, aliases: :d, default: ""
-  class_option :layout, required: false, type: :string, aliases: :l, default: ::MarkdownRecord.config.html_layout_path
+  class_option :layout, required: false, type: :string, aliases: :l, default: ::MarkdownRecord.config.concatenated_layout_path
   class_option :save, type: :boolean, aliases: :s, default: false
   class_option :strat, type: :string, aliases: :r
   class_option :frag, type: :boolean, aliases: :f

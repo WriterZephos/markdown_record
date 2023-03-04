@@ -197,7 +197,8 @@ $ rails g markdown_record
 
 The above command will install the engine, resulting in the following output and changes to your application:
 ```bash
-create  markdown_record/layouts/_markdown_record_layout.html.erb
+create  markdown_record/layouts/_concatenated_layout.html.erb
+create  markdown_record/layouts/_file_layout.html.erb
 create  markdown_record/layouts/_custom_layout.html.erb
 create  markdown_record/content
 create  markdown_record/rendered

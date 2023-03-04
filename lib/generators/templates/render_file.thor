@@ -5,7 +5,7 @@ class RenderFile < Thor
   include MarkdownRecord::Rendering
 
   class_option :file_path, required: false, type: :string, aliases: :f
-  class_option :layout, required: false, type: :string, aliases: :l, default: ::MarkdownRecord.config.html_layout_path
+  class_option :layout, required: false, type: :string, aliases: :l, default: ::MarkdownRecord.config.concatenated_layout_path
   class_option :save, type: :boolean, aliases: :s, default: false
 
   desc "html", "renders html content"

@@ -17,5 +17,9 @@ module MarkdownRecord
     def fragment_id
       Pathname.new(subdirectory).join(filename).to_s
     end
+
+    def self.json_klass
+      name.underscore
+    end
   end
 end

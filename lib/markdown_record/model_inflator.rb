@@ -18,11 +18,11 @@ module MarkdownRecord
               file_path = "#{file_path}_fragments" if filters[:klass] == ::MarkdownRecord::ContentFragment
               "#{base_rendered_path}/#{file_path}.json"
              end
-      
+
       json = json_source(path, subdirectory || "")
       
-      json.delete(::MarkdownRecord::ContentFragment.name) if filters.delete(:exclude_fragments)
-      json = filters[:klass].present? ? json[filters.delete(:klass).name] : json.values.flatten
+      json.delete(::MarkdownRecord::ContentFragment.json_klass) if filters.delete(:exclude_fragments)
+      json = filters[:klass].present? ? json[filters.delete(:klass).json_klass] : json.values.flatten
       json ||= []
 
       filtered_models = json.select do |model|
@@ -30,7 +30,7 @@ module MarkdownRecord
       end
 
       filtered_models.map do |model|
-        model["type"].safe_constantize&.new(model)
+        model["type"].camelize.safe_constantize&.new(model)
       end
     end
 

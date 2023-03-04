@@ -15,15 +15,9 @@ The three subdirectories are `api_docs`, `blog` and `table_top_game` which each 
 ## Table Top Game
 
 
-<!--describe_model
-  {
-    "type": "example",
-    "id":   1,
-    "name": "api_docs"
-  }
--->
 
-<!--describe_model
+
+<!---describe_model
   {
     "type": "example",
     "id":   2,
@@ -31,7 +25,7 @@ The three subdirectories are `api_docs`, `blog` and `table_top_game` which each 
   }
 -->
 
-<!--describe_model
+<!---describe_model
   {
     "type": "example",
     "id":   3,

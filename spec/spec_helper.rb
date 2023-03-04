@@ -34,7 +34,7 @@ RSpec.configure do |config|
 
   render_options = {
     :subdirectory => "",
-    :layout => ::MarkdownRecord.config.html_layout_path,
+    :layout => ::MarkdownRecord.config.concatenated_layout_path,
     :save => true,
     :strat => :full
   }

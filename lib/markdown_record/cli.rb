@@ -43,7 +43,8 @@ module MarkdownRecord
       # Remove generated content and installed files
       FileUtils.remove_dir("spec/dummy/markdown_record/rendered", true)
       FileUtils.remove_dir("spec/dummy/markdown_record/content", true)
-      FileUtils.remove_entry("spec/dummy/markdown_record/layouts/_markdown_record_layout.html.erb", true)
+      FileUtils.remove_entry("spec/dummy/markdown_record/layouts/_concatenated_layout.html.erb", true)
+      FileUtils.remove_entry("spec/dummy/markdown_record/layouts/_file_layout.html.erb", true)
       FileUtils.remove_entry("spec/dummy/lib/tasks/render_content.thor", true)
       FileUtils.remove_entry("spec/dummy/lib/tasks/render_file.thor", true)
       FileUtils.remove_entry("spec/dummy/config/initializers/markdown_record.rb", true)

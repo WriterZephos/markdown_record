@@ -1,0 +1,36 @@
+<style>
+  body{
+    background-color: black;
+  }
+
+  pre{
+    border: 1px solid #f0f0f5;
+    border-radius: 5px;
+    background-color: black;
+    padding: 10px;
+  }
+
+  code{
+    color: #ffcc00;
+  }
+
+  h1{
+    color: #85a3e0;
+  }
+
+  h2{
+    color: #c2d1f0;
+  }
+
+  .file {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    color: #f0f0f5;
+  }
+</style>
+
+<div class="file">
+  <%= raw(html) %>
+  <%= raw("<!--#{subdirectory}/#{filename}-->") %>
+</div>

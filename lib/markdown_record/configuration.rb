@@ -4,8 +4,9 @@ module MarkdownRecord
 
     attr_accessor :content_root
     attr_accessor :rendered_content_root
-    attr_accessor :html_layout_directory
-    attr_accessor :html_layout_path
+    attr_accessor :layout_directory
+    attr_accessor :concatenated_layout_path
+    attr_accessor :file_layout_path
     attr_accessor :markdown_extensions
     attr_accessor :indexer_class
     attr_accessor :html_render_options
@@ -27,14 +28,15 @@ module MarkdownRecord
       @indexer_class = ::MarkdownRecord::Indexer
       @html_renderer_class = ::Redcarpet::Render::HTML
       @html_render_options = {}
-      @html_layout_directory = Rails.root.join("markdown_record","layouts")
-      @markdown_extensions = { :fenced_code_blocks => true, :disable_indented_code_blocks => true}
-      @html_layout_path = "_markdown_record_layout.html.erb"
+      @layout_directory = Rails.root.join("markdown_record","layouts")
+      @markdown_extensions = { :fenced_code_blocks => true, :disable_indented_code_blocks => true, :no_intra_emphasis => true}
+      @concatenated_layout_path = "_concatenated_layout.html.erb"
+      @file_layout_path = "_file_layout.html.erb"
       @public_layout = "layouts/application"
       @render_strategy = :full
       @html_routes = [:show]
-      @json_routes = [:show, :download]
-      @content_routes = [:show, :download]
+      @json_routes = [:show]
+      @content_routes = [:show]
       @mount_path = "mdr"
       @render_content_fragment_json = true
       @render_controller = nil

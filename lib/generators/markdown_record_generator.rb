@@ -5,8 +5,9 @@ class MarkdownRecordGenerator < Rails::Generators::Base
   source_root File.expand_path("templates", __dir__)
 
   desc "This generator creates the default directories required for markdown_record and copies the default layout into the default location."
-  def copy_markdown_record_layout
-    copy_file "_markdown_record_layout.html.erb", "markdown_record/layouts/_markdown_record_layout.html.erb"
+  def copy_layouts
+    copy_file "_concatenated_layout.html.erb", "markdown_record/layouts/_concatenated_layout.html.erb"
+    copy_file "_file_layout.html.erb", "markdown_record/layouts/_file_layout.html.erb"
     copy_file "_custom_layout.html.erb", "markdown_record/layouts/_custom_layout.html.erb"
   end
 
