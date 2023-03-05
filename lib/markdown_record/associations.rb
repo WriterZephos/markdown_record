@@ -71,6 +71,18 @@ module MarkdownRecord
       self.class.new_association.fragments.find(subdirectory)
     end
 
+    def parent_fragments
+      parents = []
+      parent = parent_fragment
+
+      while parent
+        parents << parent
+        parent = parent.parent_fragment
+      end
+
+      parents.reverse
+    end
+
     def child_fragments(filters = {})
       sub_start = "#{subdirectory}/".delete_prefix("/")
       self.class.new_association(filters.merge({:subdirectory => Regexp.new("#{sub_start}[\\S|\\w]+"), :__not__ => { :id => fragment_id }})).fragments

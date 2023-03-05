@@ -1,7 +1,7 @@
 module MarkdownRecord
   module ContentDsl
     module EndDescribeModel
-      REGEX = /<!--\s*end_describe_model\s*-->/
+      REGEX = /(?<!`|`\n|`html\n)<!--\s*end_describe_model\s*-->(?!`|\n`)/
       ENCODED_REGEX = /(?<!<code>|<code class="html">)&lt;!--\s*end_describe_model\s*--&gt;(?!<\/code>)/
 
       def end_describe_model_dsl(text)

@@ -1,0 +1,121 @@
+<style>
+  body{
+    background-color: black;
+    padding: 10px;
+  }
+  code{
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    white-space: break-spaces;
+    background-color: rgb(110 118 129 / 40%);
+    border-radius: 6px;
+  }
+  pre{
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    color: #c9d1d9;
+    background-color: #161b22;
+    border-radius: 6px;
+    font-family: andale mono, monaco, monospace;
+    word-wrap: normal;
+  }
+  pre code{
+    color: inherit;
+    background-color: inherit;
+    font-family: inherit;
+    padding: 0px;
+    margin: 0;
+    font-size: inherit;
+    white-space: inherit;
+    background-color: inherit;
+    border-radius: 0px;
+  }
+  h1{
+    color: #c9d1d9;
+  }
+  h2{
+    color: #c9d1d9;
+  }
+  a{
+    color: #33ffcc;
+  }
+  .container {
+    margin-bottom: 10px;
+    padding: 10px;
+    color: #c9d1d9;
+    background-color: #0d1117;
+    font-family: trebuchet ms;
+    font-size: 16px;
+  }
+  .rendered_at{
+    font-size: 12px;
+  }
+  .navigation ul{
+    padding: 0px;
+  }
+  .navigation li{
+    display: inline;
+  }
+</style>
+<div class="container">
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/html/content">content</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/html/content/2_api_docs">2_api_docs</a></li>
+    </ul>
+  </div>
+  <style>
+    .file {
+      padding: 10px;
+      border: 1px solid #cc4400;
+      margin-bottom: 10px;
+    }
+  </style>
+  <div class="file">
+    <h2>Routes</h2>
+    <p>If you are reading this document in a browser by rendering it from your application, then you will have already ran the Thor command necessary to render the demo content as HTML and JSON. You can also see the HTML and JSON files in the <code>rendered</code> directory. In fact, the content you are viewing right now as you read this is one of those files, served to you via the built in routes that come with MarkdownRecord.</p>
+    <p>All of the following routes should now resolve successfully:</p>
+    <ul>
+      <li><code>&lt;application root path&gt;/mdr/html/&lt;content_path&gt;</code></li>
+      <li><code>&lt;application root path&gt;/mdr/json/&lt;content_path&gt;</code></li>
+      <li><code>&lt;application root path&gt;/&lt;content_path&gt;</code></li>
+    </ul>
+    <p><code>content_path</code> in the above routes is the path to a rendered file or directory (relative to the <code>rendered</code> folder). When you navigate to a path that points to a directory, you will see the concatenated contens of everything that is in that directory.</p>
+    <p>The <code>html</code> routes only return HTML, while the <code>json</code> routes only return JSON. The generic route returns either HTML or JSON depending on the ACCEPT header of your request or the extension of the url you are accessing (for example, appending <code>.json</code> at the end of the current url will load all the JSON models defined in this this document&#39;s markdown source files using the Content DSL commands described above).</p>
+    <p>In addition to the above routes, routes for downloading content are provided as well. They are:</p>
+    <ul>
+      <li><code>&lt;application root path&gt;/mdr/html/download/&lt;content_path&gt;</code></li>
+      <li><code>&lt;application root path&gt;/mdr/json/download/&lt;content_path&gt;</code></li>
+      <li><code>&lt;application root path&gt;/download/&lt;content_path&gt;</code></li>
+    </ul>
+    <p>The download routes are not enabled by default, but can be enabled if you want to be able to download your rendered content.</p>
+    <p>Here is a complete list of links to all the rendered HTML files of this demo, all of which use the routes described above:</p>
+    - <a href="/mdr/html/content/1_home">content/1_home</a><br>
+    - <a href="/mdr/html/content/2_api_docs/1_overview">content/2_api_docs/1_overview</a><br>
+    - <a href="/mdr/html/content/2_api_docs/2_content_dsl">content/2_api_docs/2_content_dsl</a><br>
+    - <a href="/mdr/html/content/2_api_docs/3_routes">content/2_api_docs/3_routes</a><br>
+    - <a href="/mdr/html/content/2_api_docs/4_real_world_applications">content/2_api_docs/4_real_world_applications</a><br>
+    - <a href="/mdr/html/content/2_api_docs">content/2_api_docs</a><br>
+    - <a href="/mdr/html/content/3_blog">content/3_blog</a><br>
+    - <a href="/mdr/html/content/4_table_top_rpg">content/4_table_top_rpg</a><br>
+    - <a href="/mdr/html/content/5_installation">content/5_installation</a><br>
+    - <a href="/mdr/html/content">content</a><br>
+    <p>Some of the above routes are the rendered versions of individual files, and some are the concatenated and rendered contents of an entire directory. Each of these routes will also return JSON if you add the <code>.json</code> extension.</p>
+    <!--content/2_api_docs/3_routes-->
+    <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/html/content/2_api_docs/3_routes">content/2_api_docs/3_routes</a></em></p>
+  </div>
+  <!--content/2_api_docs/3_routes-->
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/html/content">content</a>
+        <span class="breadcrumb_divider">/</span>
+        <li><a href="/mdr/html/content/2_api_docs">2_api_docs</a>
+        </ul>
+      </div>
+    </div>

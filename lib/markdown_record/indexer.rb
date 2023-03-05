@@ -20,7 +20,7 @@ module MarkdownRecord
 
     def recursive_index(parent_dir_path, index)
       parent_root = Dir.new(parent_dir_path)
-      parent_root.each_child do |child|
+      parent_root.children.sort.each do |child|
         pathname = Pathname.new("#{parent_dir_path}/#{child}")
         if pathname.directory?
           index[child] = {}

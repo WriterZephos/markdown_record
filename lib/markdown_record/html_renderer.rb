@@ -18,7 +18,9 @@ module MarkdownRecord
     def render_html_for_subdirectory(subdirectory: "", **options)
       unless options.key?(:concat_layout) && options[:concat_layout].nil?
         concatenated_layout_path = options[:concat_layout] || ::MarkdownRecord.config.concatenated_layout_path
+        global_layout_path = options[:concat_layout] || ::MarkdownRecord.config.global_layout_path
         @concatenated_layout = File.read(::MarkdownRecord.config.layout_directory.join(concatenated_layout_path))
+        @global_layout = File.read(::MarkdownRecord.config.layout_directory.join(global_layout_path))
       end
 
       unless options.key?(:file_layout) && options[:file_layout].nil?
@@ -34,6 +36,7 @@ module MarkdownRecord
 
       save_content_recursively(processed_html, options)
       { :html_content => processed_html, :saved_files => @file_saver.saved_files }
+      nil
     end
 
     def render_html_for_file(file_path:, **options)
@@ -46,8 +49,9 @@ module MarkdownRecord
       unless file.nil?
         html = @markdown.render(file)
         processed_html = process_html(html, file_path, @file_layout)
-        @file_saver.save_to_file(processed_html, "#{clean_path(file_path)}.html", options)
-        processed_html
+        finalized_html = finalize_html(processed_html, file_path)
+        @file_saver.save_to_file(finalized_html, "#{clean_path(file_path)}.html", options)
+        finalized_html
       end
     end
 
@@ -100,15 +104,12 @@ module MarkdownRecord
     end
 
     def process_html(html, full_path, layout = nil)
-      return nil if html.empty?
       processed_html = html.gsub(/<p>(\&lt;%(\S|\s)*%\&gt;)<\/p>/){ CGI.unescapeHTML($1) }
       processed_html = processed_html.gsub(/(\&lt;%(\S|\s)*%\&gt;)/){ CGI.unescapeHTML($1) }
       layout = custom_layout(html) || layout
       locals = erb_locals_from_path(full_path)
       processed_html = render_erb(processed_html, locals)
       processed_html = render_erb(layout, locals.merge(html: processed_html)) if layout
-      processed_html = processed_html.squeeze("\n")
-      processed_html = HtmlBeautifier.beautify(processed_html)
       processed_html
     end
 
@@ -124,14 +125,8 @@ module MarkdownRecord
     def concatenate_html_recursively(content, html)
       case content.class.name
       when Hash.name
-        top_level_content = content.select { |k, v| !k.include?(".concat") && v.is_a?(String) }
-        top_level_content.each do |k, v|
-          concatenate_html_recursively(v, html)
-        end
-
-        nested_content = content.select { |k, v| v.is_a?(Hash) }
-        nested_content.to_h.each do |k, v|
-          concatenate_html_recursively(v, html)
+        content.each do |k, v|
+          concatenate_html_recursively(v, html) if !k.include?(".concat")
         end
       when String.name
         html << content
@@ -146,15 +141,28 @@ module MarkdownRecord
       File.read(::MarkdownRecord.config.layout_directory.join(layout))
     end
 
-    def save_content_recursively(content, options, subdirectory = "")
+    def global_layout
+      File.read(::MarkdownRecord.config.layout_directory.join(layout))
+    end
+
+    def finalize_html(html, full_path)
+      locals = erb_locals_from_path(full_path)
+      final_html = html
+      final_html = render_erb(@global_layout, locals.merge(html: final_html)) if @global_layout
+      final_html = final_html.squeeze("\n")
+      final_html = HtmlBeautifier.beautify(final_html)
+      final_html
+    end
+
+    def save_content_recursively(content, options, subdirectory = "", full_path = "")
       case content.class.name
       when Hash.name
         content.each do |key, value|
           child_path = Pathname.new(subdirectory).join(key)
-          save_content_recursively(value, options, child_path)
+          save_content_recursively(value, options, child_path, "#{subdirectory}/#{key}")
         end
       when String.name
-        @file_saver.save_to_file(content, "#{clean_path(subdirectory)}.html", options)
+        @file_saver.save_to_file(finalize_html(content, full_path), "#{clean_path(subdirectory)}.html", options)
       end
     end
   end

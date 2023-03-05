@@ -1,0 +1,3 @@
+## Real World application
+
+Hopefully you can see the utility in MarkdownRecord's Content DSL and how easy it makes writing documentation of any kind and having it immediately queryable. This example is a bit contrived, since there's little need to query JSON objects representing the various Content DSL commands of MarkdownRecord, but other use cases could benefit greatly from defining such data right alongside your documentation.

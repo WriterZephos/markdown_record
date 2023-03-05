@@ -1,7 +1,7 @@
 module MarkdownRecord
   module ContentDsl
     module DescribeModelAttribute
-      REGEX = /<!--\s*describe_model_attribute\s*:\s*(\w+)\s*(?::((?:html|md|int|float|string)?))?-->/
+      REGEX = /(?<!`|`\n|`html\n)<!--\s*describe_model_attribute\s*:\s*(\w+)\s*(?::((?:html|md|int|float|string)?))?-->(?!`|\n`)/
       ENCODED_REGEX = /(?<!<code>|<code class="html">)&lt;!--\s*describe_model_attribute\s*:\s*(\w+)\s*(?::((?:html|md|int|float|string)?))?--&gt;(?!<\/code>)/
 
       def describe_model_attribute_dsl(text)

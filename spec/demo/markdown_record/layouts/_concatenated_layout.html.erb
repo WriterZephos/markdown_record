@@ -1,16 +1,12 @@
 <style>
-  body{
-    background-color: black;
-  }
-
-  .concatenated {
-    background-color: #3d3d5c;
+  .concatenated{
+    border: 1px solid #a5d6ff;
     padding: 10px;
   }
 </style>
 
-
 <div class="concatenated">
   <%= raw(html) %>
   <%= raw("<!--#{subdirectory}/#{filename}-->") %>
+  <p class="rendered_at"><em>The above content was rendered from source files at: <%= link_to_markdown_record_html(fragment, fragment.id) %></em></p>
 </div>

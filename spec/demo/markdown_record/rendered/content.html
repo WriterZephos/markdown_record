@@ -1,150 +1,315 @@
 <style>
   body{
     background-color: black;
-  }
-  .concatenated {
-    background-color: #3d3d5c;
     padding: 10px;
   }
+  code{
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    white-space: break-spaces;
+    background-color: rgb(110 118 129 / 40%);
+    border-radius: 6px;
+  }
+  pre{
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    color: #c9d1d9;
+    background-color: #161b22;
+    border-radius: 6px;
+    font-family: andale mono, monaco, monospace;
+    word-wrap: normal;
+  }
+  pre code{
+    color: inherit;
+    background-color: inherit;
+    font-family: inherit;
+    padding: 0px;
+    margin: 0;
+    font-size: inherit;
+    white-space: inherit;
+    background-color: inherit;
+    border-radius: 0px;
+  }
+  h1{
+    color: #c9d1d9;
+  }
+  h2{
+    color: #c9d1d9;
+  }
+  a{
+    color: #33ffcc;
+  }
+  .container {
+    margin-bottom: 10px;
+    padding: 10px;
+    color: #c9d1d9;
+    background-color: #0d1117;
+    font-family: trebuchet ms;
+    font-size: 16px;
+  }
+  .rendered_at{
+    font-size: 12px;
+  }
+  .navigation ul{
+    padding: 0px;
+  }
+  .navigation li{
+    display: inline;
+  }
 </style>
-<div class="concatenated">
+<div class="container">
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+    </ul>
+  </div>
   <style>
-    body{
-      background-color: black;
-    }
-    pre{
-      border: 1px solid #f0f0f5;
-      border-radius: 5px;
-      background-color: black;
+    .concatenated{
+      border: 1px solid #a5d6ff;
       padding: 10px;
-    }
-    code{
-      color: #ffcc00;
-    }
-    h1{
-      color: #85a3e0;
-    }
-    h2{
-      color: #c2d1f0;
-    }
-    .file {
-      margin-bottom: 10px;
-      padding: 10px;
-      border: 1px solid black;
-      color: #f0f0f5;
     }
   </style>
-  <div class="file">
-    <h1>MarkdownRecord</h1>
-    <p>Welcome to MarkdownRecord! This document will walk you through the many powerful features of MarkdownRecord. After installing the engine you should have this document as well as three other subdirectories in your <code>markdown_record/content</code> directory within your application root.</p>
-    <p>The three subdirectories are <code>api_docs</code>, <code>blog</code> and <code>table_top_game</code> which each contain an example use case for MarkdownRecord and demonstrate different features. The features the each example demonstrates are listed below.</p>
-    <h2>API Docs</h2>
-    <p>This example shows how you can write API documentation and define data to be queried about the API interface of an application, all in one place, without having to do anything outside your markdown files.</p>
-    <ul>
-      <li></li>
-    </ul>
+  <div class="concatenated">
+    <style>
+      .file {
+        padding: 10px;
+        border: 1px solid #cc4400;
+        margin-bottom: 10px;
+      }
+    </style>
+    <div class="file">
+      <!--fragment
+{
+  "name": "Home",
+  "author": "Bryant Morrill"
+}
+-->
+      <h1>MarkdownRecord</h1>
+      <p>Welcome to MarkdownRecord!</p>
+      <p>This document will walk you through the many powerful features of MarkdownRecord, and is created with MarkdownRecord itself. Hopefully, you are rendering this page locally from your own application, and will be able to get a peak under the hood to see how it all works by looking directly at the source markdown files.</p>
+      <p>If you haven&#39;t installed it locally yet, you can find instructions <a href="/mdr/html/content/5_installation">here</a>.</p>
+      <h2>The Basics</h2>
+      <p>After following the installation guide, you should see a <code>markdown_record</code> folder inside your application root. This folder contains three subdirectories: <code>content</code>, <code>layouts</code> and <code>rendered</code>.</p>
+      <ul>
+        <li><code>content</code> is where all your original source files will go. When you write a new markdown file, it will live in here.</li>
+        <li><code>layouts</code> is where the layouts used when rendering your markdown source files to HTML should go. This folder should already have a some layouts that you can customize to your liking.</li>
+        <li><code>rendered</code> is where all the rendered JSON and HTML files go. You should never have to edit any of the files in here. However, you may want to delete this folder and re-render everything (the folder will be generated again) at certain times, such as when you delete a source file and want to remove the corresponding rendered files and data from your application.</li>
+      </ul>
+      <p>Feel free to poke around and explore the files in directories mentioned above as you go through this guide. They will serve as a great reference to help make the things described here make sense.</p>
+      <p>The rest of this guide goes over a few different contrived examples to demonstrate MarkdownRecord&#39;s features. Each example is described below with links to its section of this guide.</p>
+      <h2>API Docs</h2>
+      <p>This example demonstrates how to write markdown content and define related to it all in one place, then render that content and query that data without having to do anything outside your markdown files. In fact, the documentation you are reading serves as the example itself, as it is written using MarkdownRecord.</p>
+      <a href="/mdr/html/content/2_api_docs">API Docs Example</a></p>
     <h2>Blog</h2>
+    <p>This example demonstrates how to use <code>::MarkdownRecord::ContentFragment</code> models in your application code and expands upon the rendering process as well as the view helpers and ERB syntax support provided by MarkdownRecord for use in your markdown source files.</p>
+    <p><a href="/mdr/html/content/3_blog">Blog Example</a></p>
     <h2>Table Top Game</h2>
-    <!---describe_model
+    <p>This example demonstrates how to use your own custom MarkdownRecord models in your application code, populated by the data you define inside your markdown source files, to do lots of powerful things similar to ActiveRecord. It will go over defining associations, querying, and more!</p>
+    <p><a href="/mdr/html/content/4_table_top_rpg">Table Top Game Example</a>
+      <!---describe_model
   {
     "type": "example",
     "id":   2,
     "name": "blog"
   }
 -->
-    <!---describe_model
+      <!---describe_model
   {
     "type": "example",
     "id":   3,
     "name": "table_top_rpg"
   }
 -->
-    <!--content/home-->
-  </div>
-  <style>
-    body{
-      background-color: black;
-    }
-    pre{
-      border: 1px solid #f0f0f5;
-      border-radius: 5px;
-      background-color: black;
-      padding: 10px;
-    }
-    code{
-      color: #ffcc00;
-    }
-    h1{
-      color: #85a3e0;
-    }
-    h2{
-      color: #c2d1f0;
-    }
-    .file {
-      margin-bottom: 10px;
-      padding: 10px;
-      border: 1px solid black;
-      color: #f0f0f5;
-    }
-  </style>
-  <div class="file">
-    <h1>API Docs</h1>
-    <p>This document describes the routes and controllers provided automatically by MarkdownRecord and provides an example of how to use its Content DSL to define application data right alongside your written markdown content.</p>
-    <h2>Content DSL</h2>
-    <p>While writing documentation for your API (or any other software, such as this Rails engine), you can define json data using HTML comments which will then be made available to you within your application code (if you define matching models), or directly served via the routes and controllers that with MarkdownRecord.</p>
-    <p>To do this, simply write an HTML comment like this in your markdown files:</p>
-    <pre><code class="html">&lt;!--describe_model
+      <!--content/1_home-->
+      <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/html/content/1_home">content/1_home</a></em></p>
+    </div>
+    <style>
+      .file {
+        padding: 10px;
+        border: 1px solid #cc4400;
+        margin-bottom: 10px;
+      }
+    </style>
+    <div class="file">
+      <!--fragment
+{
+  "author": "Bryant Morrill"
+}
+-->
+      <!---describe_model
   {
-    "type": "dsl_command",
-    "id":   1,
-    "name": "describe_model",
-    "example_id": 1
+    "type": "markdown_record/demo/example",
+    "id":   2,
+    "name": "API Docs"
   }
+-->
+      <h1>API Docs</h1>
+      <p>This document describes the Content DSL MarkdownRecord provides to allow you to define application data right alongside your written markdown content as well as the routes it provides to let you render your written content as HTML or your application data as JSON.</p>
+      <!--content/2_api_docs/1_overview-->
+      <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/html/content/2_api_docs/1_overview">content/2_api_docs/1_overview</a></em></p>
+    </div>
+    <style>
+      .file {
+        padding: 10px;
+        border: 1px solid #cc4400;
+        margin-bottom: 10px;
+      }
+    </style>
+    <div class="file">
+      <h2>Content DSL</h2>
+      <p>While writing documentation in your markdown source files, you can define json data using HTML comments which will then be made available to you within your application code (if you define matching models), or directly served via built in routes.</p>
+      <p>To do this, simply write an HTML comment like this in your markdown files:</p>
+      <pre><code class="html">&lt;!--describe_model 
+  { 
+    &quot;type&quot;: &quot;markdown_record/demo/dsl_command&quot;,
+    &quot;id&quot;: 1, 
+    &quot;name&quot;: 
+    &quot;describe_model&quot;,
+    &quot;example_id&quot;: 1
+  } 
 --&gt;
 </code></pre>
-    <pre><code>&lt;!--describe_model { &quot;type&quot;: &quot;dsl_command&quot;, &quot;id&quot;: 1, &quot;name&quot;: &quot;describe_model&quot;, &quot;example_id&quot;: 1 } --&gt;
+      <p><em>Note: you can write these JSON object inline as well to be more concise.</em></p>
+      <p>As you can see, all that is required is a JSON object inside a special comment that defines your data. The <code>describe_model</code> part of the comment is a DSL commant that tells MarkdownRecord how to process the comment, and in this case it will take your JSON object and include it in its final renderd JSON output, which will automatically make it available via the provided routes and controllers. If this part is missing or unrecognized, then the comment will be treated as a plain HTML comment and nothing will be done with its contents.</p>
+      <p>There are several different DSL commands that you can use to define application data within your markdown source documents. They are as follows:</p>
+      <!--describe_model { "type": "markdown_record/demo/dsl_command", "id": 1, "name": "describe_model", "example_id": 1 } -->
+      <!--describe_model_attribute:description:string-->
+      <ul>
+        <li>
+          <p><code>describe_model</code> is the main command that tells MarkdownRecord that you want to define a model or JSON object. The only attribute required in the json object you provide is the <code>type</code> attribute, which is used as an index in the final JSON output (each index points to an array of objects of that type). The type can be whatever you want if you don&#39;t plan on using corresponding Ruby models. If you <em>do</em> plan to use corresponding Ruby models, then the <code>type</code> attribute should match the fully qualified class name of the model in underscore form (i.e. <code>Foo::BarBaz</code> would be <code>foo/bar_baz</code>). </p>
+          <p>MarkdownRecord puts each model in a stack structure during rendering, and remembers the order in which models are defined within a single markdown file. This is important, as the next command in this list allows you to add additional attributes where the values are taken from your markdown content itself. The model that attributes get assigned to in this way is always the model at the top of the stack.</p>
+          <p>See the example above.
+          </p>
+        </li>
+      </ul>
+      <!--end_describe_model-->
+      <!--describe_model { "type": "markdown_record/demo/dsl_command", "id": 2, "name": "describe_model_attribute", "example_id": 1 } -->
+      <!--describe_model_attribute:description:string-->
+      <ul>
+        <li>
+          <p><code>describe_model_attribute:&lt;attribute_name&gt;:&lt;type&gt;</code> tells MarkdownRecord that any text that follows should be assigned to the top model on the stack as the value of the given attribute, until it sees the <code>end_describe_model_attribute</code> command.</p>
+          <p>The <code>type</code> part of this command can be <code>html</code>, <code>md</code>, <code>int</code>, <code>float</code>, <code>string</code>, or omitted. MarkdownRecord will process the final value of the attribute differently based on this value. If the type is <code>html</code>, it will be rendered into an html string. If it is <code>md</code>, then it will be left as is and slightly cleaned up to remove leading and trailing white space. If it is <code>int</code> or <code>float</code>, it will be parsed accordingly into an numeric value, and if it is <code>string</code>, it will be stripped of any markdown syntax and all leading and trailing whitespace will be removed. The <code>string</code> option will also cause multiple newlines to be reduced to a single newline. If the type option is omitted, MarkdownRecord will not process the attribute value and it will contain the raw content read from the markdown file.</p>
+          <p>Example:</p>
+          <pre><code class="html">&lt;!--describe_model_attribute:description:string--&gt; 
 </code></pre>
-    <p><em>Note: you can write these JSON object inline as well to be more concise.</em></p>
-    <p>As you can see, all that is required is a JSON object inside the comment that defines your data. The <code>describe_model</code> part of the comment is a DSL commant that tells MarkdownRecord how to process the comment, and in this case it will take your JSON object and include it in its final output and/or make it available via the provided routes and controllers. If this part is missing or unrecognized, then the comment will be treated as a plain HTML comment and nothing will be done with its contents.</p>
-    <p>There are several different DSL commands that you can use to define application data within your markdown source documents. They are as follows:</p>
-    <!--describe_model { "type": "dsl_command", "id": 1, "name": "describe_model", "example_id": 1 } -->
-    <!--describe_model_attribute:description:string-->
-    <ul>
-      <li><code>describe_model</code> is the main command that tells MarkdownRecord that you want to define a model or json object. The only attribute required in the json object you provide is the <code>type</code> attribute, which can be anything as long as you don&#39;t plan on using coresponding models. If you <em>do</em> plan to use corresponding models, then the <code>type</code> attribute should match the fully qualified class name of the model. MarkdownRecord puts each model in a stack structure during rendering, and remembers the order in which models are defined in a single markdown file. This is important, as the next command in this list allows you to add additional attributes where the values are taken from your markdown content itself. The model that attributes get assigned to this way is always the model at the top of the stack.
-      </li>
-      <li><code>describe_model_attribute:&lt;attribute_name&gt;:&lt;type&gt;</code> tells MarkdownRecord that any text that follows should be assigned to the top model on the stack as the value of the given attribute, until it sees the <code>end_describe_model_attribute</code> command. The <code>type</code> part of this command can be <code>html</code>, <code>md</code>, <code>int</code>, <code>float</code> or <code>string</code> or omitted. MarkdownRecord will process the final value of the attribute differently based on this value. If the type is <code>html</code>, it will be rendered into an html string. If it is <code>md</code>, then it will be left as is and slightly cleaned up to remove leading and trailing white space. If it is <code>int</code> or <code>float</code>, it will be parsed accordingly into an numeric value, and if it is <code>string</code>, it will be stripped of any markdown syntax and all leading and trailing whitespace will be removed. The <code>string</code> option will also cause multiple newlines to be reduced to a single newline. If the type option is omitted, MarkdownRecord will not process the attribute value and it will contain the raw content read from the markdown file.
-      </li>
-      <li><code>end_describe_model_attribute</code> tells MarkdownRecord to stop assigning text as an attribute value to the top model on the stack.
-      </li>
-      <li><code>end_describe_model</code> tells MarkdownRecord to pop the top model of the stack.
-      </li>
-      <li><code>fragment</code> is similar to <code>describe_model</code> in that it expects a JSON object, but the object is assigned to ths <code>meta</code> attribute of the <code>ContentFragment</code> corresponding to the current markdown file. As such, this command should only be used once in each file. This command provides a way of attaching custom data to ContentFragments, such as a layout you want to use for rendering from a controller, or perhaps access restrictions to limit who might be able to view the rendered document, etc.
-      </li>
-      <li><code>use_layout:&lt;path&gt;</code> simply specifies a layout by its relative file path to use when rendering the current markdown file to HTML. This is useful for when you have specific markdown files that you want to render using a different layout than the layout configured for use with all other files.
-      </li>
-    </ul>
-    <h2>Routes</h2>
-    <ul>
-      <li><code>use_layout:&lt;path&gt;</code> simply specifies a layout by its relative file path to use when rendering the current markdown file to HTML. This is useful for when you have specific markdown files that you want to render using a different layout than the layout configured for use with all other files.</li>
-      <li><code>use_layout:&lt;path&gt;</code> simply specifies a layout by its relative file path to use when rendering the current markdown file to HTML. This is useful for when you have specific markdown files that you want to render using a different layout than the layout configured for use with all other files.</li>
-      <li><code>use_layout:&lt;path&gt;</code> simply specifies a layout by its relative file path to use when rendering the current markdown file to HTML. This is useful for when you have specific markdown files that you want to render using a different layout than the layout configured for use with all other files.</li>
-    </ul>
-    <p>If you are reading this document by rendering it from your application, then you will have already ran the Thor command necessary to render the demo content as HTML and JSON. As you might have guesed, the above list of DSL commands is written in markdown alongside actual exampled of their use. A quick look at the actual source files, which were copied into your application, will reveal this. You can also see the HTML and JSON files in the <code>rendered</code> directory.</p>
-    <p>Since the demo content has been rendered as HTML and JSON, you can now view it directly in your browser. The following routes should now resolve successfully:</p>
-    <pre><code>&lt;application root path&gt;/mdr/html/&lt;content_path&gt;`
-&lt;application root path&gt;/mdr/json/&lt;content_path&gt;
-&lt;application root path&gt;/&lt;content_path&gt;
+          <!--end_describe_model_attribute-->
+          <!--end_describe_model-->
+          <!--describe_model { "type": "markdown_record/demo/dsl_command", "id": 3, "name": "end_describe_model_attribute", "example_id": 1 } -->
+          <!--describe_model_attribute:description:string--></li>
+        <li>
+          <p><code>end_describe_model_attribute</code> tells MarkdownRecord to stop assigning text as an attribute value to the top model on the stack. If the top most model is popped before this command is given or the end of the source file is reached, then it implicitly stops assigning text to it.</p>
+          <p>Example:</p>
+          <pre><code class="html">&lt;!--end_describe_model_attribute--&gt;
 </code></pre>
-    <p><code>content_path</code> in the above routes is the relative path to a rendered file or directory. When you navigate to a path that points to a directory, you will see the concatenated contens of everything that is in that directory.</p>
-    <p>The <code>html</code> routes only return HTML, while the <code>json</code> routes only return JSON. The generic route returns either HTML or JSON depending on the requests ACCEPT header.</p>
-    <p>In addition to the above routes, routes for downloading content are provided as well. They are:</p>
-    <pre><code>&lt;application root path&gt;/mdr/html/download/&lt;content_path&gt;`
-&lt;application root path&gt;/mdr/json/download/&lt;content_path&gt;
-&lt;application root path&gt;/download/&lt;content_path&gt;
+          <!--end_describe_model_attribute-->
+          <!--end_describe_model-->
+          <!--describe_model { "type": "markdown_record/demo/dsl_command", "id": 4, "name": "end_describe_model", "example_id": 1 } -->
+          <!--describe_model_attribute:description:string--></li>
+        <li>
+          <p><code>end_describe_model</code> tells MarkdownRecord to pop the top model of the stack. This command isn&#39;t necessary unless you are defining models in a way that requires you to assign attributes to a model that is no longer the top model on the stack.</p>
+          <p>Example:</p>
+          <pre><code class="html">&lt;!--end_describe_model--&gt;
 </code></pre>
-    <p>The above routes are not enabled by default, but can be enabled if you want to be able to download your rendered content.</p>
-    <a href="/mdr/html/content/api_docs/erb_syntax">/mdr/html/content/api_docs/erb_syntax</a>
-    <!--content/api_docs/overview-->
+          <!--end_describe_model_attribute-->
+          <!--end_describe_model-->
+          <!--describe_model { "type": "markdown_record/demo/dsl_command", "id": 5, "name": "fragment", "example_id": 1 } -->
+          <!--describe_model_attribute:description:string--></li>
+        <li>
+          <p><code>fragment</code> is similar to <code>describe_model</code> in that it expects a JSON object, but the object is assigned to the <code>meta</code> attribute of the <code>ContentFragment</code> corresponding to the current markdown file. As such, this command should only be used once in each file. This command provides a way of attaching custom data to ContentFragments, such as a layout you want to use for rendering from a controller, details about the content&#39;s author, or perhaps who should be able to access it, etc. You can then interact this data in your application code.</p>
+          <p>Since content is not just rendered for each individual file, but is also concatenated into rendered files for each directory, the ContentFraments representing these concatenated files will have each file&#39;s fragment meta data as a nested object, indexed by the respective file&#39;s path.</p>
+          <p>Example:</p>
+          <pre><code class="html">&lt;!--fragment { &quot;author&quot;: &quot;Bryant Morrill&quot; } --&gt;
+</code></pre>
+          <!--end_describe_model_attribute-->
+          <!--end_describe_model-->
+          <!--describe_model { "type": "markdown_record/demo/dsl_command", "id": 6, "name": "use_layout", "example_id": 1 } -->
+          <!--describe_model_attribute:description:string--></li>
+        <li>
+          <p><code>use_layout:&lt;path&gt;</code> simply specifies a layout by its relative file path to use when rendering the current markdown file to HTML. This is useful for when you have specific markdown files that you want to render using a different layout than the layout configured for use with all other files.
+          </p>
+          <p>Example:</p>
+          <pre><code class="html">&lt;!--use_layout:_custom_layout.html.erb--&gt;
+</code></pre>
+        </li>
+      </ul>
+      <p>You can view this document&#39;s source files in <code>markdown_record/content</code> to see some of the above DSL commands in use.</p>
+      <!--content/2_api_docs/2_content_dsl-->
+      <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/html/content/2_api_docs/2_content_dsl">content/2_api_docs/2_content_dsl</a></em></p>
+    </div>
+    <style>
+      .file {
+        padding: 10px;
+        border: 1px solid #cc4400;
+        margin-bottom: 10px;
+      }
+    </style>
+    <div class="file">
+      <h2>Routes</h2>
+      <p>If you are reading this document in a browser by rendering it from your application, then you will have already ran the Thor command necessary to render the demo content as HTML and JSON. You can also see the HTML and JSON files in the <code>rendered</code> directory. In fact, the content you are viewing right now as you read this is one of those files, served to you via the built in routes that come with MarkdownRecord.</p>
+      <p>All of the following routes should now resolve successfully:</p>
+      <ul>
+        <li><code>&lt;application root path&gt;/mdr/html/&lt;content_path&gt;</code></li>
+        <li><code>&lt;application root path&gt;/mdr/json/&lt;content_path&gt;</code></li>
+        <li><code>&lt;application root path&gt;/&lt;content_path&gt;</code></li>
+      </ul>
+      <p><code>content_path</code> in the above routes is the path to a rendered file or directory (relative to the <code>rendered</code> folder). When you navigate to a path that points to a directory, you will see the concatenated contens of everything that is in that directory.</p>
+      <p>The <code>html</code> routes only return HTML, while the <code>json</code> routes only return JSON. The generic route returns either HTML or JSON depending on the ACCEPT header of your request or the extension of the url you are accessing (for example, appending <code>.json</code> at the end of the current url will load all the JSON models defined in this this document&#39;s markdown source files using the Content DSL commands described above).</p>
+      <p>In addition to the above routes, routes for downloading content are provided as well. They are:</p>
+      <ul>
+        <li><code>&lt;application root path&gt;/mdr/html/download/&lt;content_path&gt;</code></li>
+        <li><code>&lt;application root path&gt;/mdr/json/download/&lt;content_path&gt;</code></li>
+        <li><code>&lt;application root path&gt;/download/&lt;content_path&gt;</code></li>
+      </ul>
+      <p>The download routes are not enabled by default, but can be enabled if you want to be able to download your rendered content.</p>
+      <p>Here is a complete list of links to all the rendered HTML files of this demo, all of which use the routes described above:</p>
+      - <a href="/mdr/html/content/1_home">content/1_home</a><br>
+      - <a href="/mdr/html/content/2_api_docs/1_overview">content/2_api_docs/1_overview</a><br>
+      - <a href="/mdr/html/content/2_api_docs/2_content_dsl">content/2_api_docs/2_content_dsl</a><br>
+      - <a href="/mdr/html/content/2_api_docs/3_routes">content/2_api_docs/3_routes</a><br>
+      - <a href="/mdr/html/content/2_api_docs/4_real_world_applications">content/2_api_docs/4_real_world_applications</a><br>
+      - <a href="/mdr/html/content/2_api_docs">content/2_api_docs</a><br>
+      - <a href="/mdr/html/content/3_blog">content/3_blog</a><br>
+      - <a href="/mdr/html/content/4_table_top_rpg">content/4_table_top_rpg</a><br>
+      - <a href="/mdr/html/content/5_installation">content/5_installation</a><br>
+      - <a href="/mdr/html/content">content</a><br>
+      <p>Some of the above routes are the rendered versions of individual files, and some are the concatenated and rendered contents of an entire directory. Each of these routes will also return JSON if you add the <code>.json</code> extension.</p>
+      <!--content/2_api_docs/3_routes-->
+      <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/html/content/2_api_docs/3_routes">content/2_api_docs/3_routes</a></em></p>
+    </div>
+    <style>
+      .file {
+        padding: 10px;
+        border: 1px solid #cc4400;
+        margin-bottom: 10px;
+      }
+    </style>
+    <div class="file">
+      <h2>Real World application</h2>
+      <p>Hopefully you can see the utility in MarkdownRecord&#39;s Content DSL and how easy it makes writing documentation of any kind and having it immediately queryable. This example is a bit contrived, since there&#39;s little need to query JSON objects representing the various Content DSL commands of MarkdownRecord, but other use cases could benefit greatly from defining such data right alongside your documentation.</p>
+      <!--content/2_api_docs/4_real_world_applications-->
+      <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/html/content/2_api_docs/4_real_world_applications">content/2_api_docs/4_real_world_applications</a></em></p>
+    </div>
+    <style>
+      .file {
+        padding: 10px;
+        border: 1px solid #cc4400;
+        margin-bottom: 10px;
+      }
+    </style>
+    <div class="file">
+      <!--content/5_installation-->
+      <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/html/content/5_installation">content/5_installation</a></em></p>
+    </div>
+    <!--/content-->
+    <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/html/content">content</a></em></p>
   </div>
   <!--/content-->
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+    </ul>
+  </div>
 </div>

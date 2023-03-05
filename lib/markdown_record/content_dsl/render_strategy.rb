@@ -1,7 +1,7 @@
 module MarkdownRecord
   module ContentDsl
     module RenderStrategy
-      REGEX = /<!--\s*render_strategy\s*:\s*(.*)\s*-->/
+      REGEX = /(?<!`|`\n|`html\n)<!--\s*render_strategy\s*:\s*(.*)\s*-->(?!`|\n`)/
       ENCODED_REGEX = /(?<!<code>|<code class="html">)&lt;!--\s*render_strategy\s*:\s*(.*)\s*--&gt;(?!<\/code>)/
 
       def render_strategy_dsl(text)
@@ -15,7 +15,7 @@ module MarkdownRecord
       end
 
       def self.remove_dsl(text)
-        text.gsub(ENCODED_REGEX, "\n")
+        text.gsub(ENCODED_REGEX, "")
       end
     end
   end

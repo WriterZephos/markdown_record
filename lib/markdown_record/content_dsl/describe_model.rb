@@ -1,7 +1,7 @@
 module MarkdownRecord
   module ContentDsl
     module DescribeModel
-      REGEX = /<!--\s*describe_model\s*({[\s|"|'|\\|\w|:|,|.|\[|\]|\{|\}]*})\s*-->/
+      REGEX = /(?<!`|`\n|`html\n)<!--\s*describe_model\s*({[\s|"|'|\\|\w|:|,|.|\[|\]|\{|\}]*})\s*-->(?!`|\n`)/
       ENCODED_REGEX = /(?<!<code>|<code class="html">)&lt;!--\s*describe_model\s*({[\s|"|'|\\|\w|:|,|.|\[|\]|\{|\}|;|&]*})\s*--&gt;(?!<\/code>)/
 
       def describe_model_dsl(text)

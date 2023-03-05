@@ -1,7 +1,7 @@
 module MarkdownRecord
   module ContentDsl
     module UseLayout
-      REGEX = /<!--\s*use_layout\s*:\s*(.*)\s*-->/
+      REGEX = /(?<!`|`\n|`html\n)<!--\s*use_layout\s*:\s*(.*)\s*-->(?!`|\n`)/
       ENCODED_REGEX = /(?<!<code>|<code class="html">)&lt;!--\s*use_layout\s*:\s*(.*)\s*--&gt;(?!<\/code>)/
 
       def use_layout_dsl(text)
@@ -15,7 +15,7 @@ module MarkdownRecord
       end
 
       def self.remove_dsl(text)
-        text.gsub(ENCODED_REGEX, "\n")
+        text.gsub(ENCODED_REGEX, "")
       end
     end
   end

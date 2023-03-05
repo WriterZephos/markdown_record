@@ -50,7 +50,7 @@ module MarkdownRecord
         content = render_models(file_or_directory, full_path, options)
 
         if options[:deep] && options[:render_content_fragment_json]
-          add_content_fragment_for_file(content, full_path)
+          add_content_fragment_for_file(content, full_path, false, @fragment_meta)
         end
 
         content_hash = { file_or_directory_name => content }
@@ -87,13 +87,21 @@ module MarkdownRecord
 
     def concatenate_nested_models(file_or_directory_name, full_path, directory_hash, concat_hash, options)
       concatenated_json = {}
-          
+      concatenate_json_recursively(concat_hash, concatenated_json)
+
       # add content fragments if render_content_fragment_json = true
       if options[:render_content_fragment_json]
-        add_content_fragment_for_file(concat_hash[file_or_directory_name], full_path)
+        concatenated_meta = if concatenated_json["markdown_record/content_fragment"]&.any?
+                              concatenated_meta = concatenated_json["markdown_record/content_fragment"]
+                                .map { |f| {f["id"] => f["meta"]} }.reduce({}, :merge)
+                            else
+                              {}
+                            end
+        
+        add_content_fragment_for_file(concat_hash[file_or_directory_name], full_path, true, concatenated_meta)
+        add_content_fragment_for_file(concatenated_json, full_path, true, concatenated_meta)
       end
 
-      concatenate_json_recursively(concat_hash, concatenated_json)
       directory_hash["#{file_or_directory_name}.concat"] = concatenated_json
     end
 
@@ -107,7 +115,7 @@ module MarkdownRecord
 
       content.split(HTML_COMMENT_REGEX).each do |text|
         extract_describe_model(text)
-        extract_fragment_meta(text)
+        extract_fragment_meta(text, full_path)
         extract_describe_model_attribute(text)
         append_to_describe_model_attribute(text)
         pop_describe_model_attribute(text)
@@ -121,8 +129,8 @@ module MarkdownRecord
       @json_models.dup
     end
 
-    def add_content_fragment_for_file(json, full_path)
-      content_fragment = fragment_attributes_from_path(full_path).merge("meta" => @fragment_meta)
+    def add_content_fragment_for_file(json, full_path, concatenated, meta)
+      content_fragment = fragment_attributes_from_path(full_path).merge("meta" => meta, "concatenated" => concatenated)
 
       json["markdown_record/content_fragment"] ||= []
       json["markdown_record/content_fragment"] << content_fragment
@@ -178,7 +186,7 @@ module MarkdownRecord
       end
     end
 
-    def extract_fragment_meta(html)
+    def extract_fragment_meta(html, full_path)
       meta = fragment_dsl(html)
 
       if meta

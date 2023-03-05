@@ -14,7 +14,7 @@ module MarkdownRecord
     include Fragment
     include UseLayout
 
-    HTML_COMMENT_REGEX = /(<!--(?:(?:\s|.)(?!-->))*(?:.|\s)-->)/
+    HTML_COMMENT_REGEX = /(?<!`|`\n|`html\n)(<!--(?:(?:\s|.)(?!-->))*(?:.|\s)-->)(?!`|\n`)/
 
     def remove_dsl(text)
       text = DescribeModel.remove_dsl(text)

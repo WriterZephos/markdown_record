@@ -2,6 +2,7 @@ module MarkdownRecord
   class ContentFragment < MarkdownRecord::Base
 
     attribute :meta
+    attribute :concatenated
 
     # Override the new_association method on MarkdownRecord::Base
     # to force all association queries to only look for fragments

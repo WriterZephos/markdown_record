@@ -1,7 +1,7 @@
 module MarkdownRecord
   module ContentDsl
     module Fragment
-      REGEX = /<!--\s*fragment\s+({[\s|"|'|\\|\w|:|,|.|\[|\]|\{|\}]*})\s*-->/
+      REGEX = /(?<!`|`\n|`html\n)<!--\s*fragment\s+({[\s|"|'|\\|\w|:|,|.|\[|\]|\{|\}]*})\s*-->(?!`|\n`)/
       ENCODED_REGEX = /(?<!<code>|<code class="html">)&lt;!--\s*fragment\s+({[\s|"|'|\\|\w|:|,|.|\[|\]|\{|\}|;|&]*})\s*--&gt;(?!<\/code>)/
 
       def fragment_dsl(text)
@@ -15,7 +15,7 @@ module MarkdownRecord
       end
 
       def self.remove_dsl(text)
-        text.gsub(ENCODED_REGEX, "\n")
+        text.gsub(ENCODED_REGEX, "")
       end
     end
   end
