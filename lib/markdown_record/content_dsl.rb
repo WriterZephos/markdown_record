@@ -3,6 +3,7 @@ require "markdown_record/content_dsl/describe_model_attribute"
 require "markdown_record/content_dsl/end_describe_model_attribute"
 require "markdown_record/content_dsl/end_describe_model"
 require "markdown_record/content_dsl/fragment"
+require "markdown_record/content_dsl/directory_fragment"
 require "markdown_record/content_dsl/use_layout"
 
 module MarkdownRecord
@@ -11,6 +12,7 @@ module MarkdownRecord
     include DescribeModelAttribute
     include EndDescribeModelAttribute
     include EndDescribeModel
+    include DirectoryFragment
     include Fragment
     include UseLayout
 

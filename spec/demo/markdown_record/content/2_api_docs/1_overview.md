@@ -1,3 +1,10 @@
+<!--directory_fragment
+{
+  "name": "API Docs",
+  "author": "Bryant Morrill"
+}
+-->
+
 <!--fragment
 {
   "author": "Bryant Morrill"

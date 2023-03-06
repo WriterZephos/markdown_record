@@ -2,18 +2,22 @@
 
 module MarkdownRecord
   module PathUtilities
+
     def full_path_to_parts(full_path)
-      rendered_path = base_content_path.join(clean_path(full_path))
+      rendered_path = Pathname.new("/").join(full_path)
       filename = clean_path(rendered_path.basename)
       subdirectory = clean_path(rendered_path.parent)
 
-      filename = filename.empty? ? base_content_path.to_s : filename
+      [filename, subdirectory, full_path.to_s.split(".").last]
+    end
 
-      [filename, subdirectory]
+    def rendered_path(full_path)
+      rendered_path = clean_path(full_path.to_s)
+      Pathname.new(rendered_path)
     end
 
     def path_to_fragment_id(full_path)
-      rendered_path = base_content_path.join(clean_path(full_path))
+      rendered_path = rendered_path(full_path)
       clean_path(rendered_path.to_s)
     end
 
@@ -27,8 +31,9 @@ module MarkdownRecord
 
     def erb_locals_from_path(full_path)
       filename, subdirectory = *full_path_to_parts(full_path)
-
+      
       frag_id = path_to_fragment_id(full_path)
+
       fragment = ::MarkdownRecord::ContentFragment.find(frag_id)
       
       {

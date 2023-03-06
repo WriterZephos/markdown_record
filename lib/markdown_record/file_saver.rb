@@ -1,5 +1,6 @@
 module MarkdownRecord
   class FileSaver
+    include ::MarkdownRecord::PathUtilities
 
     attr_accessor :saved_files
 
@@ -7,20 +8,14 @@ module MarkdownRecord
       @saved_files = {:html => [], :json => []}
     end
 
-    def save_to_file(content, file_path, options, fragments = false)
-      parts = file_path.split(".")
+    def save_to_file(content, rendered_subdirectory, options, fragments = false)
+      filename, subdirectory, extension = full_path_to_parts(rendered_subdirectory)
+      filename = file_name(filename, extension, fragments)
 
-      if parts.first.empty?
-        file_path = file_name(parts.first, parts.second, fragments)
-      else
-        sub_path = Pathname.new(file_path).parent.join(file_name(parts.first, parts.second, fragments))
-        file_path =  "#{base_content_name}/#{sub_path.to_s}"
-      end
-
-      save_path = ::MarkdownRecord.config.rendered_content_root.join(file_path)
-      
+      save_path = ::MarkdownRecord.config.rendered_content_root.join(subdirectory).join(filename)
       relative_path = save_path.to_s.gsub(Rails.root.to_s, "")
-      @saved_files[parts.second.to_sym].unshift(relative_path)
+
+      @saved_files[extension.to_sym].unshift(relative_path)
 
       if options[:save]
         save_path.dirname.mkpath

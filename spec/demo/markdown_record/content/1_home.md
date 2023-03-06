@@ -1,3 +1,10 @@
+<!--directory_fragment
+{
+  "name": "Home",
+  "author": "Bryant Morrill"
+}
+-->
+
 <!--fragment
 {
   "name": "Home",

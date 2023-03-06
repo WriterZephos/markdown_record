@@ -14,10 +14,13 @@ module MarkdownRecord
     end
 
     def render_models_for_subdirectory(subdirectory: "", **options)
+      @directory_meta = {}
       content = @indexer.index(subdirectory: subdirectory)
-      json_hash, _ = render_models_recursively(subdirectory, content, subdirectory, options)
 
-      save_content_recursively(json_hash, options)
+      rendered_subdirectory = base_content_path.join(subdirectory)
+      json_hash, _ = render_models_recursively(content, rendered_subdirectory, options)
+
+      save_content_recursively(json_hash, options, Pathname.new(""))
       json_hash
     end
 
@@ -35,14 +38,14 @@ module MarkdownRecord
 
   private
 
-    def render_models_recursively(file_or_directory_name, file_or_directory, full_path, options)
+    def render_models_recursively(file_or_directory, full_path, options)
       case file_or_directory.class.name;
       when Hash.name # if it is a directory
-        directory_hash, concat_hash = *render_nested_models(file_or_directory, file_or_directory_name, full_path, options)
-        
+        directory_hash, concat_hash = *render_nested_models(file_or_directory, full_path, options)
+
         # concatenate child hashes if :concat = true
         if options[:concat]
-          concatenate_nested_models(file_or_directory_name, full_path, directory_hash, concat_hash, options)
+          concatenate_nested_models(full_path, directory_hash, concat_hash, options)
         end
 
         [directory_hash, concat_hash]
@@ -53,7 +56,7 @@ module MarkdownRecord
           add_content_fragment_for_file(content, full_path, false, @fragment_meta)
         end
 
-        content_hash = { file_or_directory_name => content }
+        content_hash = { full_path.basename.to_s => content }
         result = [{}, {}]
         result[0] = content_hash if options[:deep]
         result[1] = content_hash if options[:concat]
@@ -61,61 +64,55 @@ module MarkdownRecord
       end
     end
 
-    def render_nested_models(file_or_directory, file_or_directory_name, full_path, options)
-      directory_hash = { file_or_directory_name => {} } # hash representing the directory and its contents
-      concat_hash = { file_or_directory_name => {} }
+    def render_nested_models(file_or_directory, full_path, options)
+      directory_hash = { full_path.basename.to_s => {} } # hash representing the directory and its contents
+      concat_hash = { full_path.basename.to_s => {} }
       # iterate through directory contents
       file_or_directory.each do |child_file_or_directory_name, child_file_or_directory|
         
         # get full path for next recursion
-        child_full_path = "#{full_path}/#{child_file_or_directory_name}"
-
+        child_full_path = full_path.join(child_file_or_directory_name)
         # get response from next recursion
         child_content_hash, child_concat_hash = render_models_recursively(
-                                                  child_file_or_directory_name, 
                                                   child_file_or_directory, 
                                                   child_full_path, 
                                                   options
                                                 )
         # merge response hashes                                                  
-        concat_hash[file_or_directory_name].merge!(child_concat_hash)
-        directory_hash[file_or_directory_name].merge!(child_content_hash)
+        concat_hash[full_path.basename.to_s].merge!(child_concat_hash)
+        directory_hash[full_path.basename.to_s].merge!(child_content_hash)
       end
 
       [directory_hash, concat_hash]
     end
 
-    def concatenate_nested_models(file_or_directory_name, full_path, directory_hash, concat_hash, options)
+    def concatenate_nested_models(full_path, directory_hash, concat_hash, options)
       concatenated_json = {}
       concatenate_json_recursively(concat_hash, concatenated_json)
-
+ 
       # add content fragments if render_content_fragment_json = true
       if options[:render_content_fragment_json]
-        concatenated_meta = if concatenated_json["markdown_record/content_fragment"]&.any?
-                              concatenated_meta = concatenated_json["markdown_record/content_fragment"]
-                                .map { |f| {f["id"] => f["meta"]} }.reduce({}, :merge)
-                            else
-                              {}
-                            end
-        
-        add_content_fragment_for_file(concat_hash[file_or_directory_name], full_path, true, concatenated_meta)
-        add_content_fragment_for_file(concatenated_json, full_path, true, concatenated_meta)
+        filename, subdirectory = full_path_to_parts(full_path)
+        directory_meta = @directory_meta[clean_path("#{subdirectory}/#{filename}")] || {}
+
+        add_content_fragment_for_file(concat_hash[full_path.basename.to_s], full_path, true, directory_meta)
+        add_content_fragment_for_file(concatenated_json, full_path, true, directory_meta)
       end
 
-      directory_hash["#{file_or_directory_name}.concat"] = concatenated_json
+      directory_hash["#{full_path.basename.to_s}.concat"] = concatenated_json
     end
 
     def render_models(content, full_path, options)
       
-      @filename, @subdirectory = full_path_to_parts(full_path)
+      filename, subdirectory = full_path_to_parts(full_path)
 
       @described_models = []
       @json_models = {}
       @fragment_meta = {}
 
       content.split(HTML_COMMENT_REGEX).each do |text|
-        extract_describe_model(text)
-        extract_fragment_meta(text, full_path)
+        extract_describe_model(text, filename, subdirectory)
+        extract_fragment_meta(text, subdirectory)
         extract_describe_model_attribute(text)
         append_to_describe_model_attribute(text)
         pop_describe_model_attribute(text)
@@ -148,29 +145,29 @@ module MarkdownRecord
       end
     end
 
-    def save_content_recursively(content, options, subdirectory = "")
+    def save_content_recursively(content, options, rendered_subdirectory)
       if content&.values&.first.is_a?(Array)
         fragments = content.slice("markdown_record/content_fragment")
         non_fragments = content.except("markdown_record/content_fragment")
-        path = clean_path(subdirectory)
+        path = clean_path(rendered_subdirectory.to_s)
         @file_saver.save_to_file(non_fragments.to_json, "#{path}.json", options)
         @file_saver.save_to_file(fragments.to_json, "#{path}.json", options, true)
       else
         content.each do |key, value|
-          child_path = Pathname.new(subdirectory).join(key)
+          child_path = rendered_subdirectory.join(key)
           save_content_recursively(value, options, child_path)
         end
       end
     end
 
-    def extract_describe_model(html)
+    def extract_describe_model(html, filename, subdirectory)
       model = describe_model_dsl(html)
 
       if model
         return unless model["type"].present?
 
-        model["subdirectory"] = clean_path(@subdirectory)
-        model["filename"] = clean_path(@filename)
+        model["subdirectory"] = clean_path(subdirectory)
+        model["filename"] = clean_path(filename)
 
         # reset "type" to not have a prefix, in order to ensure
         # consistent results between the internal only :klass filter
@@ -186,11 +183,17 @@ module MarkdownRecord
       end
     end
 
-    def extract_fragment_meta(html, full_path)
+    def extract_fragment_meta(html, subdirectory)
       meta = fragment_dsl(html)
 
       if meta
         @fragment_meta = meta
+      end
+
+      directory_meta = directory_fragment_dsl(html)
+
+      if directory_meta
+        @directory_meta[subdirectory] = directory_meta
       end
     end
 

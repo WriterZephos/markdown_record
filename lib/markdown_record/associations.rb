@@ -1,6 +1,7 @@
 module MarkdownRecord
   module Associations
     extend ActiveSupport::Concern
+    include ::MarkdownRecord::PathUtilities
   
     class_methods do
       def has_many_content(association, **options)
@@ -71,13 +72,24 @@ module MarkdownRecord
       self.class.new_association.fragments.find(subdirectory)
     end
 
-    def parent_fragments
+    def ancestors
+      ancestors_from(::MarkdownRecord.config.content_root.basename.to_s)
+    end
+
+    def ancestors_from(ancestor)
+      ancestor = ::MarkdownRecord::ContentFragment.find(ancestor) if ancestor.is_a?(String)
+      
       parents = []
       parent = parent_fragment
 
       while parent
-        parents << parent
-        parent = parent.parent_fragment
+        if parent.id == ancestor.subdirectory
+          parent = nil
+          parents << ancestor
+        else
+          parents << parent
+          parent = parent.parent_fragment
+        end
       end
 
       parents.reverse

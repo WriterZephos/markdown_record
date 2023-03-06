@@ -29,12 +29,12 @@ module MarkdownRecord
       end
 
       content = @indexer.index(subdirectory: subdirectory)
-      
-      html_content = render_html_recursively(subdirectory, content)
+      rendered_subdirectory = base_content_path.join(subdirectory)
 
-      processed_html = process_html_recursively(subdirectory, html_content[subdirectory], options, subdirectory)
+      html_content = render_html_recursively(content, rendered_subdirectory.to_s)
+      processed_html = process_html_recursively(html_content[rendered_subdirectory.to_s], rendered_subdirectory, options)
 
-      save_content_recursively(processed_html, options)
+      save_content_recursively(processed_html, options, rendered_subdirectory)
       { :html_content => processed_html, :saved_files => @file_saver.saved_files }
       nil
     end
@@ -57,13 +57,13 @@ module MarkdownRecord
 
   private
 
-    def render_html_recursively(file_or_directory_name, file_or_directory)
+    def render_html_recursively(file_or_directory, file_or_directory_name)
       case file_or_directory.class.name
       when Hash.name # if it is a directory
         directory_hash = { file_or_directory_name => {} } # hash representing the directory and its contents
 
         file_or_directory.each do |child_file_or_directory_name, child_file_or_directory|
-          child_content_hash = render_html_recursively(child_file_or_directory_name, child_file_or_directory)
+          child_content_hash = render_html_recursively(child_file_or_directory, child_file_or_directory_name)
           directory_hash[file_or_directory_name].merge!(child_content_hash)
         end
 
@@ -78,25 +78,25 @@ module MarkdownRecord
       remove_dsl(rendered_html) 
     end
 
-    def process_html_recursively(file_or_directory_name, file_or_directory, options, full_path)
+    def process_html_recursively(file_or_directory, full_path, options)
       case file_or_directory.class.name
       when Hash.name
-        directory_hash = { file_or_directory_name => {} } # hash representing the directory and its contents
+        directory_hash = { full_path.to_s => {} } # hash representing the directory and its contents
 
         file_or_directory.each do |child_file_or_directory_name, child_file_or_directory|
-          child_content_hash = process_html_recursively(child_file_or_directory_name, child_file_or_directory, options, "#{full_path}/#{child_file_or_directory_name}")
-          directory_hash[file_or_directory_name].merge!(child_content_hash)
+          child_content_hash = process_html_recursively(child_file_or_directory, full_path.join(child_file_or_directory_name), options)
+          directory_hash[full_path.to_s].merge!(child_content_hash)
         end
 
         if options[:concat]
-          concatenated_html = concatenate_html_recursively(directory_hash[file_or_directory_name], []).join("\r\n")
-          directory_hash["#{file_or_directory_name}.concat"] = process_html(concatenated_html, full_path, @concatenated_layout)
+          concatenated_html = concatenate_html_recursively(directory_hash[full_path.to_s], []).join("\r\n")
+          directory_hash["#{full_path.to_s}.concat"] = process_html(concatenated_html, full_path.to_s, @concatenated_layout)
         end
 
         directory_hash.compact
       when String.name # if it is a file
         if options[:deep]
-          { file_or_directory_name => process_html(file_or_directory, full_path, @file_layout) }
+          { full_path.to_s => process_html(file_or_directory, full_path, @file_layout) }
         else
           { }
         end
@@ -107,7 +107,7 @@ module MarkdownRecord
       processed_html = html.gsub(/<p>(\&lt;%(\S|\s)*%\&gt;)<\/p>/){ CGI.unescapeHTML($1) }
       processed_html = processed_html.gsub(/(\&lt;%(\S|\s)*%\&gt;)/){ CGI.unescapeHTML($1) }
       layout = custom_layout(html) || layout
-      locals = erb_locals_from_path(full_path)
+      locals = erb_locals_from_path(full_path.to_s)
       processed_html = render_erb(processed_html, locals)
       processed_html = render_erb(layout, locals.merge(html: processed_html)) if layout
       processed_html
@@ -154,15 +154,16 @@ module MarkdownRecord
       final_html
     end
 
-    def save_content_recursively(content, options, subdirectory = "", full_path = "")
+    def save_content_recursively(content, options, rendered_subdirectory)
       case content.class.name
       when Hash.name
         content.each do |key, value|
-          child_path = Pathname.new(subdirectory).join(key)
-          save_content_recursively(value, options, child_path, "#{subdirectory}/#{key}")
+          child_path = rendered_subdirectory.join(key)
+          save_content_recursively(value, options, child_path)
         end
       when String.name
-        @file_saver.save_to_file(finalize_html(content, full_path), "#{clean_path(subdirectory)}.html", options)
+        path = clean_path(rendered_subdirectory.to_s)
+        @file_saver.save_to_file(finalize_html(content, rendered_subdirectory), "#{path}.html", options)
       end
     end
   end

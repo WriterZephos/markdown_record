@@ -1,6 +1,5 @@
 module MarkdownRecord
   class ContentFragment < MarkdownRecord::Base
-
     attribute :meta
     attribute :concatenated
 

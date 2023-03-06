@@ -5,7 +5,6 @@ module MarkdownRecord
 
       path = path_to_markdown_record_html(model)
       name ||= model.name if model.respond_to?(:name)
-      name ||= model.meta["name"] if model.is_a?(::MarkdownRecord::ContentFragment)
 
       block_given? ? link_to(path, html_options, nil, &block) : link_to(name, path, html_options, &block)
     end
@@ -15,7 +14,6 @@ module MarkdownRecord
 
       path = path_to_markdown_record_html(model, true)
       name ||= model.name if model.respond_to?(:name)
-      name ||= model.meta["name"] if model.is_a?(::MarkdownRecord::ContentFragment)
 
       block_given? ? link_to("/#{path}", html_options, nil, &block) : link_to(name, path, html_options, &block)
     end
@@ -35,7 +33,6 @@ module MarkdownRecord
 
       path = path_to_markdown_record_json(model)
       name ||= model.name if model.respond_to?(:name)
-      name ||= model.meta["name"] if model.is_a?(::MarkdownRecord::ContentFragment)
 
       block_given? ? link_to(path, html_options, nil, &block) : link_to(name, path, html_options, &block)
     end
@@ -45,7 +42,6 @@ module MarkdownRecord
       
       path = path_to_markdown_record_json(model, true)
       name ||= model.name if model.respond_to?(:name)
-      name ||= model.meta["name"] if model.is_a?(::MarkdownRecord::ContentFragment)
 
       block_given? ? link_to("/#{path}", html_options, nil, &block) : link_to(name, path, html_options, &block)
     end
