@@ -38,7 +38,7 @@ module MarkdownRecord
         json = JSON.parse(File.read(path))
         return json
       end
-      
+
       json = ::MarkdownRecord::JsonRenderer.new.render_models_for_subdirectory(subdirectory: subdirectory,:concat => true, :deep => true, :save => false, :render_content_fragment_json => true)
 
       tokens = subdirectory.split("/")
@@ -52,6 +52,7 @@ module MarkdownRecord
 
       not_filters = filters.delete(:__not__)
       or_filters = filters.delete(:__or__)
+      and_filters = filters.delete(:__and__)
 
       filters.each do |key, value|
         passes &&= passes_filter?(attributes, key, value)
@@ -61,12 +62,18 @@ module MarkdownRecord
         passes &&= !passes_filter?(attributes, key, value)
       end
 
-      temp = !or_filters&.any?
+      or_temp = !or_filters&.any?
       or_filters&.each do |sub_filter|
-        temp ||= passes_filters?(attributes, sub_filter.dup)
+        or_temp ||= passes_filters?(attributes, sub_filter.dup)
       end
 
-      passes &&= temp
+      and_temp = true
+      and_filters&.each do |sub_filter|
+        and_temp &&= passes_filters?(attributes, sub_filter.dup)
+      end
+
+      passes &&= or_temp
+      passes &&= and_temp
       passes
     end
 
@@ -80,10 +87,13 @@ module MarkdownRecord
         elsif filter_value == :null
           attributes[filter_key].nil?
         else
-          filter_value == attributes[filter_key]
+          false
         end
       when Hash.name
-        passes_filters?(attributes, filter_value)
+        if attributes[filter_key]&.class == ActiveSupport::HashWithIndifferentAccess
+          passes_filters?(attributes[filter_key], filter_value)
+        end
+        
       when nil.class.name
         attributes[filter_key].nil?
       when Regexp.name

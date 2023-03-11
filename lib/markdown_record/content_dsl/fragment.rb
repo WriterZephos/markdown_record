@@ -1,8 +1,8 @@
 module MarkdownRecord
   module ContentDsl
     module Fragment
-      REGEX = /(?<!`|`\n|`html\n)<!--\s*fragment\s+({[\s|"|'|\\|\w|:|,|.|\[|\]|\{|\}]*})\s*-->(?!`|\n`)/
-      ENCODED_REGEX = /(?<!<code>|<code class="html">)&lt;!--\s*fragment\s+({[\s|"|'|\\|\w|:|,|.|\[|\]|\{|\}|;|&]*})\s*--&gt;(?!<\/code>)/
+      REGEX = /(?<!`|`\\n|`html\\n)<!--\s*fragment\s*({[\s"'\\\w:,.\[\]\{\}_\/]*})\s*-->(?!`|\\n`)/
+      ENCODED_REGEX = /(?<!<code>|<code class="html">)&lt;!--\s*fragment\s+({[\s"'\\\w:,.\[\]\{\}_\/]*})\s*--&gt;(?!<\/code>)/
 
       def fragment_dsl(text)
         match = text.match(REGEX)

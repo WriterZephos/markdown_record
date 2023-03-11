@@ -25,10 +25,17 @@ module MarkdownRecord
       @fulfilled = true
     end
 
-    def fragments
+    def fragmentize
       reset
       @include_fragments = true
       self
+    end
+
+    def to_fragments
+      execute unless fulfilled
+      return @data if @include_fragments
+
+      @data.map { |m| m.fragment }
     end
     
     def reset
@@ -36,18 +43,17 @@ module MarkdownRecord
       @fulfilled = false
     end
 
-    def to_a
-      execute unless fulfilled
-      @data
-    end
-
     def all
       execute unless fulfilled
       @data
     end
 
+    def to_a
+      execute unless fulfilled
+      @data
+    end
+
     def not(filters = {})
-      reset
       search_filters[:__not__] ||= {}
       search_filters[:__not__].merge!(filters)
       execute
@@ -55,18 +61,9 @@ module MarkdownRecord
     end
 
     def where(filters = {})
-      reset
       search_filters.merge!(filters)
       execute
       self
-    end
-
-    def find(id)
-      reset
-      search_filters.merge!({:id => id})
-      execute
-      raise "Invalide id. There are multiple records with this id. Please correct this in your static content." if @data.count > 1
-      @data.first
     end
 
     def each(...)
@@ -91,7 +88,7 @@ module MarkdownRecord
       @data.any?(...)
     end
 
-    def empty(...)
+    def empty?(...)
       execute unless fulfilled
       @data.empty?(...)
     end
@@ -119,6 +116,14 @@ module MarkdownRecord
     def fourth(...)
       execute unless fulfilled
       @data.fourth(...)
+    end
+
+    def __find__(id)
+      reset
+      search_filters.merge!({:id => id})
+      execute
+      raise "Invalide id. There are multiple records with this id. Please correct this in your static content." if @data.count > 1
+      @data.first
     end
   end
 end

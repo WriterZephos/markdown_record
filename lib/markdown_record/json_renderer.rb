@@ -6,8 +6,8 @@ module MarkdownRecord
     include ::MarkdownRecord::PathUtilities
     include ::MarkdownRecord::ContentDsl
 
-    def initialize(file_saver: ::MarkdownRecord::FileSaver.new, indexer: ::MarkdownRecord.config.indexer_class.new)
-      @indexer = indexer
+    def initialize(file_saver: ::MarkdownRecord::FileSaver.new)
+      @indexer = MarkdownRecord::Indexer.new
       @json_models = {}
       @described_models = []
       @file_saver = file_saver
@@ -109,14 +109,25 @@ module MarkdownRecord
       @described_models = []
       @json_models = {}
       @fragment_meta = {}
+      enabled = true
 
       content.split(HTML_COMMENT_REGEX).each do |text|
-        extract_describe_model(text, filename, subdirectory)
-        extract_fragment_meta(text, subdirectory)
-        extract_describe_model_attribute(text)
-        append_to_describe_model_attribute(text)
-        pop_describe_model_attribute(text)
-        pop_describe_model(text)
+        dsl_command = HTML_COMMENT_REGEX =~ text
+
+        if dsl_command 
+          enabled = false if disable_dsl(text)
+          enabled = true if enable_dsl(text)
+        end
+
+        if dsl_command && enabled
+          extract_model(text, filename, subdirectory)
+          extract_fragment_meta(text, subdirectory)
+          extract_attribute(text)
+          pop_attribute(text)
+          pop_model(text)
+        else
+          append_to_attribute(text) 
+        end
       end
 
       @described_models.each do |model|
@@ -160,8 +171,8 @@ module MarkdownRecord
       end
     end
 
-    def extract_describe_model(html, filename, subdirectory)
-      model = describe_model_dsl(html)
+    def extract_model(html, filename, subdirectory)
+      model = model_dsl(html)
 
       if model
         return unless model["type"].present?
@@ -197,8 +208,8 @@ module MarkdownRecord
       end
     end
 
-    def extract_describe_model_attribute(text)
-      attribute, type = describe_model_attribute_dsl(text)
+    def extract_attribute(text)
+      attribute, type = attribute_dsl(text)
       type ||= "md"
 
       if @described_models.last && attribute
@@ -209,7 +220,7 @@ module MarkdownRecord
       end
     end
 
-    def append_to_describe_model_attribute(text)
+    def append_to_attribute(text)
       return if text.match(HTML_COMMENT_REGEX)
 
       @described_models.each do |model|
@@ -220,14 +231,14 @@ module MarkdownRecord
       end
     end
 
-    def pop_describe_model_attribute(text)
-      if @described_models.last && end_describe_model_attribute_dsl(text)
+    def pop_attribute(text)
+      if @described_models.last && end_attribute_dsl(text)
         finalize_describe_attribute(@described_models.last)
       end
     end
 
-    def pop_describe_model(html)      
-      if end_describe_model_dsl(html)
+    def pop_model(html)      
+      if end_model_dsl(html)
         @described_models.pop
       end
     end

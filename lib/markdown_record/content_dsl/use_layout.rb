@@ -1,7 +1,7 @@
 module MarkdownRecord
   module ContentDsl
     module UseLayout
-      REGEX = /(?<!`|`\n|`html\n)<!--\s*use_layout\s*:\s*(.*)\s*-->(?!`|\n`)/
+      REGEX = /(?<!`|`\\n|`html\\n)<!--\s*use_layout\s*:\s*(.*)\s*-->(?!`|\\n`)/
       ENCODED_REGEX = /(?<!<code>|<code class="html">)&lt;!--\s*use_layout\s*:\s*(.*)\s*--&gt;(?!<\/code>)/
 
       def use_layout_dsl(text)

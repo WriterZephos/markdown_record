@@ -1,5 +1,14 @@
 module MarkdownRecord
   module ViewHelpers
+    def link_to_markdown_record(model, name = nil, html_options = nil, &block)
+      return nil if model.nil?
+
+      path = path_to_markdown_record(model, "")
+      name ||= model.name if model.respond_to?(:name)
+
+      block_given? ? link_to(path, html_options, nil, &block) : link_to(name, path, html_options, &block)
+    end
+
     def link_to_markdown_record_html(model, name = nil, html_options = nil, &block)
       return nil if model.nil?
 
@@ -66,6 +75,10 @@ module MarkdownRecord
       path = path.join(subdirectory).to_s
 
       "/#{path}"
+    end
+
+    def render_html_example(example)
+      CGI.escapeHTML(example)
     end
   end
 end

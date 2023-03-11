@@ -3,31 +3,26 @@ require "rails/generators"
 
 class MarkdownRecordGenerator < Rails::Generators::Base
   source_root File.expand_path("templates", __dir__)
+  class_option :demo, type: :boolean, aliases: :d
 
   desc "This generator creates the default directories required for markdown_record and copies the default layout into the default location."
-  def copy_layouts
-    copy_file "_concatenated_layout.html.erb", "markdown_record/layouts/_concatenated_layout.html.erb"
-    copy_file "_file_layout.html.erb", "markdown_record/layouts/_file_layout.html.erb"
-    copy_file "_custom_layout.html.erb", "markdown_record/layouts/_custom_layout.html.erb"
-  end
-
-  def create_content_directory
+  def create_directories
     empty_directory "markdown_record/content"
-  end
-
-  def create_rendered_directory
+    empty_directory "markdown_record/layouts"
     empty_directory "markdown_record/rendered"
   end
 
-  def copy_content_file
-    copy_file "content/demo.md.erb", "markdown_record/content/demo.md.erb"
-    copy_file "content/part_1/chapter_1/content.md", "markdown_record/content/part_1/chapter_1/content.md"
-    copy_file "content/part_1/chapter_2/content.md", "markdown_record/content/part_1/chapter_2/content.md"
-    copy_file "content/images/ruby.jpeg", "public/ruby.jpeg"
+  def copy_demo_or_base
+    if options[:demo]
+      directory "demo/content", "markdown_record/content"
+      directory "demo/layouts", "markdown_record/layouts"
+    else
+      directory "base/layouts", "markdown_record/content/layout"
+    end
   end
 
   def copy_initializer
-    copy_file "markdown_record.rb", "config/initializers/markdown_record.rb"
+    copy_file "markdown_record_initializer.rb", "config/initializers/markdown_record.rb"
   end
 
   def copy_thorfile
@@ -40,10 +35,6 @@ class MarkdownRecordGenerator < Rails::Generators::Base
   end
 
   def mount_engine
-    gsub_file "config/routes.rb", /Rails.application.routes.draw do/, "Rails.application.routes.draw do\n  mount MarkdownRecord::Engine, at: MarkdownRecord.config.mount_path, as: \"markdown_record\""
-  end
-
-  def install_render_controller
-    
+    gsub_file "config/routes.rb", /Rails.application.routes.draw do/, "Rails.application.routes.draw do\n  # Do not change this mount path here! Instead change it in the MarkdownRecord initializer.\n  mount MarkdownRecord::Engine, at: MarkdownRecord.config.mount_path, as: \"markdown_record\""
   end
 end

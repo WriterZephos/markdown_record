@@ -1,0 +1,113 @@
+<style>
+  body{
+    background-color: black;
+    padding: 10px;
+  }
+  code{
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    white-space: break-spaces;
+    background-color: rgb(110 118 129 / 40%);
+    border-radius: 6px;
+  }
+  pre{
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    color: #f2f2f2;
+    background-color: #161b22;
+    border-radius: 6px;
+    font-family: andale mono, monaco, monospace;
+    word-wrap: normal;
+  }
+  pre code{
+    color: inherit;
+    background-color: inherit;
+    font-family: inherit;
+    padding: 0px;
+    margin: 0;
+    font-size: inherit;
+    white-space: inherit;
+    background-color: inherit;
+    border-radius: 0px;
+  }
+  h1{
+    color: #6699ff;
+  }
+  h2{
+    color: #b3ccff;
+  }
+  h3{
+    color: #b3ccff;
+  }
+  h4{
+    color: #b3ccff;
+  }
+  a{
+    color: #33ffcc;
+  }
+  .container {
+    margin-bottom: 10px;
+    padding: 10px;
+    color: #f2f2f2;
+    background-color: #0d1117;
+    font-family: trebuchet ms;
+    font-size: 16px;
+  }
+  .rendered_at{
+    font-size: 12px;
+  }
+  .navigation ul{
+    padding: 0px;
+  }
+  .navigation li{
+    display: inline;
+  }
+</style>
+<div class="container">
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content/1_home">Home</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/10_controller_helpers">Controller Helpers</a></li>
+    </ul>
+  </div>
+  <style>
+    .file {
+      padding: 10px;
+      border: 1px solid #cc4400;
+      margin-bottom: 10px;
+    }
+  </style>
+  <div class="file">
+    <!--fragment { "author": "Bryant Morrill", "parent_id": "content/1_home", "name": "Controller Helpers" } -->
+    <!--model { "type": "markdown_record/demo/section", "id":   9, "name": "Controller Helpers" } -->
+    <h1>Controller Helpers</h1>
+    <p>This section describes the controller helpers provided by MarkdownRecord to help interact with MarkdownRecord.</p>
+    <p>To use controller helpers in a controller, simply include the <code>MarkdownRecord::ControllerHelpers</code> module like so:</p>
+    <pre><code class="ruby">include ::MarkdownRecord::ControllerHelpers
+</code></pre>
+    <p>When the module is included, you will be able to call the following methods in your controller:</p>
+    <ul>
+      <li><code>content_fragment</code>: finds a content fragment based on a passed id. If no id is passed it looks for <code>params[:content_path]</code> instead.</li>
+      <li><code>render_html</code>: takes an optional content fragment and an optional layout, then renders the fragment as HTML. If no fragment is provided, it calls <code>content_fragment</code> to get it using <code>params[:content_path]</code>. If no layout is provided, it uses the public_layout configured for MarkdownRecord (by default this is the application layout).</li>
+      <li><code>render_json</code>: takes an optional content fragment and renders it as JSON. If no fragment is provided, it calls <code>content_fragment</code> to get it using <code>params[:content_path]</code>.</li>
+      <li><code>download_html</code>: same a <code>render_html</code> but renders a file for download.</li>
+      <li><code>download_json</code>: same a <code>render_json</code> but renders a file for download.</li>
+    </ul>
+    <!--content/10_controller_helpers-->
+    <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/content/10_controller_helpers">content/10_controller_helpers</a></em></p>
+  </div>
+  <!--content/10_controller_helpers-->
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content/1_home">Home</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/10_controller_helpers">Controller Helpers</a></li>
+    </ul>
+  </div>
+</div>

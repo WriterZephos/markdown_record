@@ -11,8 +11,12 @@ module MarkdownRecord
         raise ArgumentError.new("#{self} does not have the #{foreign_key} attribute required for this association.") unless self.attribute_names.include?(foreign_key)
 
         define_method(association) do
-          MarkdownRecord::Association.new({:klass => klass}).where({:id => self[foreign_key.to_sym].map(&:to_i)})
+          klass.new_association({:klass => klass, :id => JSON.parse(self[foreign_key.to_sym])})
         end
+      end
+
+      def has_one_content(association, **options)
+        belongs_to_content(association, **options)
       end
 
       def belongs_to_content(association, **options)
@@ -23,14 +27,19 @@ module MarkdownRecord
         raise ArgumentError.new("#{self} does not have the #{foreign_key} attribute required for this association.") unless self.attribute_names.include?(foreign_key)
         
         define_method(association) do
-          MarkdownRecord::Association.new({:klass => klass}).find({:id => self[foreign_key]})
+          klass.find(self[foreign_key])
         end
       end
 
       def infer_klass(association, options)
         class_name = options[:class_name]
         class_name ||= association.to_s.singularize.camelize
-        klass = class_name.safe_constantize
+        
+        if self.name.include?("::") && !class_name.include?("::")
+          klass = "#{self.name.split('::')[0...-1].join("::")}::#{class_name}".safe_constantize
+        end
+
+        klass ||= class_name.camelize.safe_constantize
       end
     end
   end

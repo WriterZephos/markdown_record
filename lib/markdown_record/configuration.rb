@@ -9,10 +9,8 @@ module MarkdownRecord
     attr_accessor :file_layout_path
     attr_accessor :global_layout_path
     attr_accessor :markdown_extensions
-    attr_accessor :indexer_class
     attr_accessor :html_render_options
     attr_accessor :public_layout
-    attr_accessor :html_renderer_class
     attr_accessor :render_strategy
     attr_accessor :html_routes
     attr_accessor :json_routes
@@ -26,10 +24,8 @@ module MarkdownRecord
     def initialize
       @content_root = Rails.root.join("markdown_record","content")
       @rendered_content_root = Rails.root.join("markdown_record","rendered")
-      @indexer_class = ::MarkdownRecord::Indexer
-      @html_renderer_class = ::Redcarpet::Render::HTML
-      @html_render_options = {}
       @layout_directory = Rails.root.join("markdown_record","layouts")
+      @html_render_options = {}
       @markdown_extensions = { :fenced_code_blocks => true, :disable_indented_code_blocks => true, :no_intra_emphasis => true}
       @concatenated_layout_path = "_concatenated_layout.html.erb"
       @file_layout_path = "_file_layout.html.erb"

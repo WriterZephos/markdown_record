@@ -6,11 +6,15 @@ module MarkdownRecord
     include ::MarkdownRecord::PathUtilities
     include ::MarkdownRecord::ContentDsl
 
+    HTML_SUBSTITUTIONS = {
+      /<!---/ => "<!--",
+      /&lt;!---/ => "&lt;!--"
+    }
+
     def initialize(
-        file_saver: ::MarkdownRecord::FileSaver.new, 
-        indexer: ::MarkdownRecord.config.indexer_class.new)
+        file_saver: ::MarkdownRecord::FileSaver.new)
       super(::MarkdownRecord.config.html_render_options)
-      @indexer = indexer
+      @indexer = ::MarkdownRecord::Indexer.new
       @markdown = ::Redcarpet::Markdown.new(self, ::MarkdownRecord.config.markdown_extensions)
       @file_saver = file_saver
     end
@@ -104,11 +108,11 @@ module MarkdownRecord
     end
 
     def process_html(html, full_path, layout = nil)
-      processed_html = html.gsub(/<p>(\&lt;%(\S|\s)*%\&gt;)<\/p>/){ CGI.unescapeHTML($1) }
-      processed_html = processed_html.gsub(/(\&lt;%(\S|\s)*%\&gt;)/){ CGI.unescapeHTML($1) }
+      processed_html = html.gsub(/<p>(\&lt;%(\S|\s)*?%\&gt;)<\/p>/){ CGI.unescapeHTML($1) }
+      processed_html = processed_html.gsub(/(\&lt;%(\S|\s)*?%\&gt;)/){ CGI.unescapeHTML($1) }
       layout = custom_layout(html) || layout
       locals = erb_locals_from_path(full_path.to_s)
-      processed_html = render_erb(processed_html, locals)
+      processed_html = render_erb(processed_html, locals) if full_path.to_s.ends_with?(".md.erb")
       processed_html = render_erb(layout, locals.merge(html: processed_html)) if layout
       processed_html
     end
@@ -149,6 +153,11 @@ module MarkdownRecord
       locals = erb_locals_from_path(full_path)
       final_html = html
       final_html = render_erb(@global_layout, locals.merge(html: final_html)) if @global_layout
+      
+      HTML_SUBSTITUTIONS.each do |find, replace|
+        final_html = final_html.gsub(find, replace)
+      end
+
       final_html = final_html.squeeze("\n")
       final_html = HtmlBeautifier.beautify(final_html)
       final_html

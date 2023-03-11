@@ -1,0 +1,121 @@
+<style>
+  body{
+    background-color: black;
+    padding: 10px;
+  }
+  code{
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    white-space: break-spaces;
+    background-color: rgb(110 118 129 / 40%);
+    border-radius: 6px;
+  }
+  pre{
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    color: #f2f2f2;
+    background-color: #161b22;
+    border-radius: 6px;
+    font-family: andale mono, monaco, monospace;
+    word-wrap: normal;
+  }
+  pre code{
+    color: inherit;
+    background-color: inherit;
+    font-family: inherit;
+    padding: 0px;
+    margin: 0;
+    font-size: inherit;
+    white-space: inherit;
+    background-color: inherit;
+    border-radius: 0px;
+  }
+  h1{
+    color: #6699ff;
+  }
+  h2{
+    color: #b3ccff;
+  }
+  h3{
+    color: #b3ccff;
+  }
+  h4{
+    color: #b3ccff;
+  }
+  a{
+    color: #33ffcc;
+  }
+  .container {
+    margin-bottom: 10px;
+    padding: 10px;
+    color: #f2f2f2;
+    background-color: #0d1117;
+    font-family: trebuchet ms;
+    font-size: 16px;
+  }
+  .rendered_at{
+    font-size: 12px;
+  }
+  .navigation ul{
+    padding: 0px;
+  }
+  .navigation li{
+    display: inline;
+  }
+</style>
+<div class="container">
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content/1_home">Home</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/11_configuration">Configuration</a></li>
+    </ul>
+  </div>
+  <style>
+    .file {
+      padding: 10px;
+      border: 1px solid #cc4400;
+      margin-bottom: 10px;
+    }
+  </style>
+  <div class="file">
+    <!--fragment { "author": "Bryant Morrill", "parent_id": "content/1_home", "name": "Configuration" } -->
+    <!--model { "type": "markdown_record/demo/section", "id":   9, "name": "Configuration" } -->
+    <h1>Configuration</h1>
+    <p>Much of MarkdownRecord&#39;s behavior is configurable. This section covers what can be configured.</p>
+    <p>You can configure <code>MarkdownRecord</code> in the initializer that is generated upon installation. The config attributes available are:</p>
+    <ul>
+      <li><code>content_root</code>: the path to the directory containing your markdown source files. This is <code>markdown_record/content</code> inside your application root by default.</li>
+      <li><code>rendered_content_root</code>: the path to the directory where rendered content will be saves. This is <code>markdown_record/rendered</code> inside your application root by default.</li>
+      <li><code>layout_directory</code>: the path to the directory containing the layouts used durring rendering. This is <code>markdown_record/layouts</code> inside your application root by default.</li>
+      <li><code>concatenated_layout_path</code>: the relative path (from <code>layout_directory</code>) to the layout that should be used for files rendered from the concatenated contents of a directory.</li>
+      <li><code>file_layout_path</code>: the relative path (from <code>layout_directory</code>) to the layout that should be used for files rendered from a single markdown source file.</li>
+      <li><code>global_layout_path</code>: the relative path (from <code>layout_directory</code>) to the layout that should be used for all rendered files.</li>
+      <li><code>markdown_extensions</code>: MarkdownRecord uses the <code>Redcarpet</code> gem under the hood to process markdown. This value is the configuration that gets passed to <code>::Redcarpet::Markdown</code>. The default value is <code>{:fenced_code_blocks =&gt; true, :disable_indented_code_blocks =&gt; true, :no_intra_emphasis =&gt; true}</code>. Please see <a href="https://github.com/vmg/redcarpet">Redcarpet&#39;s documentation</a> for more details.</li>
+      <li><code>html_render_options</code>: the <code>render_options</code> that get passed to Redcarpet&#39;s <code>Redcarpet::Render::HTML</code> class. The default value is an empty Hash. Please see <a href="https://github.com/vmg/redcarpet">Redcarpet&#39;s documentation</a> for more details.</li>
+      <li><code>public_layout</code>: the path to the layout (from the application root) that should be used when the controllers provided by MarkdownRecord render HTML. The default value is &quot;layouts/application&quot;.</li>
+      <li><code>render_strategy</code>: the render strategy that should be use when running the <code>render_content</code> Thor task. The default value is <code>:full</code> but it can be changed to <code>:directory</code> of <code>:file</code>. If the <code>:file</code> strategy is used then MarkdownRecord will render your markdown content each time MarkdownRecord models queries are executed.</li>
+      <li><code>html_routes</code>: the routes that are generated to render only HTML. This value is an array of symbols that can include <code>:show</code> and <code>:download</code>. By default the value is <code>[:show]</code>.</li>
+      <li><code>json_routes</code>: the routes that are generated to render only JSON. This value is an array of symbols that can include <code>:show</code> and <code>:download</code>. By default the value is <code>[:show]</code>.</li>
+      <li><code>content_routes</code>: the routes that are generated to render either HTML or JSON depending on the request. This value is an array of symbols that can include <code>:show</code> and <code>:download</code>. By default the value is <code>[:show]</code>.</li>
+      <li><code>mount_path</code>: the path where the MarkdownRecord engine is mounted inside the host application. It is <code>mdr</code> by default.</li>
+      <li><code>render_content_fragment_json</code>: a boolean value that determines whether MarkdownRecord renders content fragments and saves them to the <code>rendered_content_root</code> in JSON files with the <code>_fragments</code> suffix. If this is set to <code>false</code>, then MarkdownRecord will render your markdown content each time MarkdownRecord models queries are executed. This is set to <code>true</code> by default.</li>
+      <li><code>render_controller</code>: the controller used to render ERB content during the rendering process. If this isn&#39;t set, then the host application&#39;s <code>ApplicationController</code> will be used. By default this is <code>nil</code>.</li>
+    </ul>
+    <!--content/11_configuration-->
+    <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/content/11_configuration">content/11_configuration</a></em></p>
+  </div>
+  <!--content/11_configuration-->
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content/1_home">Home</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/11_configuration">Configuration</a></li>
+    </ul>
+  </div>
+</div>

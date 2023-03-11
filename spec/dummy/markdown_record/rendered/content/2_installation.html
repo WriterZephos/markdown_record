@@ -1,0 +1,199 @@
+<style>
+  body{
+    background-color: black;
+    padding: 10px;
+  }
+  code{
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    white-space: break-spaces;
+    background-color: rgb(110 118 129 / 40%);
+    border-radius: 6px;
+  }
+  pre{
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    color: #f2f2f2;
+    background-color: #161b22;
+    border-radius: 6px;
+    font-family: andale mono, monaco, monospace;
+    word-wrap: normal;
+  }
+  pre code{
+    color: inherit;
+    background-color: inherit;
+    font-family: inherit;
+    padding: 0px;
+    margin: 0;
+    font-size: inherit;
+    white-space: inherit;
+    background-color: inherit;
+    border-radius: 0px;
+  }
+  h1{
+    color: #6699ff;
+  }
+  h2{
+    color: #b3ccff;
+  }
+  h3{
+    color: #b3ccff;
+  }
+  h4{
+    color: #b3ccff;
+  }
+  a{
+    color: #33ffcc;
+  }
+  .container {
+    margin-bottom: 10px;
+    padding: 10px;
+    color: #f2f2f2;
+    background-color: #0d1117;
+    font-family: trebuchet ms;
+    font-size: 16px;
+  }
+  .rendered_at{
+    font-size: 12px;
+  }
+  .navigation ul{
+    padding: 0px;
+  }
+  .navigation li{
+    display: inline;
+  }
+</style>
+<div class="container">
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content/1_home">Home</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/2_installation">Installation</a></li>
+    </ul>
+  </div>
+  <style>
+    .file {
+      padding: 10px;
+      border: 1px solid #cc4400;
+      margin-bottom: 10px;
+    }
+  </style>
+  <div class="file">
+    <!--fragment { "author": "Bryant Morrill", "name": "Installation", "parent_id": "content/1_home" } -->
+    <!--model { "type": "markdown_record/demo/section", "id":   1, "name": "Installation" } -->
+    <h1>Installation</h1>
+    <p>This section explains hot to install MarkdownRecord into a host application.</p>
+    <p>First, add this line to your application&#39;s Gemfile:</p>
+    <pre><code class="ruby">gem &quot;markdown_record&quot;
+</code></pre>
+    <p>And then execute:</p>
+    <pre><code class="bash">$ bundle install
+</code></pre>
+    <p>Then, from the root directory of your application run:</p>
+    <pre><code class="bash">$ rails g markdown_record --demo
+</code></pre>
+    <p><em>Note: if you are already familiar with MarkdownRecord and don&#39;t want to install the demo content, you can omit the --demo argument.</em></p>
+    <p>The above command will install the engine, resulting in the following output and changes to your application:</p>
+    <pre><code class="bash">      create  markdown_record/content
+      create  markdown_record/layouts
+      create  markdown_record/rendered
+       exist  markdown_record/content
+      create  markdown_record/content/10_controller_helpers.md.erb
+      create  markdown_record/content/11_configuration.md.erb
+      create  markdown_record/content/12_sandbox/1_foo.md
+      create  markdown_record/content/1_home.md.erb
+      create  markdown_record/content/2_installation.md.erb
+      create  markdown_record/content/3_rendering_basics.md.erb
+      create  markdown_record/content/4_content_dsl.md.erb
+      create  markdown_record/content/5_routes.md.erb
+      create  markdown_record/content/6_model_basics.md.erb
+      create  markdown_record/content/7_content_frags.md.erb
+      create  markdown_record/content/8_erb_syntax_and_view_helpers.md.erb
+      create  markdown_record/content/9_custom_models_and_associations.md.erb
+      exist  markdown_record/layouts
+      create  markdown_record/layouts/_concatenated_layout.html.erb
+      create  markdown_record/layouts/_custom_layout.html.erb
+      create  markdown_record/layouts/_file_layout.html.erb
+      create  markdown_record/layouts/_global_layout.html.erb
+      create  config/initializers/markdown_record.rb
+      create  Thorfile
+      create  lib/tasks/render_content.thor
+      create  lib/tasks/render_file.thor
+        gsub  config/routes.rb
+</code></pre>
+    <p>The files and folders inside <code>markdown_record/content</code> are for demo purposes only, and can be deleted once youare are ready to create your own content.</p>
+    <p>By default, MarkdownRecord will look in the <code>markdown_record/content</code> directory for all your content, and all rendered content will be saved to the <code>markdown_record/rendered</code> directory.</p>
+    <p>The engine will be mounted in <code>config/routes.rb</code> under the <code>mdr</code> path by default.</p>
+    <p>An initializer will be created for you, where you will be able to configure the engine to use different directories and change other default settings. A later section of this guide will provide more details on configuration options.</p>
+    <p>A <code>Thorfile</code> and some thor tasks will also be added to your application. These tasks are used to render your content to HTML and JSON.</p>
+    <p>The final step in the installation process is to render the demo content that was installed in <code>markdown_record/content</code>. To do so, run this Thor task in your application&#39;s root directory:</p>
+    <pre><code class="bash">thor render_content:all -s
+</code></pre>
+    <p>You should see the following output:</p>
+    <pre><code class="bash">---------------------------------------------------------------
+rendering html and json content with options {:concat=&gt;true, :deep=&gt;true, :save=&gt;true, :layout=&gt;&quot;_concatenated_layout.html.erb&quot;, :render_content_fragment_json=&gt;true} ...
+---------------------------------------------------------------
+rendered: /markdown_record/rendered/content_fragments.json
+rendered: /markdown_record/rendered/content.json
+rendered: /markdown_record/rendered/content/9_custom_models_and_associations_fragments.json
+rendered: /markdown_record/rendered/content/9_custom_models_and_associations.json
+rendered: /markdown_record/rendered/content/8_erb_syntax_and_view_helpers_fragments.json
+rendered: /markdown_record/rendered/content/8_erb_syntax_and_view_helpers.json
+rendered: /markdown_record/rendered/content/7_content_frags_fragments.json
+rendered: /markdown_record/rendered/content/7_content_frags.json
+rendered: /markdown_record/rendered/content/6_model_basics_fragments.json
+rendered: /markdown_record/rendered/content/6_model_basics.json
+rendered: /markdown_record/rendered/content/5_routes_fragments.json
+rendered: /markdown_record/rendered/content/5_routes.json
+rendered: /markdown_record/rendered/content/4_content_dsl_fragments.json
+rendered: /markdown_record/rendered/content/4_content_dsl.json
+rendered: /markdown_record/rendered/content/3_rendering_basics_fragments.json
+rendered: /markdown_record/rendered/content/3_rendering_basics.json
+rendered: /markdown_record/rendered/content/2_installation_fragments.json
+rendered: /markdown_record/rendered/content/2_installation.json
+rendered: /markdown_record/rendered/content/1_home_fragments.json
+rendered: /markdown_record/rendered/content/1_home.json
+rendered: /markdown_record/rendered/content/12_sandbox_fragments.json
+rendered: /markdown_record/rendered/content/12_sandbox.json
+rendered: /markdown_record/rendered/content/12_sandbox/1_foo_fragments.json
+rendered: /markdown_record/rendered/content/12_sandbox/1_foo.json
+rendered: /markdown_record/rendered/content/11_configuration_fragments.json
+rendered: /markdown_record/rendered/content/11_configuration.json
+rendered: /markdown_record/rendered/content/10_controller_helpers_fragments.json
+rendered: /markdown_record/rendered/content/10_controller_helpers.json
+rendered: /markdown_record/rendered/content.html
+rendered: /markdown_record/rendered/content/9_custom_models_and_associations.html
+rendered: /markdown_record/rendered/content/8_erb_syntax_and_view_helpers.html
+rendered: /markdown_record/rendered/content/7_content_frags.html
+rendered: /markdown_record/rendered/content/6_model_basics.html
+rendered: /markdown_record/rendered/content/5_routes.html
+rendered: /markdown_record/rendered/content/4_content_dsl.html
+rendered: /markdown_record/rendered/content/3_rendering_basics.html
+rendered: /markdown_record/rendered/content/2_installation.html
+rendered: /markdown_record/rendered/content/1_home.html
+rendered: /markdown_record/rendered/content/12_sandbox.html
+rendered: /markdown_record/rendered/content/12_sandbox/1_foo.html
+rendered: /markdown_record/rendered/content/11_configuration.html
+rendered: /markdown_record/rendered/content/10_controller_helpers.html
+---------------------------------------------------------------
+42 files rendered.
+42 files saved.
+</code></pre>
+    <p>Congratulations! You have installed MarkdownRecord. If you are not viewing this from the host application already, go ahead and start your Rails server and navigate to your <a href="http://localhost:3000/mdr/content/1_home">local host demo</a> to continue following this guide.</p>
+    <!--content/2_installation-->
+    <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/content/2_installation">content/2_installation</a></em></p>
+  </div>
+  <!--content/2_installation-->
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content/1_home">Home</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/2_installation">Installation</a></li>
+    </ul>
+  </div>
+</div>
