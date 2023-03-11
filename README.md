@@ -63,41 +63,61 @@ MarkdownRecord should not be used if the code repository the host application li
 # Usage
 
 ## Installation
-Add this line to your application's Gemfile:
+
+This section explains hot to install MarkdownRecord into a host application.
+
+First, add this line to your application's Gemfile:
 
 ```ruby
 gem "markdown_record"
 ```
 
 And then execute:
+
 ```bash
 $ bundle install
 ```
 
 Then, from the root directory of your application run:
+
 ```bash
-$ rails g markdown_record
+$ rails g markdown_record --demo
 ```
+
+*Note: if you are already familiar with MarkdownRecord and don't want to install the demo content, you can omit the --demo argument.*
 
 The above command will install the engine, resulting in the following output and changes to your application:
+
 ```bash
-create  markdown_record/layouts/_concatenated_layout.html.erb
-create  markdown_record/layouts/_file_layout.html.erb
-create  markdown_record/layouts/_custom_layout.html.erb
-create  markdown_record/content
-create  markdown_record/rendered
-create  markdown_record/content/demo.md
-create  markdown_record/content/part_1/chapter_1/content.md
-create  markdown_record/content/part_1/chapter_2/content.md
-create  public/ruby.jpeg
-create  config/initializers/markdown_record.rb
-create  Thorfile
-create  lib/tasks/render_content.thor
-create  lib/tasks/render_file.thor
-  gsub  config/routes.rb
+      create  markdown_record/content
+      create  markdown_record/layouts
+      create  markdown_record/rendered
+       exist  markdown_record/content
+      create  markdown_record/content/10_controller_helpers.md.erb
+      create  markdown_record/content/11_configuration.md.erb
+      create  markdown_record/content/12_sandbox/1_foo.md
+      create  markdown_record/content/1_home.md.erb
+      create  markdown_record/content/2_installation.md.erb
+      create  markdown_record/content/3_rendering_basics.md.erb
+      create  markdown_record/content/4_content_dsl.md.erb
+      create  markdown_record/content/5_routes.md.erb
+      create  markdown_record/content/6_model_basics.md.erb
+      create  markdown_record/content/7_content_frags.md.erb
+      create  markdown_record/content/8_erb_syntax_and_view_helpers.md.erb
+      create  markdown_record/content/9_custom_models_and_associations.md.erb
+      exist  markdown_record/layouts
+      create  markdown_record/layouts/_concatenated_layout.html.erb
+      create  markdown_record/layouts/_custom_layout.html.erb
+      create  markdown_record/layouts/_file_layout.html.erb
+      create  markdown_record/layouts/_global_layout.html.erb
+      create  config/initializers/markdown_record.rb
+      create  Thorfile
+      create  lib/tasks/render_content.thor
+      create  lib/tasks/render_file.thor
+        gsub  config/routes.rb
 ```
 
-The files and folders inside `markdown_record/content`, `markdown_record/layouts` and `public` are for demo purposes only, and can be deleted once youare are ready to create your own content.
+The files and folders inside `markdown_record/content` are for demo purposes only, and can be deleted once youare are ready to create your own content.
 
 By default, MarkdownRecord will look in the `markdown_record/content` directory for all your content, and all rendered content will be saved to the `markdown_record/rendered` directory.
 
@@ -107,17 +127,66 @@ An initializer will be created for you, where you will be able to configure the 
 
 A `Thorfile` and some thor tasks will also be added to your application. These tasks are used to render your content to HTML and JSON.
 
-## Overview
+The final step in the installation process is to render the demo content that was installed in `markdown_record/content`. To do so, run this Thor task in your application's root directory:
 
-The general workflow while using MarkdownRecord, once installed in your application, is as follows:
+```bash
+thor render_content:all -s
+```
 
-1. Write markdown content, using the content writing DSL to define model data within your markdown content.
-2. Run the provided Thor task to render your markdown content into HTML and JSON.
-3. Use the provided view helpers to link to the rendered content in your application's views, relying on the controllers provided by the engine for serving the content.
-4. Use model classes inheritiing from `MarkdownRecord::Base` to interact with your html and json rendered content, taking advantage of the associations you can define manually as well a the automatic associations they have based on content location.
-5. Use the built in `MarkdownRecord::ContentFragment` model to directly reference your rendered content inside your application. 
+You should see the following output:
 
+```bash
+---------------------------------------------------------------
+rendering html and json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
+---------------------------------------------------------------
+rendered: /markdown_record/rendered/content_fragments.json
+rendered: /markdown_record/rendered/content.json
+rendered: /markdown_record/rendered/content/9_custom_models_and_associations_fragments.json
+rendered: /markdown_record/rendered/content/9_custom_models_and_associations.json
+rendered: /markdown_record/rendered/content/8_erb_syntax_and_view_helpers_fragments.json
+rendered: /markdown_record/rendered/content/8_erb_syntax_and_view_helpers.json
+rendered: /markdown_record/rendered/content/7_content_frags_fragments.json
+rendered: /markdown_record/rendered/content/7_content_frags.json
+rendered: /markdown_record/rendered/content/6_model_basics_fragments.json
+rendered: /markdown_record/rendered/content/6_model_basics.json
+rendered: /markdown_record/rendered/content/5_routes_fragments.json
+rendered: /markdown_record/rendered/content/5_routes.json
+rendered: /markdown_record/rendered/content/4_content_dsl_fragments.json
+rendered: /markdown_record/rendered/content/4_content_dsl.json
+rendered: /markdown_record/rendered/content/3_rendering_basics_fragments.json
+rendered: /markdown_record/rendered/content/3_rendering_basics.json
+rendered: /markdown_record/rendered/content/2_installation_fragments.json
+rendered: /markdown_record/rendered/content/2_installation.json
+rendered: /markdown_record/rendered/content/1_home_fragments.json
+rendered: /markdown_record/rendered/content/1_home.json
+rendered: /markdown_record/rendered/content/12_sandbox_fragments.json
+rendered: /markdown_record/rendered/content/12_sandbox.json
+rendered: /markdown_record/rendered/content/12_sandbox/1_foo_fragments.json
+rendered: /markdown_record/rendered/content/12_sandbox/1_foo.json
+rendered: /markdown_record/rendered/content/11_configuration_fragments.json
+rendered: /markdown_record/rendered/content/11_configuration.json
+rendered: /markdown_record/rendered/content/10_controller_helpers_fragments.json
+rendered: /markdown_record/rendered/content/10_controller_helpers.json
+rendered: /markdown_record/rendered/content.html
+rendered: /markdown_record/rendered/content/9_custom_models_and_associations.html
+rendered: /markdown_record/rendered/content/8_erb_syntax_and_view_helpers.html
+rendered: /markdown_record/rendered/content/7_content_frags.html
+rendered: /markdown_record/rendered/content/6_model_basics.html
+rendered: /markdown_record/rendered/content/5_routes.html
+rendered: /markdown_record/rendered/content/4_content_dsl.html
+rendered: /markdown_record/rendered/content/3_rendering_basics.html
+rendered: /markdown_record/rendered/content/2_installation.html
+rendered: /markdown_record/rendered/content/1_home.html
+rendered: /markdown_record/rendered/content/12_sandbox.html
+rendered: /markdown_record/rendered/content/12_sandbox/1_foo.html
+rendered: /markdown_record/rendered/content/11_configuration.html
+rendered: /markdown_record/rendered/content/10_controller_helpers.html
+---------------------------------------------------------------
+42 files rendered.
+42 files saved.
+```
 
+Congratulations! You have installed MarkdownRecord. If you are not viewing this from the host application already, go ahead and start your Rails server and navigate to http://localhost:3000/mdr/content/1_home to continue following this guide.
 
 ## Contributing
 Contribution guides coming soon.
