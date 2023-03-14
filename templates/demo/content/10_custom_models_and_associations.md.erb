@@ -1,0 +1,78 @@
+<!--fragment { "author": "Bryant Morrill", "parent_id": "content/home", "name": "Custom Models and Associations" } -->
+<!---model { "type": "markdown_record/demo/section", "id":   8, "name": "Custom Models and Associations" } -->
+
+# Custom Models and Associations
+
+This sectional will discuss how to create MarkdownContent models and defines associations on them, as well as how to define associations between MarkdownContent and ActiveRecord models.
+
+To make a MarkdownContent, it only needs to inherit from `MarkdownContent::Base`. Once you have done that, you can define attributes and associations on it to other MarkdownContent models.
+
+## Attributes
+
+`MarkdownContent::Base` includes `ActiveAttr::Model` to provide attribute functionality. Please see how to use the ActiveAttr gem's interface <%= link_to("here", "https://github.com/cgriego/active_attr") %>.
+
+## Asscociations
+
+You can define custom associations on your model using the `belongs_to_content`, `has_one_content` and `has_many_content` methods like so:
+
+```ruby
+module MarkdownRecord
+  module Demo
+    class Section < ::MarkdownRecord::Base
+      attribute :name
+      
+      has_many_content :dsl_commands
+    end
+  end
+end
+```
+
+```ruby
+module MarkdownRecord
+  module Demo
+    class DslCommand < ::MarkdownRecord::Base
+      attribute :name
+      attribute :description
+
+      belongs_to_content :section
+    end
+  end
+end
+```
+
+Once the associations are defined, you will want to make sure your JSON objects in your markdown have the required fields. For the example above, the DslCommand model will automatically be given a `section_id` field that will need to be populated in your markdown like so:
+
+```html
+<!---model { "type": "markdown_record/demo/dsl_command", "id": 6, "name": "directory_fragment", "section_id": 1 } -->
+```
+
+Then you can use the association in your code just like ActiveRecord associtions:
+
+```ruby
+MarkdownRecord::Demo::Section.find(3).dsl_commands.all
+ => 
+[#<MarkdownRecord::Demo::DslCommand section_id: 1, description: "...", ...>, ...]
+```
+
+```ruby
+MarkdownRecord::Demo::DslCommand.find(1).section
+ => #<MarkdownRecord::Demo::Section filename: "content_dsl", id: 3, name: "Content DSL", subdirectory: "content", type: "markdown_record/demo/section">
+```
+
+`has_many_content` will define a method that returns an `MarkdownRecord::Association` object, which you can then chain queries onto. `belongs_to_content`  and `has_one_content` will define methods that returns a single MarkdownContent model.
+
+### Associations on ActiveRecord Models
+
+You can easily integrate MarkdownRecord and ActiveRecord models together using the `MarkdownRecord::ContentAssociations` module. Just include it in your ActiveRecord model like so:
+
+```ruby
+class Product < ActiveRecord::Base
+  include MarkdownRecord::ContentAssociations
+
+  has_one_content :user_manual
+  has_many_content :research_notes
+end
+````
+
+You can define the same associations as described for MarkdownRecord models for ActiveRecord models. An important difference between the two cases, however, is that there are no foreign keys on the MarkdownRecord models that point to ActiveRecord models. Instead, MarkdownRecord expects to find an attribute on the ActiveRecord model that can be used for querying the MarkdownRecord models. For example, the `Product` model above should have a `user_manual_id` column or attribute. This effectively makes `has_one_content` and `belongs_to_content` aliases for each other. In the case of `has_many_content`, the model should have an attribute that is a JSON array of ids that point to the related MarkdownRecord models. In the example above, it would be called `research_note_ids`.
+

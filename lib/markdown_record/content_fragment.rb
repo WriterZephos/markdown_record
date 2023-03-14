@@ -1,5 +1,7 @@
 module MarkdownRecord
   class ContentFragment < MarkdownRecord::Base
+    include MarkdownRecord::PathUtilities
+
     attribute :meta, :type => Object
     attribute :concatenated, :type => Boolean
 
@@ -49,8 +51,16 @@ module MarkdownRecord
       path("json")
     end
 
+    def json_route
+      route("json", id)
+    end
+
     def html_path
       path("html")
+    end
+
+    def html_route
+      route("html", id)
     end
 
     # Associations
@@ -83,12 +93,12 @@ module MarkdownRecord
 
     def parents_from(ancestor)
       ancestor = self.class.find(ancestor) if ancestor.is_a?(String)
-      
+
       parents = []
       current_parent = self
 
       while current_parent
-        if current_parent.id == ancestor.id
+        if current_parent.id == ancestor&.id
           parents.unshift(current_parent)
           current_parent = nil
         else
@@ -104,6 +114,10 @@ module MarkdownRecord
 
     def path(ext)
       "#{::MarkdownRecord.config.rendered_content_root.join(id).to_s}.#{ext}"
+    end
+
+    def route(ext, path)
+      "#{ext}/#{path}"
     end
   end
 end

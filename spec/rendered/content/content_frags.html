@@ -1,0 +1,152 @@
+<style>
+  body{
+    background-color: black;
+    padding: 10px;
+  }
+  code{
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    white-space: break-spaces;
+    background-color: rgb(110 118 129 / 40%);
+    border-radius: 6px;
+  }
+  pre{
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    color: #f2f2f2;
+    background-color: #161b22;
+    border-radius: 6px;
+    font-family: andale mono, monaco, monospace;
+    word-wrap: normal;
+  }
+  pre code{
+    color: inherit;
+    background-color: inherit;
+    font-family: inherit;
+    padding: 0px;
+    margin: 0;
+    font-size: inherit;
+    white-space: inherit;
+    background-color: inherit;
+    border-radius: 0px;
+  }
+  h1{
+    color: #6699ff;
+  }
+  h2{
+    color: #b3ccff;
+  }
+  h3{
+    color: #b3ccff;
+  }
+  h4{
+    color: #b3ccff;
+  }
+  a{
+    color: #33ffcc;
+  }
+  .container {
+    margin-bottom: 10px;
+    padding: 10px;
+    color: #f2f2f2;
+    background-color: #0d1117;
+    font-family: trebuchet ms;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .rendered_at{
+    font-size: 12px;
+  }
+  .navigation ul{
+    padding: 0px;
+  }
+  .navigation li{
+    display: inline;
+  }
+</style>
+<div class="container">
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content/home">Home</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/content_frags">Content Fragments</a></li>
+    </ul>
+  </div>
+  <style>
+    .file {
+      padding: 10px;
+      border: 1px solid #cc4400;
+      margin-bottom: 10px;
+    }
+  </style>
+  <div class="file">
+    <!--fragment { "author": "Bryant Morrill", "parent_id": "content/home", "name": "Content Fragments" } -->
+    <!--model { "type": "markdown_record/demo/section", "id":   6, "name": "Content Fragments" } -->
+    <h1>Content Fragments</h1>
+    <p>This section describes how to use the <code>::MarkdownRecord::ContentFragment</code> model to easily interact with your written markdown content from your application code.</p>
+    <p>Each file and directory in the <code>content</code> directory that gets rendered as either HTML or JSON will have a content fragment JSON object created for it that represents that source file. These JSON objects get stored in the corresponding file with a <code>_fragments</code> suffix.</p>
+    <p>In your application code, you can interact with content fragment JSON objects via the <code>::MarkdownRecord::ContentFragment</code> model. This model is a child class of <code>::MarkdownRecord::Base</code> and adds the following attributes:</p>
+    <ul>
+      <li><code>meta&lt;Hash&gt;</code></li>
+      <li><code>concatenated&lt;Boolean&gt;</code></li>
+    </ul>
+    <p>The <code>meta</code> attribute contains a <code>Hash</code> populated with any data you that you defined using the <code>fragment</code> or <code>directory_fragment</code> content DSL methods.</p>
+    <p><code>concatentated</code> will be auto-populated during rendering and will be true for fragments representing a directory, and false for those representing files.</p>
+    <h3>Querying Content Fragments</h3>
+    <p>You can query content fragmets just like you query other MarkdownRecord models, but these queries will only return content fragments. Using filter values that are Hashes, howevers, will allow you to query and filter content fragments based on their <code>meta</code> attribute.</p>
+    <h2>Associations</h2>
+    <p>Content fragments also have a few extra associations, which are:</p>
+    <ul>
+      <li><code>ancestors</code>: the content fragments above the current fragment in the content structure.</li>
+      <li><code>ancestors_from</code>: the content fragments above the current fragment in the content structure, starting with a content fragment or content fragment id that is passed in.</li>
+      <li><code>parent</code>: the content fragment directly above the current fragment in the content structure.</li>
+    </ul>
+    <p>Each of the above associations use the file tree structure, meaning that they will only return content fragments representing directories.</p>
+    <p>The <code>parent</code> method, however, can have its behavior overridden by setting a <code>parent_id</code> field in the <code>meta</code> hash of the content fragment to the id of another content fragment using the Content DSL.</p>
+    <p>For example, the file that this text is written in is at <code>content/blog/content_frags.md</code>, meaning that the parent of the directory level content fragment with <code>id = &quot;content/blog&quot;</code> would normally be the directory level content fragment with <code>id = &quot;content&quot;</code>.</p>
+    <p>In code, this would look like:</p>
+    <pre><code class="ruby">MarkdownRecord::ContentFragment.find(&quot;content/content_frags&quot;).parent
+ =&gt; #&lt;MarkdownRecord::ContentFragment concatenated: true, filename: &quot;content&quot;, id: &quot;content&quot;, meta: {&quot;name&quot;=&gt;&quot;Demo&quot;, ...}, subdirectory: &quot;&quot;, type: &quot;markdown_record/content_fragment&quot;&gt; 
+</code></pre>
+    <p>But one of the files in in <code>content/blog</code> uses the Content DSL to define meta data for the directory content fragment, like so:</p>
+    <pre><code class="html">&lt;!--directory_fragment { &quot;name&quot;: &quot;Example: Blog&quot;, &quot;parent_id&quot;: &quot;content/home&quot; } --&gt;
+</code></pre>
+    <p>The <code>parent_id</code> in the <code>meta</code> hash overrides the default behavior, which changes what fragment is returned from <code>parent</code>:</p>
+    <pre><code class="ruby">MarkdownRecord::ContentFragment.find(&quot;content/content_frags&quot;).parent
+ =&gt; #&lt;MarkdownRecord::ContentFragment concatenated: false, filename: &quot;home&quot;, id: &quot;content/home&quot;, meta: {&quot;name&quot;=&gt;&quot;Home&quot;, ...}, subdirectory: &quot;content&quot;, type: &quot;markdown_record/content_fragment&quot;&gt;
+</code></pre>
+    <p>The ability to overried the natural <code>parent</code> of a content fragment is useful for constructing a list or hierarchy of content that is not strictly based on file structure. The <code>parents_from</code> method is useful in doing this, as it builds a hierarchy but respect any <code>parent_id</code> of the content fragments it comes across instead of assuming the containing directory is the parent. This is useful for constructing breadcrumbs and navigation in your views.</p>
+    <p>Exampe:</p>
+    <pre><code class="ruby">MarkdownRecord::ContentFragment.find(&quot;content/sandbox/foo&quot;)
+  .parents_from(&quot;content/home&quot;)
+  .map(&amp;:id)
+ =&gt; [&quot;content/home&quot;, &quot;content/sandbox&quot;]
+</code></pre>
+    <h2>Instance Methods</h2>
+    <p><code>MarkdownRecord::ContentFragment</code> has the following instance methods:</p>
+    <ul>
+      <li><code>exists?</code>: returns <code>true</code><code>or</code>false`<code>depending on whether a JSON or HTML file corresponding to the content fragment can be found. This should always return</code>true` unless something has gone wrong with the rendering process.</li>
+      <li><code>json_exists?</code>: returns <code>true</code> if a corresponding JSON files can be found.</li>
+      <li><code>html_exists?</code>: returns <code>true</code> if a corresponding HTML files can be found.</li>
+      <li><code>read_json</code>: reads the corresponding JSON file.</li>
+      <li><code>read_html</code>: reads the corresponding HTML file.</li>
+      <li><code>json_path</code>: returns the path to the corresponding JSON file.</li>
+      <li><code>html_path</code>: returns the path to the corresponding HTML file.</li>
+    </ul>
+    <!--content/content_frags-->
+    <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/content/content_frags">content/content_frags</a></em></p>
+  </div>
+  <!--content/content_frags-->
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content/home">Home</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/content_frags">Content Fragments</a></li>
+    </ul>
+  </div>
+</div>

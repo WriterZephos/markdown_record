@@ -9,7 +9,7 @@ require "pry"
 
 require "helpers"
 
-Dir["lib/generators/templates/render_content.thor"].sort.each { |f| load f }
+Dir["templates/render_content.thor"].sort.each { |f| load f }
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

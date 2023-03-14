@@ -1,0 +1,172 @@
+<style>
+  body{
+    background-color: black;
+    padding: 10px;
+  }
+  code{
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    white-space: break-spaces;
+    background-color: rgb(110 118 129 / 40%);
+    border-radius: 6px;
+  }
+  pre{
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    color: #f2f2f2;
+    background-color: #161b22;
+    border-radius: 6px;
+    font-family: andale mono, monaco, monospace;
+    word-wrap: normal;
+  }
+  pre code{
+    color: inherit;
+    background-color: inherit;
+    font-family: inherit;
+    padding: 0px;
+    margin: 0;
+    font-size: inherit;
+    white-space: inherit;
+    background-color: inherit;
+    border-radius: 0px;
+  }
+  h1{
+    color: #6699ff;
+  }
+  h2{
+    color: #b3ccff;
+  }
+  h3{
+    color: #b3ccff;
+  }
+  h4{
+    color: #b3ccff;
+  }
+  a{
+    color: #33ffcc;
+  }
+  .container {
+    margin-bottom: 10px;
+    padding: 10px;
+    color: #f2f2f2;
+    background-color: #0d1117;
+    font-family: trebuchet ms;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .rendered_at{
+    font-size: 12px;
+  }
+  .navigation ul{
+    padding: 0px;
+  }
+  .navigation li{
+    display: inline;
+  }
+</style>
+<div class="container">
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content/home">Home</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/routes">Routes</a></li>
+    </ul>
+  </div>
+  <style>
+    .file {
+      padding: 10px;
+      border: 1px solid #cc4400;
+      margin-bottom: 10px;
+    }
+  </style>
+  <div class="file">
+    <!--fragment { "author": "Bryant Morrill", "parent_id": "content/home", "name": "Routes" } -->
+    <!--model { "type": "markdown_record/demo/section", "id":   4, "name": "Routes" } -->
+    <h1>Routes</h1>
+    <p>This section discusses the automatically available routes you can use to render markdown content as HTML or JSON.</p>
+    <p>If you are reading this document in a browser by rendering it from your application, then you will have already ran the Thor command necessary to render the demo content as HTML and JSON. You can also see the HTML and JSON files in the <code>rendered</code> directory. In fact, the content you are viewing right now as you read this is one of those files, served to you via the built in routes that come with MarkdownRecord.</p>
+    <p>All of the following routes should now resolve successfully:</p>
+    <ul>
+      <li><code>&lt;application root path&gt;/mdr/html/&lt;content_path&gt;</code></li>
+      <li><code>&lt;application root path&gt;/mdr/json/&lt;content_path&gt;</code></li>
+      <li><code>&lt;application root path&gt;/&lt;content_path&gt;</code></li>
+    </ul>
+    <p><code>content_path</code> in the above routes is the path to a rendered file or directory (relative to the <code>rendered</code> folder). When you navigate to a path that points to a directory, you will see the concatenated contens of everything that is in that directory.</p>
+    <p>The <code>html</code> routes only return HTML, while the <code>json</code> routes only return JSON. The generic route returns either HTML or JSON depending on the ACCEPT header of your request or the extension of the url you are accessing (for example, appending <code>.json</code> at the end of the current url will load all the JSON models defined in this this document&#39;s markdown source files using the Content DSL commands described above).</p>
+    <p>In addition to the above routes, routes for downloading content are provided as well. They are:</p>
+    <ul>
+      <li><code>&lt;application root path&gt;/mdr/html/download/&lt;content_path&gt;</code></li>
+      <li><code>&lt;application root path&gt;/mdr/json/download/&lt;content_path&gt;</code></li>
+      <li><code>&lt;application root path&gt;/download/&lt;content_path&gt;</code></li>
+    </ul>
+    <p>The download routes are not enabled by default, but can be enabled if you want to be able to download your rendered content.</p>
+    <p>Here is a complete list of links to all the rendered HTML files of this demo (each item has a JSON and an HTML version), all of which use the routes described above:</p>
+    - <a href="/mdr/content/custom_models_and_associations">content/custom_models_and_associations</a><br>
+    - <a href="/mdr/content/installation">content/installation</a><br>
+    - <a href="/mdr/content/model_basics">content/model_basics</a><br>
+    - <a href="/mdr/content/routes">content/routes</a><br>
+    - <a href="/mdr/content/content_dsl">content/content_dsl</a><br>
+    - <a href="/mdr/content/content_frags">content/content_frags</a><br>
+    - <a href="/mdr/content/sandbox/foo">content/sandbox/foo</a><br>
+    - <a href="/mdr/content/sandbox/sandbox_nested/bar">content/sandbox/sandbox_nested/bar</a><br>
+    - <a href="/mdr/content/sandbox/sandbox_nested">content/sandbox/sandbox_nested</a><br>
+    - <a href="/mdr/content/sandbox">content/sandbox</a><br>
+    - <a href="/mdr/content/configuration">content/configuration</a><br>
+    - <a href="/mdr/content/layouts">content/layouts</a><br>
+    - <a href="/mdr/content/erb_syntax_and_view_helpers">content/erb_syntax_and_view_helpers</a><br>
+    - <a href="/mdr/content/controller_helpers">content/controller_helpers</a><br>
+    - <a href="/mdr/content/home">content/home</a><br>
+    - <a href="/mdr/content/rendering_basics">content/rendering_basics</a><br>
+    - <a href="/mdr/content">content</a><br>
+    - <a href="/mdr/html/content/custom_models_and_associations">html/content/custom_models_and_associations</a><br>
+    - <a href="/mdr/html/content/installation">html/content/installation</a><br>
+    - <a href="/mdr/html/content/model_basics">html/content/model_basics</a><br>
+    - <a href="/mdr/html/content/routes">html/content/routes</a><br>
+    - <a href="/mdr/html/content/content_dsl">html/content/content_dsl</a><br>
+    - <a href="/mdr/html/content/content_frags">html/content/content_frags</a><br>
+    - <a href="/mdr/html/content/sandbox/foo">html/content/sandbox/foo</a><br>
+    - <a href="/mdr/html/content/sandbox/sandbox_nested/bar">html/content/sandbox/sandbox_nested/bar</a><br>
+    - <a href="/mdr/html/content/sandbox/sandbox_nested">html/content/sandbox/sandbox_nested</a><br>
+    - <a href="/mdr/html/content/sandbox">html/content/sandbox</a><br>
+    - <a href="/mdr/html/content/configuration">html/content/configuration</a><br>
+    - <a href="/mdr/html/content/layouts">html/content/layouts</a><br>
+    - <a href="/mdr/html/content/erb_syntax_and_view_helpers">html/content/erb_syntax_and_view_helpers</a><br>
+    - <a href="/mdr/html/content/controller_helpers">html/content/controller_helpers</a><br>
+    - <a href="/mdr/html/content/home">html/content/home</a><br>
+    - <a href="/mdr/html/content/rendering_basics">html/content/rendering_basics</a><br>
+    - <a href="/mdr/html/content">html/content</a><br>
+    - <a href="/mdr/json/content/custom_models_and_associations">json/content/custom_models_and_associations</a><br>
+    - <a href="/mdr/json/content/installation">json/content/installation</a><br>
+    - <a href="/mdr/json/content/model_basics">json/content/model_basics</a><br>
+    - <a href="/mdr/json/content/routes">json/content/routes</a><br>
+    - <a href="/mdr/json/content/content_dsl">json/content/content_dsl</a><br>
+    - <a href="/mdr/json/content/content_frags">json/content/content_frags</a><br>
+    - <a href="/mdr/json/content/sandbox/foo">json/content/sandbox/foo</a><br>
+    - <a href="/mdr/json/content/sandbox/sandbox_nested/bar">json/content/sandbox/sandbox_nested/bar</a><br>
+    - <a href="/mdr/json/content/sandbox/sandbox_nested">json/content/sandbox/sandbox_nested</a><br>
+    - <a href="/mdr/json/content/sandbox">json/content/sandbox</a><br>
+    - <a href="/mdr/json/content/configuration">json/content/configuration</a><br>
+    - <a href="/mdr/json/content/layouts">json/content/layouts</a><br>
+    - <a href="/mdr/json/content/erb_syntax_and_view_helpers">json/content/erb_syntax_and_view_helpers</a><br>
+    - <a href="/mdr/json/content/controller_helpers">json/content/controller_helpers</a><br>
+    - <a href="/mdr/json/content/home">json/content/home</a><br>
+    - <a href="/mdr/json/content/rendering_basics">json/content/rendering_basics</a><br>
+    - <a href="/mdr/json/content">json/content</a><br>
+    <p>Some of the above routes are the rendered versions of individual files, and some are the concatenated and rendered contents of an entire directory.</p>
+    <!--content/routes-->
+    <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/content/routes">content/routes</a></em></p>
+  </div>
+  <!--content/routes-->
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content/home">Home</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/routes">Routes</a></li>
+    </ul>
+  </div>
+</div>

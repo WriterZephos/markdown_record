@@ -1,0 +1,108 @@
+<style>
+  body{
+    background-color: black;
+    padding: 10px;
+  }
+
+  code{
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    white-space: break-spaces;
+    background-color: rgb(110 118 129 / 40%);
+    border-radius: 6px;
+  }
+
+  pre{
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    color: #f2f2f2;
+    background-color: #161b22;
+    border-radius: 6px;
+    font-family: andale mono, monaco, monospace;
+    word-wrap: normal;
+  }
+
+  pre code{
+    color: inherit;
+    background-color: inherit;
+    font-family: inherit;
+    padding: 0px;
+    margin: 0;
+    font-size: inherit;
+    white-space: inherit;
+    background-color: inherit;
+    border-radius: 0px;
+  }
+
+  h1{
+    color: #6699ff;
+  }
+
+  h2{
+    color: #b3ccff;
+  }
+
+  h3{
+    color: #b3ccff;
+  }
+
+  h4{
+    color: #b3ccff;
+  }
+
+  a{
+    color: #33ffcc;
+  }
+
+  .container {
+    margin-bottom: 10px;
+    padding: 10px;
+    color: #f2f2f2;
+    background-color: #0d1117;
+    font-family: trebuchet ms;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .rendered_at{
+    font-size: 12px;
+  }
+
+  .navigation ul{
+    padding: 0px;
+  }
+
+  .navigation li{
+    display: inline;
+  }
+</style>
+
+<div class="container">
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <% fragment.parents_from("content/home").each_with_index do |frag, index| %>
+        <% unless index == 0%>
+          <span class="breadcrumb_divider">/</span>
+        <% end %>
+        <li><%= link_to_markdown_record(frag)%></li>
+      <% end %>
+    </ul>
+  </div>
+  <%= raw(html) %>
+  <%= raw("<!--#{subdirectory}/#{filename}-->") %>
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <% fragment.parents_from("content/home").each_with_index do |frag, index| %>
+        <% unless index == 0%>
+          <span class="breadcrumb_divider">/</span>
+        <% end %>
+        <li><%= link_to_markdown_record(frag)%></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

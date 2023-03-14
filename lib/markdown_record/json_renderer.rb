@@ -131,7 +131,7 @@ module MarkdownRecord
       end
 
       @described_models.each do |model|
-        finalize_describe_attribute(model)
+        finalize_attribute(model)
       end
 
       @json_models.dup
@@ -233,7 +233,7 @@ module MarkdownRecord
 
     def pop_attribute(text)
       if @described_models.last && end_attribute_dsl(text)
-        finalize_describe_attribute(@described_models.last)
+        finalize_attribute(@described_models.last)
       end
     end
 
@@ -243,7 +243,7 @@ module MarkdownRecord
       end
     end
 
-    def finalize_describe_attribute(model)
+    def finalize_attribute(model)
       return if model[:described_attribute].nil?
 
       attribute_name = model.delete(:described_attribute)

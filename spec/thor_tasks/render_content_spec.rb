@@ -9,240 +9,73 @@ RSpec.describe ::RenderContent do
     }
   }
 
-  let(:files){
-    terminal_output.split("\n").map do |line|
-      match = line.match(/rendered: \/(.*)/)
-      if match.nil?
-        nil
-      else
-        match[1]
-      end
-    end.compact
-  }
+  # Uncomment the before(:all) and after blocks and run once to
+  # populate the comparison data in rendered.txt AFTER you have visually
+  # inspected the output to make sure everything is good.
+  # Then comment them again and run it to get passing.
 
-  let(:chapter_1_content_html){
-    File.read("../rendered/chapter_1/content.html")
-  }
+  # before(:all) do
+  #   reset_output_for_specs
+  # end
 
-  let(:chapter_1_content_json){
-    File.read("../rendered/chapter_1/content.json")
-  }
-
-  let(:chapter_1_content_fragments_json){
-    File.read("../rendered/chapter_1/content_fragments.json")
-  }
-
-  let(:chapter_2_content_html){
-    File.read("../rendered/chapter_2/content.html")
-  }
-
-  let(:concatenated_content_html){
-    File.read("../rendered/concatenated/content.html")
-  }
-
-  let(:concatenated_content_json){
-    File.read("../rendered/concatenated/content.json")
-  }
-
-  let(:concatenated_content_fragments_json){
-    File.read("../rendered/concatenated/content_fragments.json")
-  }
-
-  let(:custom_layout_content_html){
-    File.read("../rendered/custom_layout/content.html")
-  }
-
-  let(:custom_layout_chapter_1_content_html){
-    File.read("../rendered/custom_layout/chapter_1/content.html")
-  }
+  # after do
+  #   copy_output_for_specs
+  # end
 
   describe "render_content:html" do
-    let(:terminal_output){
-      <<~eos
-      ---------------------------------------------------------------
-      rendering html content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
-      ---------------------------------------------------------------
-      rendered: /markdown_record/rendered/content.html
-      rendered: /markdown_record/rendered/content/part_1.html
-      rendered: /markdown_record/rendered/content/part_1/chapter_2.html
-      rendered: /markdown_record/rendered/content/part_1/chapter_2/content.html
-      rendered: /markdown_record/rendered/content/part_1/chapter_1.html
-      rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
-      rendered: /markdown_record/rendered/content/demo.html
-      ---------------------------------------------------------------
-      7 files rendered.
-      0 files saved.
-      eos
-    }
-
     it "does a dry run render of html" do
-      expect{ ::RenderContent.new.invoke(:html, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-      expect(verify_files(files)).to eq(false)
+      ::RenderContent.new.invoke(:html, [], options)
+      expect(verify_output(0)).to eq(true)
+      expect(verify_files(files(0))).to eq(false)
     end
   end
 
   describe "render_content:json" do
-    let(:terminal_output){
-        <<~eos
-        ---------------------------------------------------------------
-        rendering json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
-        ---------------------------------------------------------------
-        rendered: /markdown_record/rendered/content_fragments.json
-        rendered: /markdown_record/rendered/content.json
-        rendered: /markdown_record/rendered/content/part_1_fragments.json
-        rendered: /markdown_record/rendered/content/part_1.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
-        rendered: /markdown_record/rendered/content/demo_fragments.json
-        rendered: /markdown_record/rendered/content/demo.json
-        ---------------------------------------------------------------
-        14 files rendered.
-        0 files saved.
-        eos
-    }
-
     it "does a dry run render of json" do
-      expect{ ::RenderContent.new.invoke(:json, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-      
-      expect(verify_files(files)).to eq(false)
+      ::RenderContent.new.invoke(:html, [], options)
+      expect(verify_output(1)).to eq(true)
+      expect(verify_files(files(1))).to eq(false)
     end
   end
 
   describe "render_content:all" do
-    let(:terminal_output){
-      <<~eos
-      ---------------------------------------------------------------
-      rendering html and json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
-      ---------------------------------------------------------------
-      rendered: /markdown_record/rendered/content_fragments.json
-      rendered: /markdown_record/rendered/content.json
-      rendered: /markdown_record/rendered/content/part_1_fragments.json
-      rendered: /markdown_record/rendered/content/part_1.json
-      rendered: /markdown_record/rendered/content/part_1/chapter_2_fragments.json
-      rendered: /markdown_record/rendered/content/part_1/chapter_2.json
-      rendered: /markdown_record/rendered/content/part_1/chapter_2/content_fragments.json
-      rendered: /markdown_record/rendered/content/part_1/chapter_2/content.json
-      rendered: /markdown_record/rendered/content/part_1/chapter_1_fragments.json
-      rendered: /markdown_record/rendered/content/part_1/chapter_1.json
-      rendered: /markdown_record/rendered/content/part_1/chapter_1/content_fragments.json
-      rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
-      rendered: /markdown_record/rendered/content/demo_fragments.json
-      rendered: /markdown_record/rendered/content/demo.json
-      rendered: /markdown_record/rendered/content.html
-      rendered: /markdown_record/rendered/content/part_1.html
-      rendered: /markdown_record/rendered/content/part_1/chapter_2.html
-      rendered: /markdown_record/rendered/content/part_1/chapter_2/content.html
-      rendered: /markdown_record/rendered/content/part_1/chapter_1.html
-      rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
-      rendered: /markdown_record/rendered/content/demo.html
-      ---------------------------------------------------------------
-      21 files rendered.
-      0 files saved.
-      eos
-    }
-
     it "does a dry run render of html and json" do
-      expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-      expect(verify_files(files)).to eq(false)
+      ::RenderContent.new.invoke(:html, [], options)
+      expect(verify_output(2)).to eq(true)
+      expect(verify_files(files(2))).to eq(false)
     end
   end
 
   context "when a subdirectory is specified" do
     let(:options){
       {
-        :subdirectory => "part_1",
+        :subdirectory => "13_sandbox",
         :layout => ::MarkdownRecord.config.concatenated_layout_path,
         :save => false
       }
     }
 
     describe "render_content:html" do
-      let(:terminal_output){
-        <<~eos
-          ---------------------------------------------------------------
-          rendering html content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
-          ---------------------------------------------------------------
-          rendered: /markdown_record/rendered/content/part_1.html
-          rendered: /markdown_record/rendered/content/part_1/chapter_2.html
-          rendered: /markdown_record/rendered/content/part_1/chapter_2/content.html
-          rendered: /markdown_record/rendered/content/part_1/chapter_1.html
-          rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
-          ---------------------------------------------------------------
-          5 files rendered.
-          0 files saved.
-          eos
-      }
-
       it "does a dry run render of html" do
-        expect{ ::RenderContent.new.invoke(:html, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_files(files)).to eq(false)
+        ::RenderContent.new.invoke(:html, [], options)
+        expect(verify_output(3)).to eq(true)
+        expect(verify_files(files(3))).to eq(false)
       end
     end
 
     describe "render_content:json" do
-      let(:terminal_output){
-        <<~eos
-        ---------------------------------------------------------------
-        rendering json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
-        ---------------------------------------------------------------
-        rendered: /markdown_record/rendered/content/part_1_fragments.json
-        rendered: /markdown_record/rendered/content/part_1.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
-        ---------------------------------------------------------------
-        10 files rendered.
-        0 files saved.
-        eos
-      }
-      
       it "does a dry run render of json" do
-        expect{ ::RenderContent.new.invoke(:json, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_files(files)).to eq(false)
+        ::RenderContent.new.invoke(:html, [], options)
+        expect(verify_output(4)).to eq(true)
+        expect(verify_files(files(4))).to eq(false)
       end
     end
 
     describe "render_content:all" do
-      let(:terminal_output){
-        <<~eos
-        ---------------------------------------------------------------
-        rendering html and json content with options {:concat=>true, :deep=>true, :save=>false, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
-        ---------------------------------------------------------------
-        rendered: /markdown_record/rendered/content/part_1_fragments.json
-        rendered: /markdown_record/rendered/content/part_1.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
-        rendered: /markdown_record/rendered/content/part_1.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_2.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_1.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
-        ---------------------------------------------------------------
-        15 files rendered.
-        0 files saved.
-        eos
-      }
-
       it "does a dry run render of html and json" do
-        expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_files(files)).to eq(false)
+        ::RenderContent.new.invoke(:html, [], options)
+        expect(verify_output(5)).to eq(true)
+        expect(verify_files(files(5))).to eq(false)
       end
     end
   end
@@ -257,214 +90,29 @@ RSpec.describe ::RenderContent do
     }
 
     describe "render_content:html" do
-      let(:terminal_output){
-        <<~eos
-        ---------------------------------------------------------------
-        rendering html content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
-        ---------------------------------------------------------------
-        rendered: /markdown_record/rendered/content.html
-        rendered: /markdown_record/rendered/content/part_1.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_2.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_1.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
-        rendered: /markdown_record/rendered/content/demo.html
-        ---------------------------------------------------------------
-        7 files rendered.
-        7 files saved.
-        eos
-      }
-  
       it "renders html" do
-        expect{ ::RenderContent.new.invoke(:html, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_files(files)).to eq(true)
+        ::RenderContent.new.invoke(:html, [], options)
+        expect(verify_output(6)).to eq(true)
+        expect(verify_file_contents(files(6))).to eq(true)
+        expect(verify_files(files(6))).to eq(true)
       end
     end
   
     describe "render_content:json" do
-      let(:terminal_output){
-        <<~eos
-        ---------------------------------------------------------------
-        rendering json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
-        ---------------------------------------------------------------
-        rendered: /markdown_record/rendered/content_fragments.json
-        rendered: /markdown_record/rendered/content.json
-        rendered: /markdown_record/rendered/content/part_1_fragments.json
-        rendered: /markdown_record/rendered/content/part_1.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
-        rendered: /markdown_record/rendered/content/demo_fragments.json
-        rendered: /markdown_record/rendered/content/demo.json
-        ---------------------------------------------------------------
-        14 files rendered.
-        14 files saved.
-        eos
-      }
-
       it "renders json" do
-        expect{ ::RenderContent.new.invoke(:json, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_files(files)).to eq(true)
+        ::RenderContent.new.invoke(:html, [], options)
+        expect(verify_output(7)).to eq(true)
+        expect(verify_file_contents(files(7))).to eq(true)
+        expect(verify_files(files(7))).to eq(true)
       end
     end
   
     describe "render_content:all" do
-      let(:terminal_output){
-        <<~eos
-        ---------------------------------------------------------------
-        rendering html and json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
-        ---------------------------------------------------------------
-        rendered: /markdown_record/rendered/content_fragments.json
-        rendered: /markdown_record/rendered/content.json
-        rendered: /markdown_record/rendered/content/part_1_fragments.json
-        rendered: /markdown_record/rendered/content/part_1.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
-        rendered: /markdown_record/rendered/content/demo_fragments.json
-        rendered: /markdown_record/rendered/content/demo.json
-        rendered: /markdown_record/rendered/content.html
-        rendered: /markdown_record/rendered/content/part_1.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_2.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_1.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
-        rendered: /markdown_record/rendered/content/demo.html
-        ---------------------------------------------------------------
-        21 files rendered.
-        21 files saved.
-        eos
-      }
-  
       it "renders html and json" do
-        expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(File.read("./markdown_record/rendered/content/part_1/chapter_1/content.html")).to eq(chapter_1_content_html)
-        expect(File.read("./markdown_record/rendered/content/part_1/chapter_1/content.json")).to eq(chapter_1_content_json)
-        expect(File.read("./markdown_record/rendered/content/part_1/chapter_1/content_fragments.json")).to eq(chapter_1_content_fragments_json)
-        expect(File.read("./markdown_record/rendered/content/part_1/chapter_1/content_fragments.json")).to eq(chapter_1_content_fragments_json)
-        expect(File.read("./markdown_record/rendered/content/part_1/chapter_2/content.html")).to eq(chapter_2_content_html)
-        expect(File.read("./markdown_record/rendered/content.html")).to eq(concatenated_content_html)
-        expect(File.read("./markdown_record/rendered/content.json")).to eq(concatenated_content_json)
-        expect(File.read("./markdown_record/rendered/content_fragments.json")).to eq(concatenated_content_fragments_json)
-        expect(verify_files(files)).to eq(true)
-      end
-    end
-  end
-
-  context "when a layout is specified" do
-    let(:options){
-      {
-        :subdirectory => "",
-        :layout => "_custom_layout.html.erb",
-        :save => true
-      }
-    }
-
-    describe "render_content:html" do
-      let(:terminal_output){
-        <<~eos
-        ---------------------------------------------------------------
-        rendering html content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_custom_layout.html.erb", :render_content_fragment_json=>true} ...
-        ---------------------------------------------------------------
-        rendered: /markdown_record/rendered/content.html
-        rendered: /markdown_record/rendered/content/part_1.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_2.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_1.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
-        rendered: /markdown_record/rendered/content/demo.html
-        ---------------------------------------------------------------
-        7 files rendered.
-        7 files saved.
-        eos
-      }
-  
-      it "renders html" do
-        expect{ ::RenderContent.new.invoke(:html, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_files(files)).to eq(true)
-      end
-    end
-  
-    describe "render_content:json" do
-      let(:terminal_output){
-        <<~eos
-        ---------------------------------------------------------------
-        rendering json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_custom_layout.html.erb", :render_content_fragment_json=>true} ...
-        ---------------------------------------------------------------
-        rendered: /markdown_record/rendered/content_fragments.json
-        rendered: /markdown_record/rendered/content.json
-        rendered: /markdown_record/rendered/content/part_1_fragments.json
-        rendered: /markdown_record/rendered/content/part_1.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
-        rendered: /markdown_record/rendered/content/demo_fragments.json
-        rendered: /markdown_record/rendered/content/demo.json
-        ---------------------------------------------------------------
-        14 files rendered.
-        14 files saved.
-        eos
-      }
-  
-      it "renders json" do
-        expect{ ::RenderContent.new.invoke(:json, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_files(files)).to eq(true)
-      end
-    end
-  
-    describe "render_content:all" do
-      let(:terminal_output){
-        <<~eos
-        ---------------------------------------------------------------
-        rendering html and json content with options {:concat=>true, :deep=>true, :save=>true, :layout=>"_custom_layout.html.erb", :render_content_fragment_json=>true} ...
-        ---------------------------------------------------------------
-        rendered: /markdown_record/rendered/content_fragments.json
-        rendered: /markdown_record/rendered/content.json
-        rendered: /markdown_record/rendered/content/part_1_fragments.json
-        rendered: /markdown_record/rendered/content/part_1.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
-        rendered: /markdown_record/rendered/content/demo_fragments.json
-        rendered: /markdown_record/rendered/content/demo.json
-        rendered: /markdown_record/rendered/content.html
-        rendered: /markdown_record/rendered/content/part_1.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_2.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_1.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
-        rendered: /markdown_record/rendered/content/demo.html
-        ---------------------------------------------------------------
-        21 files rendered.
-        21 files saved.
-        eos
-      }
-  
-      it "renders html and json" do
-        expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(File.read("./markdown_record/rendered/content.html")).to eq(custom_layout_content_html)
-        expect(File.read("./markdown_record/rendered/content/part_1/chapter_1/content.html")).to eq(custom_layout_chapter_1_content_html)
-        expect(verify_files(files)).to eq(true)
+        ::RenderContent.new.invoke(:html, [], options)
+        expect(verify_output(8)).to eq(true)
+        expect(verify_file_contents(files(8))).to eq(true)
+        expect(verify_files(files(8))).to eq(true)
       end
     end
   end
@@ -480,41 +128,10 @@ RSpec.describe ::RenderContent do
     }
 
     describe "render_content:all" do
-      let(:terminal_output){
-        <<~eos
-        ---------------------------------------------------------------
-        rendering html and json content with options {:concat=>true, :deep=>false, :save=>true, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
-        ---------------------------------------------------------------
-        rendered: /markdown_record/rendered/content_fragments.json
-        rendered: /markdown_record/rendered/content.json
-        rendered: /markdown_record/rendered/content/part_1_fragments.json
-        rendered: /markdown_record/rendered/content/part_1.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1.json
-        rendered: /markdown_record/rendered/content.html
-        rendered: /markdown_record/rendered/content/part_1.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_2.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_1.html
-        ---------------------------------------------------------------
-        12 files rendered.
-        12 files saved.
-        eos
-      }
-  
       it "renders html and json" do
-        expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_files(["markdown_record/rendered/content/part_1/chapter_1/content.html"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/part_1/chapter_2/content.html"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/part_1/chapter_1/content.json"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/part_1/chapter_2/content.json"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/part_1/chapter_1/content_fragments.json"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/part_1/chapter_2/content_fragments.json"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/demo.html"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/demo.json"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/demo_fragments.json"])).to eq(false)
-        expect(verify_files(files)).to eq(true)
+        ::RenderContent.new.invoke(:html, [], options)
+        expect(verify_output(9)).to eq(true)
+        expect(verify_files(files(9))).to eq(true)
       end
     end
   end
@@ -530,42 +147,10 @@ RSpec.describe ::RenderContent do
     }
 
     describe "render_content:all" do
-      let(:terminal_output){
-        <<~eos
-        ---------------------------------------------------------------
-        rendering html and json content with options {:concat=>false, :deep=>true, :save=>true, :layout=>"_concatenated_layout.html.erb", :render_content_fragment_json=>true} ...
-        ---------------------------------------------------------------
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content_fragments.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.json
-        rendered: /markdown_record/rendered/content/demo_fragments.json
-        rendered: /markdown_record/rendered/content/demo.json
-        rendered: /markdown_record/rendered/content/part_1/chapter_2/content.html
-        rendered: /markdown_record/rendered/content/part_1/chapter_1/content.html
-        rendered: /markdown_record/rendered/content/demo.html
-        ---------------------------------------------------------------
-        9 files rendered.
-        9 files saved.
-        eos
-      }
-  
       it "renders html and json" do
-        expect{ ::RenderContent.new.invoke(:all, [], options) }.to output(terminal_output.gsub('\n', "\n")).to_stdout
-        expect(verify_files(["markdown_record/rendered/content.html"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/part_1.html"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/part_1/chapter_1.html"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/part_1/chapter_1.html"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content.json"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/part_1.json"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/part_1/chapter_1.json"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/part_1/chapter_1.json"])).to eq(false)
-
-        expect(verify_files(["markdown_record/rendered/content_fragments.json"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/part_1_fragments.json"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/part_1/chapter_1_fragments.json"])).to eq(false)
-        expect(verify_files(["markdown_record/rendered/content/part_1/chapter_1_fragments.json"])).to eq(false)
-        expect(verify_files(files)).to eq(true)
+        ::RenderContent.new.invoke(:html, [], options)
+        expect(verify_output(10)).to eq(true)
+        expect(verify_files(files(10))).to eq(true)
       end
     end
   end

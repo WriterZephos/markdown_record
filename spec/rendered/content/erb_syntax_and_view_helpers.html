@@ -1,0 +1,164 @@
+<style>
+  body{
+    background-color: black;
+    padding: 10px;
+  }
+  code{
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    white-space: break-spaces;
+    background-color: rgb(110 118 129 / 40%);
+    border-radius: 6px;
+  }
+  pre{
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    color: #f2f2f2;
+    background-color: #161b22;
+    border-radius: 6px;
+    font-family: andale mono, monaco, monospace;
+    word-wrap: normal;
+  }
+  pre code{
+    color: inherit;
+    background-color: inherit;
+    font-family: inherit;
+    padding: 0px;
+    margin: 0;
+    font-size: inherit;
+    white-space: inherit;
+    background-color: inherit;
+    border-radius: 0px;
+  }
+  h1{
+    color: #6699ff;
+  }
+  h2{
+    color: #b3ccff;
+  }
+  h3{
+    color: #b3ccff;
+  }
+  h4{
+    color: #b3ccff;
+  }
+  a{
+    color: #33ffcc;
+  }
+  .container {
+    margin-bottom: 10px;
+    padding: 10px;
+    color: #f2f2f2;
+    background-color: #0d1117;
+    font-family: trebuchet ms;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .rendered_at{
+    font-size: 12px;
+  }
+  .navigation ul{
+    padding: 0px;
+  }
+  .navigation li{
+    display: inline;
+  }
+</style>
+<div class="container">
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content/home">Home</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/erb_syntax_and_view_helpers">ERB Syntax and View Helpers</a></li>
+    </ul>
+  </div>
+  <style>
+    .file {
+      padding: 10px;
+      border: 1px solid #cc4400;
+      margin-bottom: 10px;
+    }
+  </style>
+  <div class="file">
+    <!--fragment { "author": "Bryant Morrill", "parent_id": "content/home", "name": "ERB Syntax and View Helpers" } -->
+    <!--model { "type": "markdown_record/demo/section", "id":   7, "name": "ERB Syntax and View Helpers" } -->
+    <h1>ERB Syntax and View Helpers</h1>
+    <p>This section describes how to use ERB syntax and view helpers in your markdown files and ERB views in conjunction with MarkdownRecord models to make navigating across all your rendered content easy.</p>
+    <h2>ERB Syntax</h2>
+    <p>MarkdownRecord supports the use of ERB syntax in your markdown source files. It also provides the following local variables for use in your ERB code:</p>
+    <ul>
+      <li><code>filename</code>: the name of the file being rendered.</li>
+      <li><code>subdirectory</code>: the subdirectory of the file being rendered.</li>
+      <li><code>frag_id</code>: the id of the fragment corresponding to the file being rendered.</li>
+      <li><code>fragment</code>: the content fragment model instance corresponding to the file being rendered.</li>
+    </ul>
+    <h2>Rails View Helpers</h2>
+    <p>All the standard view helpers that come with Rails should be accessible within your markdown source files when rendered as ERB files, such as tag helpers and path helpers.</p>
+    <p>For example, the image below is rendered using the <code>image_tag</code> tag helper:</p>
+    <img src="/assets/ruby-logo-f7e5cfd4f5b7652bada815c4c5336faccb05c8d37b95decec01747f459bba450.png" />
+    <h2>View Helpers</h2>
+    <p>MarkdownRecord provides the following view helpers to use in your ERB views as well as in your markdown content source files:</p>
+    <ul>
+      <li>
+        <p><code>link_to_markdown_record</code>: generates a link to the content fragment you pass in, or else the content fragment corresponding to the MarkdownRecord model you pass in.</p>
+        <p>For example, for a content fragment such as:</p>
+        <pre><code class="ruby">fragment
+=&gt; #&lt;MarkdownRecord::ContentFragment filename: &quot;content&quot;, id: &quot;content/erb_syntax_and_view_helpers&quot;, meta: {&quot;name&quot;=&gt;&quot;ERB Syntax and View Helpers&quot;, ...}, ...&gt; 
+</code></pre>
+        <p>When you pass it into the view helper like so:</p>
+        <pre><code class="html"><%%= link_to_markdown_record(fragment)%>
+</code></pre>
+        <p>The result would be the following markup:</p>
+        <pre><code class="html">&lt;a href=&quot;/mdr/content/erb_syntax_and_view_helpers&quot;&gt;ERB Syntax and View Helpers&lt;/a&gt;
+</code></pre>
+        <p>Notice how the text in the link is the name value found in the content fragment meta attribute. This is because MarkdownRecord checks to see if the model passed in responds to <code>name</code>, and <code>MarkdownRecord::ContentFragment</code> has a <code>name</code> method that returns the <code>name</code> field, if present, from its meta hash.</p>
+        <p>A fragment without a name will be rendered like this:</p>
+        <pre><code class="html">&lt;a href=&quot;/mdr/content/erb_syntax_and_view_helpers&quot;&gt;/mdr/content/blog/view_helpers&lt;/a&gt;
+</code></pre>
+        <p>Unless you pass in a name explicitly:</p>
+        <pre><code class="html"><%%= link_to_markdown_record(fragment, "Click Here!") %>
+</code></pre>
+        <p>Which will produce:</p>
+        <pre><code class="html">&lt;a href=&quot;/mdr/content/erb_syntax_and_view_helpers&quot;&gt;Click Here!&lt;/a&gt;
+</code></pre>
+        <p>You may have noticed that this view helper works almost identically to the standard Rails <code>link_to</code> method, and in fact this helper simply wraps <code>link_to</code>. As such, it has the same API that accepts <code>html_options</code> and a <code>block</code> as well. The only difference is that you have to pass in a <code>MarkdownRecord</code> model as the first parameter.</p>
+      </li>
+      <li>
+        <p><code>link_to_markdown_record_html</code>: this view helper works identically to <code>link_to_markdown_record</code>, but adds the <code>html</code> prefix to the route so that it can only return HTML.</p>
+      </li>
+      <li>
+        <p><code>link_to_download_markdown_record_html</code>: same as <code>link_to_markdown_record_html</code> but downloads a file instead.</p>
+      </li>
+      <li>
+        <p><code>link_to_markdown_record_json</code>: this view helper works identically to <code>link_to_markdown_record</code>, but adds the <code>json</code> prefix to the route so that it can only return HTML.</p>
+      </li>
+      <li>
+        <p><code>link_to_download_markdown_record_html</code>: same as <code>link_to_markdown_record_json</code> but downloads a file instead.</p>
+      </li>
+    </ul>
+    <h3>Breadcrumbs</h3>
+    <p>Using the view helpers in conjuction with content fragments, you can easily build navigations that automatically updates when you rerender your content. This guide uses this technique and you can find the following code in the <code>_global_layout.html.erb</code> layout:</p>
+    <pre><code class="html"><%% fragment.parents_from("content/home").each_with_index do |frag, index| %>
+    <%% unless index == 0%>
+        &lt;span class=&quot;breadcrumb_divider&quot;&gt;/&lt;/span&gt;
+    <%% end %>
+    &lt;li&gt;<%%= link_to_markdown_record(frag)%>
+<%% end %>
+</code></pre>
+    <!--content/erb_syntax_and_view_helpers-->
+    <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/content/erb_syntax_and_view_helpers">content/erb_syntax_and_view_helpers</a></em></p>
+  </div>
+  <!--content/erb_syntax_and_view_helpers-->
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content/home">Home</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/erb_syntax_and_view_helpers">ERB Syntax and View Helpers</a></li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,148 @@
+<style>
+  body{
+    background-color: black;
+    padding: 10px;
+  }
+  code{
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    white-space: break-spaces;
+    background-color: rgb(110 118 129 / 40%);
+    border-radius: 6px;
+  }
+  pre{
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    color: #f2f2f2;
+    background-color: #161b22;
+    border-radius: 6px;
+    font-family: andale mono, monaco, monospace;
+    word-wrap: normal;
+  }
+  pre code{
+    color: inherit;
+    background-color: inherit;
+    font-family: inherit;
+    padding: 0px;
+    margin: 0;
+    font-size: inherit;
+    white-space: inherit;
+    background-color: inherit;
+    border-radius: 0px;
+  }
+  h1{
+    color: #6699ff;
+  }
+  h2{
+    color: #b3ccff;
+  }
+  h3{
+    color: #b3ccff;
+  }
+  h4{
+    color: #b3ccff;
+  }
+  a{
+    color: #33ffcc;
+  }
+  .container {
+    margin-bottom: 10px;
+    padding: 10px;
+    color: #f2f2f2;
+    background-color: #0d1117;
+    font-family: trebuchet ms;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .rendered_at{
+    font-size: 12px;
+  }
+  .navigation ul{
+    padding: 0px;
+  }
+  .navigation li{
+    display: inline;
+  }
+</style>
+<div class="container">
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content/home">Home</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/custom_models_and_associations">Custom Models and Associations</a></li>
+    </ul>
+  </div>
+  <style>
+    .file {
+      padding: 10px;
+      border: 1px solid #cc4400;
+      margin-bottom: 10px;
+    }
+  </style>
+  <div class="file">
+    <!--fragment { "author": "Bryant Morrill", "parent_id": "content/home", "name": "Custom Models and Associations" } -->
+    <!--model { "type": "markdown_record/demo/section", "id":   8, "name": "Custom Models and Associations" } -->
+    <h1>Custom Models and Associations</h1>
+    <p>This sectional will discuss how to create MarkdownContent models and defines associations on them, as well as how to define associations between MarkdownContent and ActiveRecord models.</p>
+    <p>To make a MarkdownContent, it only needs to inherit from <code>MarkdownContent::Base</code>. Once you have done that, you can define attributes and associations on it to other MarkdownContent models.</p>
+    <h2>Attributes</h2>
+    <p><code>MarkdownContent::Base</code> includes <code>ActiveAttr::Model</code> to provide attribute functionality. Please see how to use the ActiveAttr gem&#39;s interface <a href="https://github.com/cgriego/active_attr">here</a>.</p>
+    <h2>Asscociations</h2>
+    <p>You can define custom associations on your model using the <code>belongs_to_content</code>, <code>has_one_content</code> and <code>has_many_content</code> methods like so:</p>
+    <pre><code class="ruby">module MarkdownRecord
+  module Demo
+    class Section &lt; ::MarkdownRecord::Base
+      attribute :name
+      has_many_content :dsl_commands
+    end
+  end
+end
+</code></pre>
+    <pre><code class="ruby">module MarkdownRecord
+  module Demo
+    class DslCommand &lt; ::MarkdownRecord::Base
+      attribute :name
+      attribute :description
+      belongs_to_content :section
+    end
+  end
+end
+</code></pre>
+    <p>Once the associations are defined, you will want to make sure your JSON objects in your markdown have the required fields. For the example above, the DslCommand model will automatically be given a <code>section_id</code> field that will need to be populated in your markdown like so:</p>
+    <pre><code class="html">&lt;!--model { &quot;type&quot;: &quot;markdown_record/demo/dsl_command&quot;, &quot;id&quot;: 6, &quot;name&quot;: &quot;directory_fragment&quot;, &quot;section_id&quot;: 1 } --&gt;
+</code></pre>
+    <p>Then you can use the association in your code just like ActiveRecord associtions:</p>
+    <pre><code class="ruby">MarkdownRecord::Demo::Section.find(3).dsl_commands.all
+ =&gt; 
+[#&lt;MarkdownRecord::Demo::DslCommand section_id: 1, description: &quot;...&quot;, ...&gt;, ...]
+</code></pre>
+    <pre><code class="ruby">MarkdownRecord::Demo::DslCommand.find(1).section
+ =&gt; #&lt;MarkdownRecord::Demo::Section filename: &quot;content_dsl&quot;, id: 3, name: &quot;Content DSL&quot;, subdirectory: &quot;content&quot;, type: &quot;markdown_record/demo/section&quot;&gt;
+</code></pre>
+    <p><code>has_many_content</code> will define a method that returns an <code>MarkdownRecord::Association</code> object, which you can then chain queries onto. <code>belongs_to_content</code>  and <code>has_one_content</code> will define methods that returns a single MarkdownContent model.</p>
+    <h3>Associations on ActiveRecord Models</h3>
+    <p>You can easily integrate MarkdownRecord and ActiveRecord models together using the <code>MarkdownRecord::ContentAssociations</code> module. Just include it in your ActiveRecord model like so:</p>
+    <pre><code class="ruby">class Product &lt; ActiveRecord::Base
+  include MarkdownRecord::ContentAssociations
+  has_one_content :user_manual
+  has_many_content :research_notes
+end
+</code></pre>
+    <p>You can define the same associations as described for MarkdownRecord models for ActiveRecord models. An important difference between the two cases, however, is that there are no foreign keys on the MarkdownRecord models that point to ActiveRecord models. Instead, MarkdownRecord expects to find an attribute on the ActiveRecord model that can be used for querying the MarkdownRecord models. For example, the <code>Product</code> model above should have a <code>user_manual_id</code> column or attribute. This effectively makes <code>has_one_content</code> and <code>belongs_to_content</code> aliases for each other. In the case of <code>has_many_content</code>, the model should have an attribute that is a JSON array of ids that point to the related MarkdownRecord models. In the example above, it would be called <code>research_note_ids</code>.</p>
+    <!--content/custom_models_and_associations-->
+    <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/content/custom_models_and_associations">content/custom_models_and_associations</a></em></p>
+  </div>
+  <!--content/custom_models_and_associations-->
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content/home">Home</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/custom_models_and_associations">Custom Models and Associations</a></li>
+    </ul>
+  </div>
+</div>

@@ -18,6 +18,7 @@ module MarkdownRecord
     attr_accessor :mount_path
     attr_accessor :render_content_fragment_json
     attr_accessor :render_controller
+    attr_accessor :ignore_numeric_prefix
 
     RENDER_STRATEGIES = [:full, :directory, :file]
 
@@ -38,6 +39,7 @@ module MarkdownRecord
       @mount_path = "mdr"
       @render_content_fragment_json = true
       @render_controller = nil
+      @ignore_numeric_prefix = true
     end
 
     def render_strategy_options(strategy = nil)

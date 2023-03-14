@@ -14,12 +14,12 @@ module MarkdownRecord
                file_path = "#{file_path}_fragments" if filters[:klass] == ::MarkdownRecord::ContentFragment
                "#{file_path}.json"
              else
-              file_path = subdirectory
-              file_path = "#{file_path}_fragments" if filters[:klass] == ::MarkdownRecord::ContentFragment
-              "#{base_rendered_path}/#{file_path}.json"
+               file_path = subdirectory
+               file_path = "#{file_path}_fragments" if filters[:klass] == ::MarkdownRecord::ContentFragment
+               "#{base_rendered_path}/#{file_path}.json"
              end
 
-      json = json_source(path, subdirectory || "")
+      json = json_source(path)
       json.delete(::MarkdownRecord::ContentFragment.json_klass) if filters.delete(:exclude_fragments)
       json = filters[:klass].present? ? json[filters.delete(:klass).json_klass] : json.values.flatten
       json ||= []
@@ -33,18 +33,19 @@ module MarkdownRecord
       end
     end
 
-    def json_source(path, subdirectory)
+    def json_source(path)
       if Pathname.new(path).exist?
         json = JSON.parse(File.read(path))
         return json
       end
 
-      json = ::MarkdownRecord::JsonRenderer.new.render_models_for_subdirectory(subdirectory: subdirectory,:concat => true, :deep => true, :save => false, :render_content_fragment_json => true)
+      json = ::MarkdownRecord::JsonRenderer.new.render_models_for_subdirectory(subdirectory: "",:concat => true, :deep => true, :save => false, :render_content_fragment_json => true)
+      
+      filename, subdirectory = full_path_to_parts(path)
 
-      tokens = subdirectory.split("/")
-      last = tokens.pop
-      tokens << "#{last}.concat"
-      json.dig(*tokens)
+      tokens = subdirectory.gsub(base_rendered_root, "").split("/")
+      tokens << "#{filename}.concat"
+      json.dig(*tokens) || {}
     end
 
     def passes_filters?(attributes, filters)

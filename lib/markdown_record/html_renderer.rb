@@ -20,43 +20,16 @@ module MarkdownRecord
     end
 
     def render_html_for_subdirectory(subdirectory: "", **options)
-      unless options.key?(:concat_layout) && options[:concat_layout].nil?
-        concatenated_layout_path = options[:concat_layout] || ::MarkdownRecord.config.concatenated_layout_path
-        global_layout_path = options[:concat_layout] || ::MarkdownRecord.config.global_layout_path
-        @concatenated_layout = File.read(::MarkdownRecord.config.layout_directory.join(concatenated_layout_path))
-        @global_layout = File.read(::MarkdownRecord.config.layout_directory.join(global_layout_path))
-      end
-
-      unless options.key?(:file_layout) && options[:file_layout].nil?
-        file_layout_path = options[:file_layout] || ::MarkdownRecord.config.file_layout_path
-        @file_layout = File.read(::MarkdownRecord.config.layout_directory.join(file_layout_path))
-      end
-
       content = @indexer.index(subdirectory: subdirectory)
       rendered_subdirectory = base_content_path.join(subdirectory)
 
       html_content = render_html_recursively(content, rendered_subdirectory.to_s)
       processed_html = process_html_recursively(html_content[rendered_subdirectory.to_s], rendered_subdirectory, options)
+      final_html = finalize_html_recursively(processed_html, rendered_subdirectory)
 
-      save_content_recursively(processed_html, options, rendered_subdirectory)
+      save_content_recursively(final_html, options, rendered_subdirectory)
       { :html_content => processed_html, :saved_files => @file_saver.saved_files }
       nil
-    end
-
-    def render_html_for_file(file_path:, **options)
-      unless options.key?(:layout) && options[:layout].nil?
-        layout_path = options[:layout] || ::MarkdownRecord.config.file_layout_path
-        @file_layout = File.read(::MarkdownRecord.config.layout_directory.join(layout_path))
-      end
-
-      file = @indexer.file(file_path)
-      unless file.nil?
-        html = @markdown.render(file)
-        processed_html = process_html(html, file_path, @file_layout)
-        finalized_html = finalize_html(processed_html, file_path)
-        @file_saver.save_to_file(finalized_html, "#{clean_path(file_path)}.html", options)
-        finalized_html
-      end
     end
 
   private
@@ -94,13 +67,13 @@ module MarkdownRecord
 
         if options[:concat]
           concatenated_html = concatenate_html_recursively(directory_hash[full_path.to_s], []).join("\r\n")
-          directory_hash["#{full_path.to_s}.concat"] = process_html(concatenated_html, full_path.to_s, @concatenated_layout)
+          directory_hash["#{full_path.to_s}.concat"] = process_html(concatenated_html, full_path.to_s, concatenated_layout)
         end
 
         directory_hash.compact
       when String.name # if it is a file
         if options[:deep]
-          { full_path.to_s => process_html(file_or_directory, full_path, @file_layout) }
+          { full_path.to_s => process_html(file_or_directory, full_path, custom_layout(file_or_directory) || file_layout) }
         else
           { }
         end
@@ -110,7 +83,6 @@ module MarkdownRecord
     def process_html(html, full_path, layout = nil)
       processed_html = html.gsub(/<p>(\&lt;%(\S|\s)*?%\&gt;)<\/p>/){ CGI.unescapeHTML($1) }
       processed_html = processed_html.gsub(/(\&lt;%(\S|\s)*?%\&gt;)/){ CGI.unescapeHTML($1) }
-      layout = custom_layout(html) || layout
       locals = erb_locals_from_path(full_path.to_s)
       processed_html = render_erb(processed_html, locals) if full_path.to_s.ends_with?(".md.erb")
       processed_html = render_erb(layout, locals.merge(html: processed_html)) if layout
@@ -129,13 +101,27 @@ module MarkdownRecord
     def concatenate_html_recursively(content, html)
       case content.class.name
       when Hash.name
-        content.each do |k, v|
-          concatenate_html_recursively(v, html) if !k.include?(".concat")
+        sorted_hash_values(content).each do |v|
+          concatenate_html_recursively(v, html)
         end
       when String.name
         html << content
       end
       html
+    end
+
+    def sorted_hash_values(hash)
+      values = []
+      keys = hash.keys.sort_by do |k|
+        basename = k.split("/").last
+        m = basename.match(/^(\d+)_/)
+        m.try(:[], 1).to_i || k
+      end
+
+      keys.each do |k|
+        values << hash[k] if !k.include?(".concat")
+      end
+      values
     end
 
     def custom_layout(html)
@@ -146,13 +132,42 @@ module MarkdownRecord
     end
 
     def global_layout
-      File.read(::MarkdownRecord.config.layout_directory.join(layout))
+      global_layout_path = ::MarkdownRecord.config.global_layout_path
+      @global_layout ||= global_layout_path ? layout(global_layout_path) : nil
+    end
+
+    def concatenated_layout
+      concatenated_layout_path = ::MarkdownRecord.config.concatenated_layout_path
+      @concatenated_layout ||= concatenated_layout_path ? layout(concatenated_layout_path) : nil
+    end
+
+    def file_layout
+      file_layout_path = ::MarkdownRecord.config.file_layout_path
+      @file_layout ||= file_layout_path ? layout(file_layout_path) : nil
+    end
+
+    def layout(path)
+      File.read(::MarkdownRecord.config.layout_directory.join(path))
+    end
+
+    def finalize_html_recursively(content, rendered_subdirectory)
+      case content.class.name
+      when Hash.name
+        final_hash = {}
+        content.each do |key, value|
+          child_path = rendered_subdirectory.join(key)
+          final_hash[key] = finalize_html_recursively(value, child_path)
+        end
+        final_hash
+      when String.name
+        finalize_html(content, rendered_subdirectory)
+      end
     end
 
     def finalize_html(html, full_path)
       locals = erb_locals_from_path(full_path)
       final_html = html
-      final_html = render_erb(@global_layout, locals.merge(html: final_html)) if @global_layout
+      final_html = render_erb(global_layout, locals.merge(html: final_html)) if global_layout
       
       HTML_SUBSTITUTIONS.each do |find, replace|
         final_html = final_html.gsub(find, replace)
@@ -172,7 +187,7 @@ module MarkdownRecord
         end
       when String.name
         path = clean_path(rendered_subdirectory.to_s)
-        @file_saver.save_to_file(finalize_html(content, rendered_subdirectory), "#{path}.html", options)
+        @file_saver.save_to_file(content, "#{path}.html", options)
       end
     end
   end

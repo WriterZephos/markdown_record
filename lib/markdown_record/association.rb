@@ -1,3 +1,5 @@
+require "markdown_record/errors/duplicate_id_error"
+
 module MarkdownRecord
   class Association
     attr_accessor :base_filters
@@ -122,7 +124,7 @@ module MarkdownRecord
       reset
       search_filters.merge!({:id => id})
       execute
-      raise "Invalide id. There are multiple records with this id. Please correct this in your static content." if @data.count > 1
+      raise ::MarkdownRecord::Errors::DuplicateIdError.new(@base_filters[:klass].name, id) if @data.count > 1
       @data.first
     end
   end

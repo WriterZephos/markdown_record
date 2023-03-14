@@ -1,0 +1,110 @@
+<style>
+  body{
+    background-color: black;
+    padding: 10px;
+  }
+  code{
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    white-space: break-spaces;
+    background-color: rgb(110 118 129 / 40%);
+    border-radius: 6px;
+  }
+  pre{
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    color: #f2f2f2;
+    background-color: #161b22;
+    border-radius: 6px;
+    font-family: andale mono, monaco, monospace;
+    word-wrap: normal;
+  }
+  pre code{
+    color: inherit;
+    background-color: inherit;
+    font-family: inherit;
+    padding: 0px;
+    margin: 0;
+    font-size: inherit;
+    white-space: inherit;
+    background-color: inherit;
+    border-radius: 0px;
+  }
+  h1{
+    color: #6699ff;
+  }
+  h2{
+    color: #b3ccff;
+  }
+  h3{
+    color: #b3ccff;
+  }
+  h4{
+    color: #b3ccff;
+  }
+  a{
+    color: #33ffcc;
+  }
+  .container {
+    margin-bottom: 10px;
+    padding: 10px;
+    color: #f2f2f2;
+    background-color: #0d1117;
+    font-family: trebuchet ms;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .rendered_at{
+    font-size: 12px;
+  }
+  .navigation ul{
+    padding: 0px;
+  }
+  .navigation li{
+    display: inline;
+  }
+</style>
+<div class="container">
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content/home">Home</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/layouts">Layouts</a></li>
+    </ul>
+  </div>
+  <style>
+    .file {
+      padding: 10px;
+      border: 1px solid #cc4400;
+      margin-bottom: 10px;
+    }
+  </style>
+  <div class="file">
+    <!--fragment { "author": "Bryant Morrill", "parent_id": "content/home", "name": "Layouts" } -->
+    <!--model { "type": "markdown_record/demo/section", "id":   8, "name": "Layouts" } -->
+    <h1>Layouts</h1>
+    <p>When MarkdownRecord renders markdown source files, it looks for three different ERB layouts that it can use as templates. These layouts are each passed the same local variables as a markdown file when rendered as ERB (as discussed in the previous section), as well as an <code>html</code> variable that is the rendered html produced from the markdown content.</p>
+    <p>The layouts that MarkdownRecord uses by default are added to your application at the time of install in the <code>markdown_record/layouts</code> directory. They are:</p>
+    <ul>
+      <li><code>_file_layout.html.erb</code>: this is the layout used for individual files. Concatenated files will show this layout multiple times, each with a different file rendered in it. The red border of this guide is part of this layout.</li>
+      <li><code>_concatenated_layout.html.erb</code>: this is the layout used only for concatenated files. It will only be rendered once per file, but not for files that don&#39;t contain the concatenated contents of a directory. Some of the pages of this guide have a blue border, which is a style defined only in this layout.</li>
+      <li><code>_global_layout.html.erb</code>: this is the layout that is used for every rendered file, regardless of whether it is a concatenated file or not. This is the recommended layout to use for global styles, etc.</li>
+    </ul>
+    <p>In addition to the above, there is also a <code>_custom_layout.html.erb</code> which is used for the contents of the <a href="/mdr/content/sandbox">sandbox</a> part of this guide. This demonstrates how you can override the layout used for a specific file using the <code>user_layout</code> Content DSL command.</p>
+    <!--content/layouts-->
+    <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/content/layouts">content/layouts</a></em></p>
+  </div>
+  <!--content/layouts-->
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content/home">Home</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/layouts">Layouts</a></li>
+    </ul>
+  </div>
+</div>

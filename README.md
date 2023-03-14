@@ -17,7 +17,7 @@ And then interact with your data in your application code like this:
 
 ```ruby
 MarkdownRecord::Demo::Section.find(3)
- => #<MarkdownRecord::Demo::Section filename: "4_content_dsl", id: 3, name: "Content DSL", subdirectory: "content", type: "markdown_record/demo/section"> 
+ => #<MarkdownRecord::Demo::Section filename: "content_dsl", id: 3, name: "Content DSL", subdirectory: "content", type: "markdown_record/demo/section"> 
 ```
 
 And render your markdown content as HTML (with full ERB support) like this:
@@ -33,7 +33,7 @@ And render your markdown content as HTML (with full ERB support) like this:
 Or render your markdown content as JSON like this:
 
 ```json
-{"markdown_record/demo/section":[{"type":"markdown_record/demo/section","id":3,"name":"Content DSL","subdirectory":"content","filename":"4_content_dsl"}]}
+{"markdown_record/demo/section":[{"type":"markdown_record/demo/section","id":3,"name":"Content DSL","subdirectory":"content","filename":"content_dsl"}]}
 ```
 
 All without creating a single controller, writing a single migration, creating a single view, or defining a single route.
@@ -64,7 +64,7 @@ MarkdownRecord should not be used if the code repository the host application li
 
 ## Installation
 
-This section explains hot to install MarkdownRecord into a host application.
+This section explains how to install MarkdownRecord into a host application.
 
 First, add this line to your application's Gemfile:
 
@@ -93,27 +93,28 @@ The above command will install the engine, resulting in the following output and
       create  markdown_record/layouts
       create  markdown_record/rendered
        exist  markdown_record/content
-      create  markdown_record/content/10_controller_helpers.md.erb
-      create  markdown_record/content/11_configuration.md.erb
-      create  markdown_record/content/12_sandbox/1_foo.md
-      create  markdown_record/content/1_home.md.erb
-      create  markdown_record/content/2_installation.md.erb
-      create  markdown_record/content/3_rendering_basics.md.erb
-      create  markdown_record/content/4_content_dsl.md.erb
-      create  markdown_record/content/5_routes.md.erb
-      create  markdown_record/content/6_model_basics.md.erb
-      create  markdown_record/content/7_content_frags.md.erb
-      create  markdown_record/content/8_erb_syntax_and_view_helpers.md.erb
-      create  markdown_record/content/9_custom_models_and_associations.md.erb
-      exist  markdown_record/layouts
+      create  markdown_record/content/controller_helpers.md.erb
+      create  markdown_record/content/configuration.md.erb
+      create  markdown_record/content/sandbox/foo.md
+      create  markdown_record/content/home.md.erb
+      create  markdown_record/content/installation.md.erb
+      create  markdown_record/content/rendering_basics.md.erb
+      create  markdown_record/content/content_dsl.md.erb
+      create  markdown_record/content/routes.md.erb
+      create  markdown_record/content/model_basics.md.erb
+      create  markdown_record/content/content_frags.md.erb
+      create  markdown_record/content/erb_syntax_and_view_helpers.md.erb
+      create  markdown_record/content/custom_models_and_associations.md.erb
+       exist  markdown_record/layouts
       create  markdown_record/layouts/_concatenated_layout.html.erb
       create  markdown_record/layouts/_custom_layout.html.erb
       create  markdown_record/layouts/_file_layout.html.erb
       create  markdown_record/layouts/_global_layout.html.erb
+       exist  app/assets/images
+      create  app/assets/images/ruby-logo.png
       create  config/initializers/markdown_record.rb
       create  Thorfile
       create  lib/tasks/render_content.thor
-      create  lib/tasks/render_file.thor
         gsub  config/routes.rb
 ```
 
@@ -141,52 +142,52 @@ rendering html and json content with options {:concat=>true, :deep=>true, :save=
 ---------------------------------------------------------------
 rendered: /markdown_record/rendered/content_fragments.json
 rendered: /markdown_record/rendered/content.json
-rendered: /markdown_record/rendered/content/9_custom_models_and_associations_fragments.json
-rendered: /markdown_record/rendered/content/9_custom_models_and_associations.json
-rendered: /markdown_record/rendered/content/8_erb_syntax_and_view_helpers_fragments.json
-rendered: /markdown_record/rendered/content/8_erb_syntax_and_view_helpers.json
-rendered: /markdown_record/rendered/content/7_content_frags_fragments.json
-rendered: /markdown_record/rendered/content/7_content_frags.json
-rendered: /markdown_record/rendered/content/6_model_basics_fragments.json
-rendered: /markdown_record/rendered/content/6_model_basics.json
-rendered: /markdown_record/rendered/content/5_routes_fragments.json
-rendered: /markdown_record/rendered/content/5_routes.json
-rendered: /markdown_record/rendered/content/4_content_dsl_fragments.json
-rendered: /markdown_record/rendered/content/4_content_dsl.json
-rendered: /markdown_record/rendered/content/3_rendering_basics_fragments.json
-rendered: /markdown_record/rendered/content/3_rendering_basics.json
-rendered: /markdown_record/rendered/content/2_installation_fragments.json
-rendered: /markdown_record/rendered/content/2_installation.json
-rendered: /markdown_record/rendered/content/1_home_fragments.json
-rendered: /markdown_record/rendered/content/1_home.json
-rendered: /markdown_record/rendered/content/12_sandbox_fragments.json
-rendered: /markdown_record/rendered/content/12_sandbox.json
-rendered: /markdown_record/rendered/content/12_sandbox/1_foo_fragments.json
-rendered: /markdown_record/rendered/content/12_sandbox/1_foo.json
-rendered: /markdown_record/rendered/content/11_configuration_fragments.json
-rendered: /markdown_record/rendered/content/11_configuration.json
-rendered: /markdown_record/rendered/content/10_controller_helpers_fragments.json
-rendered: /markdown_record/rendered/content/10_controller_helpers.json
+rendered: /markdown_record/rendered/content/custom_models_and_associations_fragments.json
+rendered: /markdown_record/rendered/content/custom_models_and_associations.json
+rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers_fragments.json
+rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers.json
+rendered: /markdown_record/rendered/content/content_frags_fragments.json
+rendered: /markdown_record/rendered/content/content_frags.json
+rendered: /markdown_record/rendered/content/model_basics_fragments.json
+rendered: /markdown_record/rendered/content/model_basics.json
+rendered: /markdown_record/rendered/content/routes_fragments.json
+rendered: /markdown_record/rendered/content/routes.json
+rendered: /markdown_record/rendered/content/content_dsl_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl.json
+rendered: /markdown_record/rendered/content/rendering_basics_fragments.json
+rendered: /markdown_record/rendered/content/rendering_basics.json
+rendered: /markdown_record/rendered/content/installation_fragments.json
+rendered: /markdown_record/rendered/content/installation.json
+rendered: /markdown_record/rendered/content/home_fragments.json
+rendered: /markdown_record/rendered/content/home.json
+rendered: /markdown_record/rendered/content/sandbox_fragments.json
+rendered: /markdown_record/rendered/content/sandbox.json
+rendered: /markdown_record/rendered/content/sandbox/foo_fragments.json
+rendered: /markdown_record/rendered/content/sandbox/foo.json
+rendered: /markdown_record/rendered/content/configuration_fragments.json
+rendered: /markdown_record/rendered/content/configuration.json
+rendered: /markdown_record/rendered/content/controller_helpers_fragments.json
+rendered: /markdown_record/rendered/content/controller_helpers.json
 rendered: /markdown_record/rendered/content.html
-rendered: /markdown_record/rendered/content/9_custom_models_and_associations.html
-rendered: /markdown_record/rendered/content/8_erb_syntax_and_view_helpers.html
-rendered: /markdown_record/rendered/content/7_content_frags.html
-rendered: /markdown_record/rendered/content/6_model_basics.html
-rendered: /markdown_record/rendered/content/5_routes.html
-rendered: /markdown_record/rendered/content/4_content_dsl.html
-rendered: /markdown_record/rendered/content/3_rendering_basics.html
-rendered: /markdown_record/rendered/content/2_installation.html
-rendered: /markdown_record/rendered/content/1_home.html
-rendered: /markdown_record/rendered/content/12_sandbox.html
-rendered: /markdown_record/rendered/content/12_sandbox/1_foo.html
-rendered: /markdown_record/rendered/content/11_configuration.html
-rendered: /markdown_record/rendered/content/10_controller_helpers.html
+rendered: /markdown_record/rendered/content/custom_models_and_associations.html
+rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers.html
+rendered: /markdown_record/rendered/content/content_frags.html
+rendered: /markdown_record/rendered/content/model_basics.html
+rendered: /markdown_record/rendered/content/routes.html
+rendered: /markdown_record/rendered/content/content_dsl.html
+rendered: /markdown_record/rendered/content/rendering_basics.html
+rendered: /markdown_record/rendered/content/installation.html
+rendered: /markdown_record/rendered/content/home.html
+rendered: /markdown_record/rendered/content/sandbox.html
+rendered: /markdown_record/rendered/content/sandbox/foo.html
+rendered: /markdown_record/rendered/content/configuration.html
+rendered: /markdown_record/rendered/content/controller_helpers.html
 ---------------------------------------------------------------
 42 files rendered.
 42 files saved.
 ```
 
-Congratulations! You have installed MarkdownRecord. If you are not viewing this from the host application already, go ahead and start your Rails server and navigate to http://localhost:3000/mdr/content/1_home to continue following this guide.
+Congratulations! You have installed MarkdownRecord. If you are not viewing this from the host application already, go ahead and start your Rails server and navigate to http://localhost:3000/mdr/content/home to continue following this guide.
 
 ## Contributing
 Contribution guides coming soon.

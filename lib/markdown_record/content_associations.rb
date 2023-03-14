@@ -11,7 +11,7 @@ module MarkdownRecord
         raise ArgumentError.new("#{self} does not have the #{foreign_key} attribute required for this association.") unless self.attribute_names.include?(foreign_key)
 
         define_method(association) do
-          klass.new_association({:klass => klass, :id => JSON.parse(self[foreign_key.to_sym])})
+          klass.new_association({:klass => klass, :id => self[foreign_key.to_sym]})
         end
       end
 
