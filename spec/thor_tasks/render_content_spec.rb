@@ -13,8 +13,6 @@ RSpec.describe ::RenderContent do
   # populate the comparison data in rendered.txt AFTER you have visually
   # inspected the output to make sure everything is good.
   # Then comment them again and run it to get passing.
-  #
-  # TODO: Find a better way to run these tests (need dedicated test content)
 
   # before(:all) do
   #   reset_output_for_specs

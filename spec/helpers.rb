@@ -15,7 +15,7 @@ module Helpers
   end
 
   def install_engine
-    system "cd spec/dummy && rails g markdown_record -d"
+    system "cd spec/dummy && rails g markdown_record -t"
     FileUtils.cd("spec/dummy")
   end
 

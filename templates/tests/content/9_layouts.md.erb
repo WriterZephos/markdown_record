@@ -1,0 +1,15 @@
+<!--fragment { "author": "Bryant Morrill", "parent_id": "content/home", "name": "Layouts" } -->
+<!---model { "type": "markdown_record/demo/section", "id":   8, "name": "Layouts" } -->
+
+# Layouts
+
+When MarkdownRecord renders markdown source files, it looks for three different ERB layouts that it can use as templates. These layouts are each passed the same local variables as a markdown file when rendered as ERB (as discussed in the previous section), as well as an `html` variable that is the rendered html produced from the markdown content.
+
+The layouts that MarkdownRecord uses by default are added to your application at the time of install in the `markdown_record/layouts` directory. They are:
+
+- `_file_layout.html.erb`: this is the layout used for individual files. Concatenated files will show this layout multiple times, each with a different file rendered in it. The red border of this guide is part of this layout.
+- `_concatenated_layout.html.erb`: this is the layout used only for concatenated files. It will only be rendered once per file, but not for files that don't contain the concatenated contents of a directory. Some of the pages of this guide have a blue border, which is a style defined only in this layout.
+- `_global_layout.html.erb`: this is the layout that is used for every rendered file, regardless of whether it is a concatenated file or not. This is the recommended layout to use for global styles, etc.
+
+In addition to the above, there is also a `_custom_layout.html.erb` which is used for the contents of the <%= link_to_markdown_record(::MarkdownRecord::ContentFragment.find("content/sandbox"), "sandbox") %> part of this guide. This demonstrates how you can override the layout used for a specific file using the `user_layout` Content DSL command.
+

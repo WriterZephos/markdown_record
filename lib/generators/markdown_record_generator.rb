@@ -4,6 +4,7 @@ require "rails/generators"
 class MarkdownRecordGenerator < Rails::Generators::Base
   source_root File.expand_path("../../templates", __dir__)
   class_option :demo, type: :boolean, aliases: :d
+  class_option :tests, type: :boolean, aliases: :t
 
   desc "This generator creates the default directories required for markdown_record and copies the default layout into the default location."
   def create_directories
@@ -17,6 +18,10 @@ class MarkdownRecordGenerator < Rails::Generators::Base
       directory "demo/content", "markdown_record/content"
       directory "demo/layouts", "markdown_record/layouts"
       directory "demo/assets/images", "app/assets/images"
+    elsif options[:tests]
+      directory "tests/content", "markdown_record/content"
+      directory "tests/layouts", "markdown_record/layouts"
+      directory "tests/assets/images", "app/assets/images"
     else
       directory "base/content", "markdown_record/content"
       directory "base/layouts", "markdown_record/layouts"

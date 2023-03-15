@@ -1,0 +1,71 @@
+<!--fragment { "author": "Bryant Morrill", "name": "Rendering Basics", "parent_id": "content/home" } -->
+<!--model { "type": "markdown_record/demo/section", "id":   2, "name": "Rendering Basics" } -->
+
+# Rendering Basics
+
+This section will cover the basic concepts of MarkdownRecord.
+
+## Important Directories
+
+MarkdownRecord expects to find a `markdown_record` directory in your project's root folder, and by default looks for the following subdirectories inside it:
+
+- `content`: this is where all your original source files will go. When you write a new markdown file, it will live in here.
+- `layouts`: this is where the layouts used when rendering your markdown source files to HTML should go. This folder should already have a some layouts that you can customize to your liking.
+- `rendered`: this is where all the rendered JSON and HTML files go. You should never have to edit any of the files in here. However, you may want to delete this folder and re-render everything (the folder will be generated again) at certain times, such as when you delete a source file and want to remove the corresponding rendered files and data from your application.
+
+## Rendering Output
+
+By default, MarkdownRecord renders each markdown file in `content` as both a JSON file and an HTML file in the `rendered` directory. It also renders each directory into concatenated JSON and an HTML files containing the rendered content of all their contents. The organization and naming of the rendered files should mirror the organization of the source files and directories in `content`, with the concatenated files at the same level of their respective directories.
+
+In addition, MarkdownRecord also renders and extra JSON file with the `_fragments` suffix. This file contains the auto generated data required to populate `::MarkdownRecord::ContentFragment` models, and is kept separate to keep them from getting mixed in with the JSON rendered from the content files you create.
+
+*IMPORTANT: because of the special meaning of the `_fragments` suffix, the markdown content files that you create should not have `_fragments` in their name to avoid unexpected problems.*
+
+## Numeric Prefixes
+
+You will notice that each file and directory for this demo in the `content` directory has a numeric prefix. These prefixes are how MarkdownRecord determines the order of content in the concatenated files. By using a numeric prefix, the exact order can be specified leading to predictable results.
+
+By default, MarkdownRecord ignores these numeric prefixes for all other purposes. This means that they should not be included in id values for content fragments or in the `content_path` parameter when loading rendered content in the browser (more on both these topics will be discussed later in this guide.). Because of this, it is important that the portion of each filename that comes after the numeric prefix be unique within a subdirectory. If two filename only differ in their numeric prefix, there will be a conflict.
+
+MarkdownRecord can render content using three different strategies: `file`, `directory` and `full`. The default strategy is `full` and will render all files and directories. The `file` strategy will render only files and will not concatenate source content for each directory. The `directory` strategy will only render the concatenated files for each directory.
+
+## File Extensions
+
+MarkdownRecord supports ERB syntax in markdown files that have a `.md.erb` extension. If you don't want MarkdownRecord to process your files as ERB templates, they should have the `.md` extension instead.
+
+## Thor tasks
+
+The MarkdownRecord rendering process is executed via Thor tasks, just like the one used in the installation instructions. The one there looks like this:
+
+```bash
+thor render_content:all -s
+```
+Note the `all` part of that command, which indicates that both JSON and HTML will be rendered. You could use `json` or `html` there to only render one type of content.
+
+The `-s` argument indicates that the rendered content should be saved. If that argument is omitted, you will see the output of the rendering but it will only do a dry run without saving anything.
+
+You can see more options for the Thor task by running: 
+
+```bash
+thor render_content -h 
+```
+
+```bash
+Commands:
+  thor render_content:all             # renders html and json content
+  thor render_content:help [COMMAND]  # Describe available commands or one specific command
+  thor render_content:html            # renders html content
+  thor render_content:json            # renders json content
+
+Options:
+  d, [--subdirectory=SUBDIRECTORY]  
+  s, [--save], [--no-save]          
+  r, [--strat=STRAT]                
+  f, [--frag], [--no-frag]   
+```
+
+### Validation
+
+MarkdownRecord validates your filenames and JSON data before rendering. If it finds any problems, it will output a message to the terminal and nothing will be rendered.
+
+

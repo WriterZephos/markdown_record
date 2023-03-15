@@ -1,8 +1,0 @@
-#!/usr/bin/env ruby -U
-
-require "rubygems"
-require "thor"
-require "rails"
-require "markdown_record"
-
-MarkdownRecord::Cli.start( ARGV )

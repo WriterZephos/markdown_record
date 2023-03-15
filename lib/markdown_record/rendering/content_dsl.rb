@@ -1,12 +1,12 @@
-require "markdown_record/content_dsl/model"
-require "markdown_record/content_dsl/attribute"
-require "markdown_record/content_dsl/end_attribute"
-require "markdown_record/content_dsl/end_model"
-require "markdown_record/content_dsl/fragment"
-require "markdown_record/content_dsl/directory_fragment"
-require "markdown_record/content_dsl/use_layout"
-require "markdown_record/content_dsl/disable"
-require "markdown_record/content_dsl/enable"
+require "markdown_record/rendering/content_dsl/model"
+require "markdown_record/rendering/content_dsl/attribute"
+require "markdown_record/rendering/content_dsl/end_attribute"
+require "markdown_record/rendering/content_dsl/end_model"
+require "markdown_record/rendering/content_dsl/fragment"
+require "markdown_record/rendering/content_dsl/directory_fragment"
+require "markdown_record/rendering/content_dsl/use_layout"
+require "markdown_record/rendering/content_dsl/disable"
+require "markdown_record/rendering/content_dsl/enable"
 
 module MarkdownRecord
   module ContentDsl

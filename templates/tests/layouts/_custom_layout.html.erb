@@ -1,0 +1,14 @@
+<style>
+  .custom_layout_file {
+    padding: 10px;
+    border: 1px solid pink;
+    margin-bottom: 10px;
+  }
+</style>
+
+<div class="custom_layout_file">
+  <h3>Rendered Using a Custom Layout</h3>
+  <%= raw(html) %>
+  <%= raw("<!--#{subdirectory}/#{filename}-->") %>
+  <p class="rendered_at"><em>The above content was rendered from source files at: <%= link_to_markdown_record(fragment, fragment.id) %></em></p>
+</div>
