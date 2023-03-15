@@ -97,7 +97,7 @@
     <p>The <code>meta</code> attribute contains a <code>Hash</code> populated with any data you that you defined using the <code>fragment</code> or <code>directory_fragment</code> content DSL methods.</p>
     <p><code>concatentated</code> will be auto-populated during rendering and will be true for fragments representing a directory, and false for those representing files.</p>
     <h3>Querying Content Fragments</h3>
-    <p>You can query content fragmets just like you query other MarkdownRecord models, but these queries will only return content fragments. Using filter values that are Hashes, howevers, will allow you to query and filter content fragments based on their <code>meta</code> attribute.</p>
+    <p>You can query content fragments just like you query other MarkdownRecord models, but these queries will only return content fragments. Using filter values that are Hashes, however, will allow you to query and filter content fragments based on their <code>meta</code> attributes.</p>
     <h2>Associations</h2>
     <p>Content fragments also have a few extra associations, which are:</p>
     <ul>
@@ -119,7 +119,7 @@
     <pre><code class="ruby">MarkdownRecord::ContentFragment.find(&quot;content/content_frags&quot;).parent
  =&gt; #&lt;MarkdownRecord::ContentFragment concatenated: false, filename: &quot;home&quot;, id: &quot;content/home&quot;, meta: {&quot;name&quot;=&gt;&quot;Home&quot;, ...}, subdirectory: &quot;content&quot;, type: &quot;markdown_record/content_fragment&quot;&gt;
 </code></pre>
-    <p>The ability to overried the natural <code>parent</code> of a content fragment is useful for constructing a list or hierarchy of content that is not strictly based on file structure. The <code>parents_from</code> method is useful in doing this, as it builds a hierarchy but respect any <code>parent_id</code> of the content fragments it comes across instead of assuming the containing directory is the parent. This is useful for constructing breadcrumbs and navigation in your views.</p>
+    <p>The ability to override the natural <code>parent</code> of a content fragment is useful for constructing a list or hierarchy of content that is not strictly based on file structure. The <code>parents_from</code> method is useful in doing this, as it builds a hierarchy but respect any <code>parent_id</code> of the content fragments it comes across instead of assuming the containing directory is the parent. This is useful for constructing breadcrumbs and navigation in your views.</p>
     <p>Exampe:</p>
     <pre><code class="ruby">MarkdownRecord::ContentFragment.find(&quot;content/sandbox/foo&quot;)
   .parents_from(&quot;content/home&quot;)

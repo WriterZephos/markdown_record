@@ -92,7 +92,7 @@
     <ul>
       <li><code>content_root</code>: the path to the directory containing your markdown source files. This is <code>markdown_record/content</code> inside your application root by default.</li>
       <li><code>rendered_content_root</code>: the path to the directory where rendered content will be saves. This is <code>markdown_record/rendered</code> inside your application root by default.</li>
-      <li><code>layout_directory</code>: the path to the directory containing the layouts used durring rendering. This is <code>markdown_record/layouts</code> inside your application root by default.</li>
+      <li><code>layout_directory</code>: the path to the directory containing the layouts used during rendering. This is <code>markdown_record/layouts</code> inside your application root by default.</li>
       <li><code>concatenated_layout_path</code>: the relative path (from <code>layout_directory</code>) to the layout that should be used for files rendered from the concatenated contents of a directory.</li>
       <li><code>file_layout_path</code>: the relative path (from <code>layout_directory</code>) to the layout that should be used for files rendered from a single markdown source file.</li>
       <li><code>global_layout_path</code>: the relative path (from <code>layout_directory</code>) to the layout that should be used for all rendered files.</li>
@@ -106,7 +106,7 @@
       <li><code>mount_path</code>: the path where the MarkdownRecord engine is mounted inside the host application. It is <code>mdr</code> by default.</li>
       <li><code>render_content_fragment_json</code>: a boolean value that determines whether MarkdownRecord renders content fragments and saves them to the <code>rendered_content_root</code> in JSON files with the <code>_fragments</code> suffix. If this is set to <code>false</code>, then MarkdownRecord will render your markdown content each time MarkdownRecord models queries are executed. This is set to <code>true</code> by default.</li>
       <li><code>render_controller</code>: the controller used to render ERB content during the rendering process. If this isn&#39;t set, then the host application&#39;s <code>ApplicationController</code> will be used. By default this is <code>nil</code>.</li>
-      <li><code>ignore_numeric_prefix</code>: configurew whether or not MarkdownRecord ignores the numeric prefixes of filenames. The default value is <code>true</code>. When it is set to <code>false</code>, the numeric prefixes will be included in the <code>filename</code> attribute of models, the <code>id</code> attribute of content fragments, and the <code>content_path</code> parameter of requests to the routes for rendered content.</li>
+      <li><code>ignore_numeric_prefix</code>: configures whether or not MarkdownRecord ignores the numeric prefixes of filenames. The default value is <code>true</code>. When it is set to <code>false</code>, the numeric prefixes will be included in the <code>filename</code> attribute of models, the <code>id</code> attribute of content fragments, and the <code>content_path</code> parameter of requests to the routes for rendered content.</li>
     </ul>
     <!--content/configuration-->
     <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/content/configuration">content/configuration</a></em></p>

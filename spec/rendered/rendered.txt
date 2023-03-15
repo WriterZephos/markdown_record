@@ -25,8 +25,85 @@ rendered: /markdown_record/rendered/content/custom_models_and_associations.html
 *****
 
 ---------------------------------------------------------------
-rendering html content with options {:concat=>true, :deep=>true, :save=>false, :render_content_fragment_json=>true} ...
+rendering json content with options {:concat=>true, :deep=>true, :save=>false, :render_content_fragment_json=>true} ...
 ---------------------------------------------------------------
+rendered: /markdown_record/rendered/content_fragments.json
+rendered: /markdown_record/rendered/content.json
+rendered: /markdown_record/rendered/content/rendering_basics_fragments.json
+rendered: /markdown_record/rendered/content/rendering_basics.json
+rendered: /markdown_record/rendered/content/home_fragments.json
+rendered: /markdown_record/rendered/content/home.json
+rendered: /markdown_record/rendered/content/controller_helpers_fragments.json
+rendered: /markdown_record/rendered/content/controller_helpers.json
+rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers_fragments.json
+rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers.json
+rendered: /markdown_record/rendered/content/layouts_fragments.json
+rendered: /markdown_record/rendered/content/layouts.json
+rendered: /markdown_record/rendered/content/configuration_fragments.json
+rendered: /markdown_record/rendered/content/configuration.json
+rendered: /markdown_record/rendered/content/sandbox_fragments.json
+rendered: /markdown_record/rendered/content/sandbox.json
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested_fragments.json
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested.json
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested/bar_fragments.json
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested/bar.json
+rendered: /markdown_record/rendered/content/sandbox/foo_fragments.json
+rendered: /markdown_record/rendered/content/sandbox/foo.json
+rendered: /markdown_record/rendered/content/content_frags_fragments.json
+rendered: /markdown_record/rendered/content/content_frags.json
+rendered: /markdown_record/rendered/content/content_dsl_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl.json
+rendered: /markdown_record/rendered/content/routes_fragments.json
+rendered: /markdown_record/rendered/content/routes.json
+rendered: /markdown_record/rendered/content/model_basics_fragments.json
+rendered: /markdown_record/rendered/content/model_basics.json
+rendered: /markdown_record/rendered/content/installation_fragments.json
+rendered: /markdown_record/rendered/content/installation.json
+rendered: /markdown_record/rendered/content/custom_models_and_associations_fragments.json
+rendered: /markdown_record/rendered/content/custom_models_and_associations.json
+---------------------------------------------------------------
+34 files rendered.
+0 files saved.
+
+*****
+
+---------------------------------------------------------------
+rendering html and json content with options {:concat=>true, :deep=>true, :save=>false, :render_content_fragment_json=>true} ...
+---------------------------------------------------------------
+rendered: /markdown_record/rendered/content_fragments.json
+rendered: /markdown_record/rendered/content.json
+rendered: /markdown_record/rendered/content/rendering_basics_fragments.json
+rendered: /markdown_record/rendered/content/rendering_basics.json
+rendered: /markdown_record/rendered/content/home_fragments.json
+rendered: /markdown_record/rendered/content/home.json
+rendered: /markdown_record/rendered/content/controller_helpers_fragments.json
+rendered: /markdown_record/rendered/content/controller_helpers.json
+rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers_fragments.json
+rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers.json
+rendered: /markdown_record/rendered/content/layouts_fragments.json
+rendered: /markdown_record/rendered/content/layouts.json
+rendered: /markdown_record/rendered/content/configuration_fragments.json
+rendered: /markdown_record/rendered/content/configuration.json
+rendered: /markdown_record/rendered/content/sandbox_fragments.json
+rendered: /markdown_record/rendered/content/sandbox.json
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested_fragments.json
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested.json
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested/bar_fragments.json
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested/bar.json
+rendered: /markdown_record/rendered/content/sandbox/foo_fragments.json
+rendered: /markdown_record/rendered/content/sandbox/foo.json
+rendered: /markdown_record/rendered/content/content_frags_fragments.json
+rendered: /markdown_record/rendered/content/content_frags.json
+rendered: /markdown_record/rendered/content/content_dsl_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl.json
+rendered: /markdown_record/rendered/content/routes_fragments.json
+rendered: /markdown_record/rendered/content/routes.json
+rendered: /markdown_record/rendered/content/model_basics_fragments.json
+rendered: /markdown_record/rendered/content/model_basics.json
+rendered: /markdown_record/rendered/content/installation_fragments.json
+rendered: /markdown_record/rendered/content/installation.json
+rendered: /markdown_record/rendered/content/custom_models_and_associations_fragments.json
+rendered: /markdown_record/rendered/content/custom_models_and_associations.json
 rendered: /markdown_record/rendered/content.html
 rendered: /markdown_record/rendered/content/rendering_basics.html
 rendered: /markdown_record/rendered/content/home.html
@@ -45,33 +122,7 @@ rendered: /markdown_record/rendered/content/model_basics.html
 rendered: /markdown_record/rendered/content/installation.html
 rendered: /markdown_record/rendered/content/custom_models_and_associations.html
 ---------------------------------------------------------------
-17 files rendered.
-0 files saved.
-
-*****
-
----------------------------------------------------------------
-rendering html content with options {:concat=>true, :deep=>true, :save=>false, :render_content_fragment_json=>true} ...
----------------------------------------------------------------
-rendered: /markdown_record/rendered/content.html
-rendered: /markdown_record/rendered/content/rendering_basics.html
-rendered: /markdown_record/rendered/content/home.html
-rendered: /markdown_record/rendered/content/controller_helpers.html
-rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers.html
-rendered: /markdown_record/rendered/content/layouts.html
-rendered: /markdown_record/rendered/content/configuration.html
-rendered: /markdown_record/rendered/content/sandbox.html
-rendered: /markdown_record/rendered/content/sandbox/sandbox_nested.html
-rendered: /markdown_record/rendered/content/sandbox/sandbox_nested/bar.html
-rendered: /markdown_record/rendered/content/sandbox/foo.html
-rendered: /markdown_record/rendered/content/content_frags.html
-rendered: /markdown_record/rendered/content/content_dsl.html
-rendered: /markdown_record/rendered/content/routes.html
-rendered: /markdown_record/rendered/content/model_basics.html
-rendered: /markdown_record/rendered/content/installation.html
-rendered: /markdown_record/rendered/content/custom_models_and_associations.html
----------------------------------------------------------------
-17 files rendered.
+51 files rendered.
 0 files saved.
 
 *****
@@ -90,27 +141,39 @@ rendered: /markdown_record/rendered/content/sandbox/foo.html
 *****
 
 ---------------------------------------------------------------
-rendering html content with options {:concat=>true, :deep=>true, :save=>false, :render_content_fragment_json=>true} ...
+rendering json content with options {:concat=>true, :deep=>true, :save=>false, :render_content_fragment_json=>true} ...
 ---------------------------------------------------------------
-rendered: /markdown_record/rendered/content/sandbox.html
-rendered: /markdown_record/rendered/content/sandbox/sandbox_nested.html
-rendered: /markdown_record/rendered/content/sandbox/sandbox_nested/bar.html
-rendered: /markdown_record/rendered/content/sandbox/foo.html
+rendered: /markdown_record/rendered/sandbox_fragments.json
+rendered: /markdown_record/rendered/sandbox.json
+rendered: /markdown_record/rendered/sandbox/sandbox_nested_fragments.json
+rendered: /markdown_record/rendered/sandbox/sandbox_nested.json
+rendered: /markdown_record/rendered/sandbox/sandbox_nested/bar_fragments.json
+rendered: /markdown_record/rendered/sandbox/sandbox_nested/bar.json
+rendered: /markdown_record/rendered/sandbox/foo_fragments.json
+rendered: /markdown_record/rendered/sandbox/foo.json
 ---------------------------------------------------------------
-4 files rendered.
+8 files rendered.
 0 files saved.
 
 *****
 
 ---------------------------------------------------------------
-rendering html content with options {:concat=>true, :deep=>true, :save=>false, :render_content_fragment_json=>true} ...
+rendering html and json content with options {:concat=>true, :deep=>true, :save=>false, :render_content_fragment_json=>true} ...
 ---------------------------------------------------------------
+rendered: /markdown_record/rendered/sandbox_fragments.json
+rendered: /markdown_record/rendered/sandbox.json
+rendered: /markdown_record/rendered/sandbox/sandbox_nested_fragments.json
+rendered: /markdown_record/rendered/sandbox/sandbox_nested.json
+rendered: /markdown_record/rendered/sandbox/sandbox_nested/bar_fragments.json
+rendered: /markdown_record/rendered/sandbox/sandbox_nested/bar.json
+rendered: /markdown_record/rendered/sandbox/foo_fragments.json
+rendered: /markdown_record/rendered/sandbox/foo.json
 rendered: /markdown_record/rendered/content/sandbox.html
 rendered: /markdown_record/rendered/content/sandbox/sandbox_nested.html
 rendered: /markdown_record/rendered/content/sandbox/sandbox_nested/bar.html
 rendered: /markdown_record/rendered/content/sandbox/foo.html
 ---------------------------------------------------------------
-4 files rendered.
+12 files rendered.
 0 files saved.
 
 *****
@@ -142,8 +205,85 @@ rendered: /markdown_record/rendered/content/custom_models_and_associations.html
 *****
 
 ---------------------------------------------------------------
-rendering html content with options {:concat=>true, :deep=>true, :save=>true, :render_content_fragment_json=>true} ...
+rendering json content with options {:concat=>true, :deep=>true, :save=>true, :render_content_fragment_json=>true} ...
 ---------------------------------------------------------------
+rendered: /markdown_record/rendered/content_fragments.json
+rendered: /markdown_record/rendered/content.json
+rendered: /markdown_record/rendered/content/rendering_basics_fragments.json
+rendered: /markdown_record/rendered/content/rendering_basics.json
+rendered: /markdown_record/rendered/content/home_fragments.json
+rendered: /markdown_record/rendered/content/home.json
+rendered: /markdown_record/rendered/content/controller_helpers_fragments.json
+rendered: /markdown_record/rendered/content/controller_helpers.json
+rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers_fragments.json
+rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers.json
+rendered: /markdown_record/rendered/content/layouts_fragments.json
+rendered: /markdown_record/rendered/content/layouts.json
+rendered: /markdown_record/rendered/content/configuration_fragments.json
+rendered: /markdown_record/rendered/content/configuration.json
+rendered: /markdown_record/rendered/content/sandbox_fragments.json
+rendered: /markdown_record/rendered/content/sandbox.json
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested_fragments.json
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested.json
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested/bar_fragments.json
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested/bar.json
+rendered: /markdown_record/rendered/content/sandbox/foo_fragments.json
+rendered: /markdown_record/rendered/content/sandbox/foo.json
+rendered: /markdown_record/rendered/content/content_frags_fragments.json
+rendered: /markdown_record/rendered/content/content_frags.json
+rendered: /markdown_record/rendered/content/content_dsl_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl.json
+rendered: /markdown_record/rendered/content/routes_fragments.json
+rendered: /markdown_record/rendered/content/routes.json
+rendered: /markdown_record/rendered/content/model_basics_fragments.json
+rendered: /markdown_record/rendered/content/model_basics.json
+rendered: /markdown_record/rendered/content/installation_fragments.json
+rendered: /markdown_record/rendered/content/installation.json
+rendered: /markdown_record/rendered/content/custom_models_and_associations_fragments.json
+rendered: /markdown_record/rendered/content/custom_models_and_associations.json
+---------------------------------------------------------------
+34 files rendered.
+34 files saved.
+
+*****
+
+---------------------------------------------------------------
+rendering html and json content with options {:concat=>true, :deep=>true, :save=>true, :render_content_fragment_json=>true} ...
+---------------------------------------------------------------
+rendered: /markdown_record/rendered/content_fragments.json
+rendered: /markdown_record/rendered/content.json
+rendered: /markdown_record/rendered/content/rendering_basics_fragments.json
+rendered: /markdown_record/rendered/content/rendering_basics.json
+rendered: /markdown_record/rendered/content/home_fragments.json
+rendered: /markdown_record/rendered/content/home.json
+rendered: /markdown_record/rendered/content/controller_helpers_fragments.json
+rendered: /markdown_record/rendered/content/controller_helpers.json
+rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers_fragments.json
+rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers.json
+rendered: /markdown_record/rendered/content/layouts_fragments.json
+rendered: /markdown_record/rendered/content/layouts.json
+rendered: /markdown_record/rendered/content/configuration_fragments.json
+rendered: /markdown_record/rendered/content/configuration.json
+rendered: /markdown_record/rendered/content/sandbox_fragments.json
+rendered: /markdown_record/rendered/content/sandbox.json
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested_fragments.json
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested.json
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested/bar_fragments.json
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested/bar.json
+rendered: /markdown_record/rendered/content/sandbox/foo_fragments.json
+rendered: /markdown_record/rendered/content/sandbox/foo.json
+rendered: /markdown_record/rendered/content/content_frags_fragments.json
+rendered: /markdown_record/rendered/content/content_frags.json
+rendered: /markdown_record/rendered/content/content_dsl_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl.json
+rendered: /markdown_record/rendered/content/routes_fragments.json
+rendered: /markdown_record/rendered/content/routes.json
+rendered: /markdown_record/rendered/content/model_basics_fragments.json
+rendered: /markdown_record/rendered/content/model_basics.json
+rendered: /markdown_record/rendered/content/installation_fragments.json
+rendered: /markdown_record/rendered/content/installation.json
+rendered: /markdown_record/rendered/content/custom_models_and_associations_fragments.json
+rendered: /markdown_record/rendered/content/custom_models_and_associations.json
 rendered: /markdown_record/rendered/content.html
 rendered: /markdown_record/rendered/content/rendering_basics.html
 rendered: /markdown_record/rendered/content/home.html
@@ -162,23 +302,66 @@ rendered: /markdown_record/rendered/content/model_basics.html
 rendered: /markdown_record/rendered/content/installation.html
 rendered: /markdown_record/rendered/content/custom_models_and_associations.html
 ---------------------------------------------------------------
-17 files rendered.
-17 files saved.
+51 files rendered.
+51 files saved.
 
 *****
 
 ---------------------------------------------------------------
-rendering html content with options {:concat=>true, :deep=>true, :save=>true, :render_content_fragment_json=>true} ...
+rendering html and json content with options {:concat=>true, :deep=>false, :save=>true, :render_content_fragment_json=>true} ...
 ---------------------------------------------------------------
+rendered: /markdown_record/rendered/content_fragments.json
+rendered: /markdown_record/rendered/content.json
+rendered: /markdown_record/rendered/content/sandbox_fragments.json
+rendered: /markdown_record/rendered/content/sandbox.json
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested_fragments.json
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested.json
 rendered: /markdown_record/rendered/content.html
+rendered: /markdown_record/rendered/content/sandbox.html
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested.html
+---------------------------------------------------------------
+9 files rendered.
+9 files saved.
+
+*****
+
+---------------------------------------------------------------
+rendering html and json content with options {:concat=>false, :deep=>true, :save=>true, :render_content_fragment_json=>true} ...
+---------------------------------------------------------------
+rendered: /markdown_record/rendered/content/rendering_basics_fragments.json
+rendered: /markdown_record/rendered/content/rendering_basics.json
+rendered: /markdown_record/rendered/content/home_fragments.json
+rendered: /markdown_record/rendered/content/home.json
+rendered: /markdown_record/rendered/content/controller_helpers_fragments.json
+rendered: /markdown_record/rendered/content/controller_helpers.json
+rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers_fragments.json
+rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers.json
+rendered: /markdown_record/rendered/content/layouts_fragments.json
+rendered: /markdown_record/rendered/content/layouts.json
+rendered: /markdown_record/rendered/content/configuration_fragments.json
+rendered: /markdown_record/rendered/content/configuration.json
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested/bar_fragments.json
+rendered: /markdown_record/rendered/content/sandbox/sandbox_nested/bar.json
+rendered: /markdown_record/rendered/content/sandbox/foo_fragments.json
+rendered: /markdown_record/rendered/content/sandbox/foo.json
+rendered: /markdown_record/rendered/content/content_frags_fragments.json
+rendered: /markdown_record/rendered/content/content_frags.json
+rendered: /markdown_record/rendered/content/content_dsl_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl.json
+rendered: /markdown_record/rendered/content/routes_fragments.json
+rendered: /markdown_record/rendered/content/routes.json
+rendered: /markdown_record/rendered/content/model_basics_fragments.json
+rendered: /markdown_record/rendered/content/model_basics.json
+rendered: /markdown_record/rendered/content/installation_fragments.json
+rendered: /markdown_record/rendered/content/installation.json
+rendered: /markdown_record/rendered/content/custom_models_and_associations_fragments.json
+rendered: /markdown_record/rendered/content/custom_models_and_associations.json
 rendered: /markdown_record/rendered/content/rendering_basics.html
 rendered: /markdown_record/rendered/content/home.html
 rendered: /markdown_record/rendered/content/controller_helpers.html
 rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers.html
 rendered: /markdown_record/rendered/content/layouts.html
 rendered: /markdown_record/rendered/content/configuration.html
-rendered: /markdown_record/rendered/content/sandbox.html
-rendered: /markdown_record/rendered/content/sandbox/sandbox_nested.html
 rendered: /markdown_record/rendered/content/sandbox/sandbox_nested/bar.html
 rendered: /markdown_record/rendered/content/sandbox/foo.html
 rendered: /markdown_record/rendered/content/content_frags.html
@@ -188,43 +371,8 @@ rendered: /markdown_record/rendered/content/model_basics.html
 rendered: /markdown_record/rendered/content/installation.html
 rendered: /markdown_record/rendered/content/custom_models_and_associations.html
 ---------------------------------------------------------------
-17 files rendered.
-17 files saved.
-
-*****
-
----------------------------------------------------------------
-rendering html content with options {:concat=>true, :deep=>false, :save=>true, :render_content_fragment_json=>true} ...
----------------------------------------------------------------
-rendered: /markdown_record/rendered/content.html
-rendered: /markdown_record/rendered/content/sandbox.html
-rendered: /markdown_record/rendered/content/sandbox/sandbox_nested.html
----------------------------------------------------------------
-3 files rendered.
-3 files saved.
-
-*****
-
----------------------------------------------------------------
-rendering html content with options {:concat=>false, :deep=>true, :save=>true, :render_content_fragment_json=>true} ...
----------------------------------------------------------------
-rendered: /markdown_record/rendered/content/rendering_basics.html
-rendered: /markdown_record/rendered/content/home.html
-rendered: /markdown_record/rendered/content/controller_helpers.html
-rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers.html
-rendered: /markdown_record/rendered/content/layouts.html
-rendered: /markdown_record/rendered/content/configuration.html
-rendered: /markdown_record/rendered/content/sandbox/sandbox_nested/bar.html
-rendered: /markdown_record/rendered/content/sandbox/foo.html
-rendered: /markdown_record/rendered/content/content_frags.html
-rendered: /markdown_record/rendered/content/content_dsl.html
-rendered: /markdown_record/rendered/content/routes.html
-rendered: /markdown_record/rendered/content/model_basics.html
-rendered: /markdown_record/rendered/content/installation.html
-rendered: /markdown_record/rendered/content/custom_models_and_associations.html
----------------------------------------------------------------
-14 files rendered.
-14 files saved.
+42 files rendered.
+42 files saved.
 
 *****
 

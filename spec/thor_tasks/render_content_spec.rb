@@ -13,6 +13,8 @@ RSpec.describe ::RenderContent do
   # populate the comparison data in rendered.txt AFTER you have visually
   # inspected the output to make sure everything is good.
   # Then comment them again and run it to get passing.
+  #
+  # TODO: Find a better way to run these tests (need dedicated test content)
 
   # before(:all) do
   #   reset_output_for_specs
@@ -32,7 +34,7 @@ RSpec.describe ::RenderContent do
 
   describe "render_content:json" do
     it "does a dry run render of json" do
-      ::RenderContent.new.invoke(:html, [], options)
+      ::RenderContent.new.invoke(:json, [], options)
       expect(verify_output(1)).to eq(true)
       expect(verify_files(files(1))).to eq(false)
     end
@@ -40,7 +42,7 @@ RSpec.describe ::RenderContent do
 
   describe "render_content:all" do
     it "does a dry run render of html and json" do
-      ::RenderContent.new.invoke(:html, [], options)
+      ::RenderContent.new.invoke(:all, [], options)
       expect(verify_output(2)).to eq(true)
       expect(verify_files(files(2))).to eq(false)
     end
@@ -65,7 +67,7 @@ RSpec.describe ::RenderContent do
 
     describe "render_content:json" do
       it "does a dry run render of json" do
-        ::RenderContent.new.invoke(:html, [], options)
+        ::RenderContent.new.invoke(:json, [], options)
         expect(verify_output(4)).to eq(true)
         expect(verify_files(files(4))).to eq(false)
       end
@@ -73,7 +75,7 @@ RSpec.describe ::RenderContent do
 
     describe "render_content:all" do
       it "does a dry run render of html and json" do
-        ::RenderContent.new.invoke(:html, [], options)
+        ::RenderContent.new.invoke(:all, [], options)
         expect(verify_output(5)).to eq(true)
         expect(verify_files(files(5))).to eq(false)
       end
@@ -100,7 +102,7 @@ RSpec.describe ::RenderContent do
   
     describe "render_content:json" do
       it "renders json" do
-        ::RenderContent.new.invoke(:html, [], options)
+        ::RenderContent.new.invoke(:json, [], options)
         expect(verify_output(7)).to eq(true)
         expect(verify_file_contents(files(7))).to eq(true)
         expect(verify_files(files(7))).to eq(true)
@@ -109,7 +111,7 @@ RSpec.describe ::RenderContent do
   
     describe "render_content:all" do
       it "renders html and json" do
-        ::RenderContent.new.invoke(:html, [], options)
+        ::RenderContent.new.invoke(:all, [], options)
         expect(verify_output(8)).to eq(true)
         expect(verify_file_contents(files(8))).to eq(true)
         expect(verify_files(files(8))).to eq(true)
@@ -121,7 +123,6 @@ RSpec.describe ::RenderContent do
     let(:options){
       {
         :subdirectory => "",
-        :layout => ::MarkdownRecord.config.concatenated_layout_path,
         :save => true,
         :strat => :directory
       }
@@ -129,7 +130,7 @@ RSpec.describe ::RenderContent do
 
     describe "render_content:all" do
       it "renders html and json" do
-        ::RenderContent.new.invoke(:html, [], options)
+        ::RenderContent.new.invoke(:all, [], options)
         expect(verify_output(9)).to eq(true)
         expect(verify_files(files(9))).to eq(true)
       end
@@ -140,7 +141,6 @@ RSpec.describe ::RenderContent do
     let(:options){
       {
         :subdirectory => "",
-        :layout => ::MarkdownRecord.config.concatenated_layout_path,
         :save => true,
         :strat => :file
       }
@@ -148,7 +148,7 @@ RSpec.describe ::RenderContent do
 
     describe "render_content:all" do
       it "renders html and json" do
-        ::RenderContent.new.invoke(:html, [], options)
+        ::RenderContent.new.invoke(:all, [], options)
         expect(verify_output(10)).to eq(true)
         expect(verify_files(files(10))).to eq(true)
       end

@@ -104,10 +104,10 @@
         <li>Run the provided Thor task to render your markdown content into HTML and JSON.</li>
         <li>Use the built in <code>MarkdownRecord::ContentFragment</code> model to directly reference your rendered content inside your application. </li>
         <li>Use the provided view helpers to link to the rendered content in your application&#39;s views, relying only on the controllers provided by the engine for serving the content if you wish.</li>
-        <li>Use model classes inheritiing from <code>MarkdownRecord::Base</code> to interact with your html and json rendered content, taking advantage of the associations you can define manually as well a the automatic associations they have based on content location.</li>
+        <li>Use model classes inheriting from <code>MarkdownRecord::Base</code> to interact with your html and json rendered content, taking advantage of the associations you can define manually as well a the automatic associations they have based on content location.</li>
       </ol>
-      <p>The next step is to read through the <a href="/mdr/content/rendering_basics">Rendering Basics</a> section to understand the basic rendering proces of markdown source content into HTML and JSON.</p>
-      <p>The folowing links will take you to other sections of this guide. Each section builds upon the last, so it is recommended to read through them in order if you are new to MarkdownRecord.</p>
+      <p>The next step is to read through the <a href="/mdr/content/rendering_basics">Rendering Basics</a> section to understand the basic rendering process of markdown source content into HTML and JSON.</p>
+      <p>The following links will take you to other sections of this guide. Each section builds upon the last, so it is recommended to read through them in order if you are new to MarkdownRecord.</p>
       <ul>
         <li><a href="/mdr/content/content_dsl">Content DSL</a> </li>
         <li><a href="/mdr/content/routes">Routes</a></li>
@@ -146,35 +146,38 @@
 </code></pre>
       <p><em>Note: if you are already familiar with MarkdownRecord and don&#39;t want to install the demo content, you can omit the --demo argument.</em></p>
       <p>The above command will install the engine, resulting in the following output and changes to your application:</p>
-      <pre><code class="bash">      create  markdown_record/content
-      create  markdown_record/layouts
-      create  markdown_record/rendered
-       exist  markdown_record/content
-      create  markdown_record/content/controller_helpers.md.erb
-      create  markdown_record/content/configuration.md.erb
-      create  markdown_record/content/sandbox/foo.md
-      create  markdown_record/content/home.md.erb
-      create  markdown_record/content/installation.md.erb
-      create  markdown_record/content/rendering_basics.md.erb
-      create  markdown_record/content/content_dsl.md.erb
-      create  markdown_record/content/routes.md.erb
-      create  markdown_record/content/model_basics.md.erb
-      create  markdown_record/content/content_frags.md.erb
-      create  markdown_record/content/erb_syntax_and_view_helpers.md.erb
-      create  markdown_record/content/custom_models_and_associations.md.erb
-      exist  markdown_record/layouts
-      create  markdown_record/layouts/_concatenated_layout.html.erb
-      create  markdown_record/layouts/_custom_layout.html.erb
-      create  markdown_record/layouts/_file_layout.html.erb
-      create  markdown_record/layouts/_global_layout.html.erb
-      create  app/assets/images
-      create  app/assets/images/ruby-logo.png
-      create  config/initializers/markdown_record.rb
-      create  Thorfile
-      create  lib/tasks/render_content.thor
-        gsub  config/routes.rb
+      <pre><code class="bash">  create  markdown_record/content
+  create  markdown_record/layouts
+  create  markdown_record/rendered
+    exist  markdown_record/content
+  create  markdown_record/content/10_custom_models_and_associations.md.erb
+  create  markdown_record/content/11_controller_helpers.md.erb
+  create  markdown_record/content/12_configuration.md.erb
+  create  markdown_record/content/13_sandbox/1_foo.md
+  create  markdown_record/content/13_sandbox/2_sandbox_nested/1_bar.md
+  create  markdown_record/content/1_home.md.erb
+  create  markdown_record/content/2_installation.md.erb
+  create  markdown_record/content/3_rendering_basics.md.erb
+  create  markdown_record/content/4_content_dsl.md.erb
+  create  markdown_record/content/5_routes.md.erb
+  create  markdown_record/content/6_model_basics.md.erb
+  create  markdown_record/content/7_content_frags.md.erb
+  create  markdown_record/content/8_erb_syntax_and_view_helpers.md.erb
+  create  markdown_record/content/9_layouts.md.erb
+    exist  markdown_record/layouts
+  create  markdown_record/layouts/_concatenated_layout.html.erb
+  create  markdown_record/layouts/_custom_layout.html.erb
+  create  markdown_record/layouts/_file_layout.html.erb
+  create  markdown_record/layouts/_global_layout.html.erb
+    exist  app/assets/images
+  create  app/assets/images/ruby-logo.png
+  create  config/initializers/markdown_record.rb
+  create  Thorfile
+  create  lib/tasks/render_content.thor
+    gsub  config/routes.rb
+    gsub  config/routes.rb
 </code></pre>
-      <p>The files and folders inside <code>markdown_record/content</code> are for demo purposes only, and can be deleted once youare are ready to create your own content.</p>
+      <p>The files and folders inside <code>markdown_record/content</code> are for demo purposes only, and can be deleted once you are ready to create your own content.</p>
       <p>By default, MarkdownRecord will look in the <code>markdown_record/content</code> directory for all your content, and all rendered content will be saved to the <code>markdown_record/rendered</code> directory.</p>
       <p>The engine will be mounted in <code>config/routes.rb</code> under the <code>mdr</code> path by default.</p>
       <p>An initializer will be created for you, where you will be able to configure the engine to use different directories and change other default settings. A later section of this guide will provide more details on configuration options.</p>
@@ -183,54 +186,63 @@
       <pre><code class="bash">thor render_content:all -s
 </code></pre>
       <p>You should see the following output:</p>
-      <pre><code class="bash">---------------------------------------------------------------
-rendering html and json content with options {:concat=&gt;true, :deep=&gt;true, :save=&gt;true, :layout=&gt;&quot;_concatenated_layout.html.erb&quot;, :render_content_fragment_json=&gt;true} ...
----------------------------------------------------------------
-rendered: /markdown_record/rendered/content_fragments.json
-rendered: /markdown_record/rendered/content.json
-rendered: /markdown_record/rendered/content/custom_models_and_associations_fragments.json
-rendered: /markdown_record/rendered/content/custom_models_and_associations.json
-rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers_fragments.json
-rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers.json
-rendered: /markdown_record/rendered/content/content_frags_fragments.json
-rendered: /markdown_record/rendered/content/content_frags.json
-rendered: /markdown_record/rendered/content/model_basics_fragments.json
-rendered: /markdown_record/rendered/content/model_basics.json
-rendered: /markdown_record/rendered/content/routes_fragments.json
-rendered: /markdown_record/rendered/content/routes.json
-rendered: /markdown_record/rendered/content/content_dsl_fragments.json
-rendered: /markdown_record/rendered/content/content_dsl.json
-rendered: /markdown_record/rendered/content/rendering_basics_fragments.json
-rendered: /markdown_record/rendered/content/rendering_basics.json
-rendered: /markdown_record/rendered/content/installation_fragments.json
-rendered: /markdown_record/rendered/content/installation.json
-rendered: /markdown_record/rendered/content/home_fragments.json
-rendered: /markdown_record/rendered/content/home.json
-rendered: /markdown_record/rendered/content/sandbox_fragments.json
-rendered: /markdown_record/rendered/content/sandbox.json
-rendered: /markdown_record/rendered/content/sandbox/foo_fragments.json
-rendered: /markdown_record/rendered/content/sandbox/foo.json
-rendered: /markdown_record/rendered/content/configuration_fragments.json
-rendered: /markdown_record/rendered/content/configuration.json
-rendered: /markdown_record/rendered/content/controller_helpers_fragments.json
-rendered: /markdown_record/rendered/content/controller_helpers.json
-rendered: /markdown_record/rendered/content.html
-rendered: /markdown_record/rendered/content/custom_models_and_associations.html
-rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers.html
-rendered: /markdown_record/rendered/content/content_frags.html
-rendered: /markdown_record/rendered/content/model_basics.html
-rendered: /markdown_record/rendered/content/routes.html
-rendered: /markdown_record/rendered/content/content_dsl.html
-rendered: /markdown_record/rendered/content/rendering_basics.html
-rendered: /markdown_record/rendered/content/installation.html
-rendered: /markdown_record/rendered/content/home.html
-rendered: /markdown_record/rendered/content/sandbox.html
-rendered: /markdown_record/rendered/content/sandbox/foo.html
-rendered: /markdown_record/rendered/content/configuration.html
-rendered: /markdown_record/rendered/content/controller_helpers.html
----------------------------------------------------------------
-42 files rendered.
-42 files saved.
+      <pre><code class="bash">  ---------------------------------------------------------------
+  rendering html and json content with options {:concat=&gt;true, :deep=&gt;true, :save=&gt;true, :render_content_fragment_json=&gt;true} ...
+  ---------------------------------------------------------------
+  rendered: /markdown_record/rendered/content_fragments.json
+  rendered: /markdown_record/rendered/content.json
+  rendered: /markdown_record/rendered/content/rendering_basics_fragments.json
+  rendered: /markdown_record/rendered/content/rendering_basics.json
+  rendered: /markdown_record/rendered/content/home_fragments.json
+  rendered: /markdown_record/rendered/content/home.json
+  rendered: /markdown_record/rendered/content/controller_helpers_fragments.json
+  rendered: /markdown_record/rendered/content/controller_helpers.json
+  rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers_fragments.json
+  rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers.json
+  rendered: /markdown_record/rendered/content/layouts_fragments.json
+  rendered: /markdown_record/rendered/content/layouts.json
+  rendered: /markdown_record/rendered/content/configuration_fragments.json
+  rendered: /markdown_record/rendered/content/configuration.json
+  rendered: /markdown_record/rendered/content/sandbox_fragments.json
+  rendered: /markdown_record/rendered/content/sandbox.json
+  rendered: /markdown_record/rendered/content/sandbox/sandbox_nested_fragments.json
+  rendered: /markdown_record/rendered/content/sandbox/sandbox_nested.json
+  rendered: /markdown_record/rendered/content/sandbox/sandbox_nested/bar_fragments.json
+  rendered: /markdown_record/rendered/content/sandbox/sandbox_nested/bar.json
+  rendered: /markdown_record/rendered/content/sandbox/foo_fragments.json
+  rendered: /markdown_record/rendered/content/sandbox/foo.json
+  rendered: /markdown_record/rendered/content/content_frags_fragments.json
+  rendered: /markdown_record/rendered/content/content_frags.json
+  rendered: /markdown_record/rendered/content/content_dsl_fragments.json
+  rendered: /markdown_record/rendered/content/content_dsl.json
+  rendered: /markdown_record/rendered/content/routes_fragments.json
+  rendered: /markdown_record/rendered/content/routes.json
+  rendered: /markdown_record/rendered/content/model_basics_fragments.json
+  rendered: /markdown_record/rendered/content/model_basics.json
+  rendered: /markdown_record/rendered/content/installation_fragments.json
+  rendered: /markdown_record/rendered/content/installation.json
+  rendered: /markdown_record/rendered/content/custom_models_and_associations_fragments.json
+  rendered: /markdown_record/rendered/content/custom_models_and_associations.json
+  rendered: /markdown_record/rendered/content.html
+  rendered: /markdown_record/rendered/content/rendering_basics.html
+  rendered: /markdown_record/rendered/content/home.html
+  rendered: /markdown_record/rendered/content/controller_helpers.html
+  rendered: /markdown_record/rendered/content/erb_syntax_and_view_helpers.html
+  rendered: /markdown_record/rendered/content/layouts.html
+  rendered: /markdown_record/rendered/content/configuration.html
+  rendered: /markdown_record/rendered/content/sandbox.html
+  rendered: /markdown_record/rendered/content/sandbox/sandbox_nested.html
+  rendered: /markdown_record/rendered/content/sandbox/sandbox_nested/bar.html
+  rendered: /markdown_record/rendered/content/sandbox/foo.html
+  rendered: /markdown_record/rendered/content/content_frags.html
+  rendered: /markdown_record/rendered/content/content_dsl.html
+  rendered: /markdown_record/rendered/content/routes.html
+  rendered: /markdown_record/rendered/content/model_basics.html
+  rendered: /markdown_record/rendered/content/installation.html
+  rendered: /markdown_record/rendered/content/custom_models_and_associations.html
+  ---------------------------------------------------------------
+  51 files rendered.
+  51 files saved.
 </code></pre>
       <p>Congratulations! You have installed MarkdownRecord. If you are not viewing this from the host application already, go ahead and start your Rails server and navigate to your <a href="http://localhost:3000/mdr/content/home">local host demo</a> to continue following this guide.</p>
       <!--content/installation-->
@@ -261,7 +273,7 @@ rendered: /markdown_record/rendered/content/controller_helpers.html
       <p><em>IMPORTANT: because of the special meaning of the <code>_fragments</code> suffix, the markdown content files that you create should not have <code>_fragments</code> in their name to avoid unexpected problems.</em></p>
       <h2>Numeric Prefixes</h2>
       <p>You will notice that each file and directory for this demo in the <code>content</code> directory has a numeric prefix. These prefixes are how MarkdownRecord determines the order of content in the concatenated files. By using a numeric prefix, the exact order can be specified leading to predictable results.</p>
-      <p>By default, MarkdownRecord ignores these numeric prefixes for all other purposes. This means that they should not be included in id values for content fragments or in the <code>content_path</code> parameter when loading rendered content in the browser (more on both these topics will be discussed later in this guide.). Because of this, it is important that the portion of each filename that comes after the numeric prefix be unique within a subdirectory. If two filename only differ in their numeric prefix, there will be a conflit.</p>
+      <p>By default, MarkdownRecord ignores these numeric prefixes for all other purposes. This means that they should not be included in id values for content fragments or in the <code>content_path</code> parameter when loading rendered content in the browser (more on both these topics will be discussed later in this guide.). Because of this, it is important that the portion of each filename that comes after the numeric prefix be unique within a subdirectory. If two filename only differ in their numeric prefix, there will be a conflict.</p>
       <p>MarkdownRecord can render content using three different strategies: <code>file</code>, <code>directory</code> and <code>full</code>. The default strategy is <code>full</code> and will render all files and directories. The <code>file</code> strategy will render only files and will not concatenate source content for each directory. The <code>directory</code> strategy will only render the concatenated files for each directory.</p>
       <h2>File Extensions</h2>
       <p>MarkdownRecord supports ERB syntax in markdown files that have a <code>.md.erb</code> extension. If you don&#39;t want MarkdownRecord to process your files as ERB templates, they should have the <code>.md</code> extension instead.</p>
@@ -314,7 +326,7 @@ Options:
 --&gt;
 </code></pre>
       <p><em>Note: you can write these JSON object inline as well to be more concise.</em></p>
-      <p>As you can see, all that is required is a JSON object inside a special comment that defines your data. The <code>model</code> part of the comment is a DSL commant that tells MarkdownRecord how to process the comment, and in this case it will take your JSON object and include it in its final renderd JSON output, which will automatically make it available via the provided routes and controllers. If this part is missing or unrecognized, then the comment will be treated as a plain HTML comment and nothing will be done with its contents.</p>
+      <p>As you can see, all that is required is a JSON object inside a special comment that defines your data. The <code>model</code> part of the comment is a DSL command that tells MarkdownRecord how to process the comment, and in this case it will take your JSON object and include it in its final rendered JSON output, which will automatically make it available via the provided routes and controllers. If this part is missing or unrecognized, then the comment will be treated as a plain HTML comment and nothing will be done with its contents.</p>
       <p>There are several different DSL commands that you can use to define application data within your markdown source documents. They are as follows:</p>
       <!--model { "type": "markdown_record/demo/dsl_command", "id": 1, "name": "model", "section_id": 3 } -->
       <!--attribute:description:string-->
@@ -360,7 +372,7 @@ Options:
           <!--attribute:description:string--></li>
         <li>
           <p><code>fragment</code> is similar to <code>model</code> in that it expects a JSON object, but the object is assigned to the <code>meta</code> attribute of the <code>ContentFragment</code> corresponding to the current markdown file. As such, this command should only be used once in each file. This command provides a way of attaching custom data to ContentFragments, such as a layout you want to use for rendering from a controller, details about the content&#39;s author, or perhaps who should be able to access it, etc. You can then interact this data in your application code.</p>
-          <p>Since content is not just rendered for each individual file, but is also concatenated into rendered files for each directory, the ContentFraments representing these concatenated files will have each file&#39;s fragment meta data as a nested object, indexed by the respective file&#39;s path.
+          <p>Since content is not just rendered for each individual file, but is also concatenated into rendered files for each directory, the ContentFragments representing these concatenated files will have each file&#39;s fragment meta data as a nested object, indexed by the respective file&#39;s path.
           </p>
           <p>Example:</p>
           <pre><code class="html">&lt;!--fragment { &quot;author&quot;: &quot;Bryant Morrill&quot; } --&gt;
@@ -404,7 +416,7 @@ Options:
         <li><code>&lt;application root path&gt;/mdr/json/&lt;content_path&gt;</code></li>
         <li><code>&lt;application root path&gt;/&lt;content_path&gt;</code></li>
       </ul>
-      <p><code>content_path</code> in the above routes is the path to a rendered file or directory (relative to the <code>rendered</code> folder). When you navigate to a path that points to a directory, you will see the concatenated contens of everything that is in that directory.</p>
+      <p><code>content_path</code> in the above routes is the path to a rendered file or directory (relative to the <code>rendered</code> folder). When you navigate to a path that points to a directory, you will see the concatenated contents of everything that is in that directory.</p>
       <p>The <code>html</code> routes only return HTML, while the <code>json</code> routes only return JSON. The generic route returns either HTML or JSON depending on the ACCEPT header of your request or the extension of the url you are accessing (for example, appending <code>.json</code> at the end of the current url will load all the JSON models defined in this this document&#39;s markdown source files using the Content DSL commands described above).</p>
       <p>In addition to the above routes, routes for downloading content are provided as well. They are:</p>
       <ul>
@@ -514,7 +526,7 @@ Options:
         <li><code>where</code>: subsequent calls to this query method will merge the passed filters into the previously provided filter hash.</li>
         <li><code>not</code>: this method takes a hash of filters that is negated, so it will only return models that don&#39;t pass filters.</li>
         <li><code>fragmentize</code>: this method turns the association into a fragment association, meaning it will filter and return <code>MarkdownRecord::ContentFragment</code> models only.</li>
-        <li><code>to_fragments</code>: this method queries for MarkdownRecord models but returns their coresponding content fragments instead. This will often result in duplicates due to models being defined in the same file.</li>
+        <li><code>to_fragments</code>: this method queries for MarkdownRecord models but returns their corresponding content fragments instead. This will often result in duplicates due to models being defined in the same file.</li>
         <li><code>all</code>: this method simply returns an Array of models, filtered according to whatever filters have been provided to the association object.</li>
       </ul>
       <p><code>MarkdownRecord::Association</code> also supports the <code>to_a</code>, <code>each</code>, <code>map</code>, <code>count</code>, <code>any?</code>, <code>empty?</code>, <code>first</code>, <code>last</code>, <code>second</code>, <code>third</code> and <code>fourth</code> methods which get executed on the backing Array after loading the data with the most recent filters. For additional functionality, you may call <code>all</code> or <code>to_a</code> to work with the backing Array directly.</p>
@@ -529,7 +541,7 @@ Options:
         <li><code>:null</code>: the attribute value must be nil/null.</li>
         <li>Any other valid JSON type, in which case the attribute value must equal the filter value.</li>
       </ul>
-      <p>In addition, you can pass <code>:__and__</code> or <code>:__or__</code> as filter keys that point to arrays of filter hashes. In the former case, all filter hashes must pass, and in the later case, only one of the filter hases mus pass.</p>
+      <p>In addition, you can pass <code>:__and__</code> or <code>:__or__</code> as filter keys that point to arrays of filter hashes. In the former case, all filter hashes must pass, and in the later case, only one of the filter hashes must pass.</p>
       <p>Finally, you can pass <code>:__not__</code> as a filter key as well, which should point to a filter hash where all the filters must not pass.</p>
       <p>Examples:</p>
       <pre><code class="ruby"># querying with a string value
@@ -579,7 +591,7 @@ MarkdownRecord::Demo::DslCommand.where(__not__: { :name =&gt; /fragment/}).map(&
       <p>The <code>meta</code> attribute contains a <code>Hash</code> populated with any data you that you defined using the <code>fragment</code> or <code>directory_fragment</code> content DSL methods.</p>
       <p><code>concatentated</code> will be auto-populated during rendering and will be true for fragments representing a directory, and false for those representing files.</p>
       <h3>Querying Content Fragments</h3>
-      <p>You can query content fragmets just like you query other MarkdownRecord models, but these queries will only return content fragments. Using filter values that are Hashes, howevers, will allow you to query and filter content fragments based on their <code>meta</code> attribute.</p>
+      <p>You can query content fragments just like you query other MarkdownRecord models, but these queries will only return content fragments. Using filter values that are Hashes, however, will allow you to query and filter content fragments based on their <code>meta</code> attributes.</p>
       <h2>Associations</h2>
       <p>Content fragments also have a few extra associations, which are:</p>
       <ul>
@@ -601,7 +613,7 @@ MarkdownRecord::Demo::DslCommand.where(__not__: { :name =&gt; /fragment/}).map(&
       <pre><code class="ruby">MarkdownRecord::ContentFragment.find(&quot;content/content_frags&quot;).parent
  =&gt; #&lt;MarkdownRecord::ContentFragment concatenated: false, filename: &quot;home&quot;, id: &quot;content/home&quot;, meta: {&quot;name&quot;=&gt;&quot;Home&quot;, ...}, subdirectory: &quot;content&quot;, type: &quot;markdown_record/content_fragment&quot;&gt;
 </code></pre>
-      <p>The ability to overried the natural <code>parent</code> of a content fragment is useful for constructing a list or hierarchy of content that is not strictly based on file structure. The <code>parents_from</code> method is useful in doing this, as it builds a hierarchy but respect any <code>parent_id</code> of the content fragments it comes across instead of assuming the containing directory is the parent. This is useful for constructing breadcrumbs and navigation in your views.</p>
+      <p>The ability to override the natural <code>parent</code> of a content fragment is useful for constructing a list or hierarchy of content that is not strictly based on file structure. The <code>parents_from</code> method is useful in doing this, as it builds a hierarchy but respect any <code>parent_id</code> of the content fragments it comes across instead of assuming the containing directory is the parent. This is useful for constructing breadcrumbs and navigation in your views.</p>
       <p>Exampe:</p>
       <pre><code class="ruby">MarkdownRecord::ContentFragment.find(&quot;content/sandbox/foo&quot;)
   .parents_from(&quot;content/home&quot;)
@@ -687,7 +699,7 @@ MarkdownRecord::Demo::DslCommand.where(__not__: { :name =&gt; /fragment/}).map(&
         </li>
       </ul>
       <h3>Breadcrumbs</h3>
-      <p>Using the view helpers in conjuction with content fragments, you can easily build navigations that automatically updates when you rerender your content. This guide uses this technique and you can find the following code in the <code>_global_layout.html.erb</code> layout:</p>
+      <p>Using the view helpers in conjunction with content fragments, you can easily build navigation that automatically updates when you rerender your content. This guide uses this technique and you can find the following code in the <code>_global_layout.html.erb</code> layout:</p>
       <pre><code class="html"><%% fragment.parents_from("content/home").each_with_index do |frag, index| %>
     <%% unless index == 0%>
         &lt;span class=&quot;breadcrumb_divider&quot;&gt;/&lt;/span&gt;
@@ -759,7 +771,7 @@ end
       <p>Once the associations are defined, you will want to make sure your JSON objects in your markdown have the required fields. For the example above, the DslCommand model will automatically be given a <code>section_id</code> field that will need to be populated in your markdown like so:</p>
       <pre><code class="html">&lt;!--model { &quot;type&quot;: &quot;markdown_record/demo/dsl_command&quot;, &quot;id&quot;: 6, &quot;name&quot;: &quot;directory_fragment&quot;, &quot;section_id&quot;: 1 } --&gt;
 </code></pre>
-      <p>Then you can use the association in your code just like ActiveRecord associtions:</p>
+      <p>Then you can use the association in your code just like ActiveRecord associations:</p>
       <pre><code class="ruby">MarkdownRecord::Demo::Section.find(3).dsl_commands.all
  =&gt; 
 [#&lt;MarkdownRecord::Demo::DslCommand section_id: 1, description: &quot;...&quot;, ...&gt;, ...]
@@ -822,7 +834,7 @@ end
       <ul>
         <li><code>content_root</code>: the path to the directory containing your markdown source files. This is <code>markdown_record/content</code> inside your application root by default.</li>
         <li><code>rendered_content_root</code>: the path to the directory where rendered content will be saves. This is <code>markdown_record/rendered</code> inside your application root by default.</li>
-        <li><code>layout_directory</code>: the path to the directory containing the layouts used durring rendering. This is <code>markdown_record/layouts</code> inside your application root by default.</li>
+        <li><code>layout_directory</code>: the path to the directory containing the layouts used during rendering. This is <code>markdown_record/layouts</code> inside your application root by default.</li>
         <li><code>concatenated_layout_path</code>: the relative path (from <code>layout_directory</code>) to the layout that should be used for files rendered from the concatenated contents of a directory.</li>
         <li><code>file_layout_path</code>: the relative path (from <code>layout_directory</code>) to the layout that should be used for files rendered from a single markdown source file.</li>
         <li><code>global_layout_path</code>: the relative path (from <code>layout_directory</code>) to the layout that should be used for all rendered files.</li>
@@ -836,7 +848,7 @@ end
         <li><code>mount_path</code>: the path where the MarkdownRecord engine is mounted inside the host application. It is <code>mdr</code> by default.</li>
         <li><code>render_content_fragment_json</code>: a boolean value that determines whether MarkdownRecord renders content fragments and saves them to the <code>rendered_content_root</code> in JSON files with the <code>_fragments</code> suffix. If this is set to <code>false</code>, then MarkdownRecord will render your markdown content each time MarkdownRecord models queries are executed. This is set to <code>true</code> by default.</li>
         <li><code>render_controller</code>: the controller used to render ERB content during the rendering process. If this isn&#39;t set, then the host application&#39;s <code>ApplicationController</code> will be used. By default this is <code>nil</code>.</li>
-        <li><code>ignore_numeric_prefix</code>: configurew whether or not MarkdownRecord ignores the numeric prefixes of filenames. The default value is <code>true</code>. When it is set to <code>false</code>, the numeric prefixes will be included in the <code>filename</code> attribute of models, the <code>id</code> attribute of content fragments, and the <code>content_path</code> parameter of requests to the routes for rendered content.</li>
+        <li><code>ignore_numeric_prefix</code>: configures whether or not MarkdownRecord ignores the numeric prefixes of filenames. The default value is <code>true</code>. When it is set to <code>false</code>, the numeric prefixes will be included in the <code>filename</code> attribute of models, the <code>id</code> attribute of content fragments, and the <code>content_path</code> parameter of requests to the routes for rendered content.</li>
       </ul>
       <!--content/configuration-->
       <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/content/configuration">content/configuration</a></em></p>
@@ -853,7 +865,7 @@ end
       <!--directory_fragment { "author": "You", "name": "Sandbox", "parent_id": "content/home" } -->
       <!--use_layout:_custom_layout.html.erb-->
       <p>Feel free to use this directory as a sandbox to experiment with the things you learn from the guide, without fear of messing up the guide itself. The things defined here are used for automated tests only, so feel free to  delete/alter anything you want here.</p>
-      <p>When you are done experimenting and want to start creating for real, feel free to delete the entire guids and use the online hosted version for reference going forward.</p>
+      <p>When you are done experimenting and want to start creating for real, feel free to delete the entire guide and use the online hosted version for reference going forward.</p>
       <p><em>Note: you will need to add the .erb extension to this file to use ERB syntax in it.</em></p>
       <!--model { "id": 1, "type": "markdown_record/tests/model", "string_field": "foo", "int_field": 100, "float_field": 95.5, "bool_field": true, "date_field": "03/13/2023", "maybe_field": null, "hash_field": {} }-->
       <!--model { "id": 2, "type": "markdown_record/tests/model", "string_field": "bar", "int_field": 42, "float_field": 99.9, "bool_field": false, "date_field": "12/25/2020", "maybe_field": 50, "hash_field": { "some_data": { "some_field": 999 }}  }-->
@@ -872,7 +884,7 @@ end
       <!--directory_fragment { "author": "You", "name": "Sandbox", "parent_id": "content/sandbox/foo" } -->
       <!--use_layout:_custom_layout.html.erb-->
       <p>Feel free to use this directory as a sandbox to experiment with the things you learn from the guide, without fear of messing up the guide itself. The things defined here are used for automated tests only, so feel free to  delete/alter anything you want here.</p>
-      <p>When you are done experimenting and want to start creating for real, feel free to delete the entire guids and use the online hosted version for reference going forward.</p>
+      <p>When you are done experimenting and want to start creating for real, feel free to delete the entire guide and use the online hosted version for reference going forward.</p>
       <p><em>Note: you will need to add the .erb extension to this file to use ERB syntax in it.</em></p>
       <!--model { "id": 1, "type": "markdown_record/tests/child_model", "model_id": 1, "string_field": "hey", "int_field": 100, "float_field": 95.5, "bool_field": true, "date_field": "03/13/2023", "maybe_field": null, "hash_field": {} }-->
       <!--model { "id": 2, "type": "markdown_record/tests/child_model", "model_id": 1, "string_field": "asdf", "int_field": 333, "float_field": 10.5, "bool_field": false, "date_field": "01/01/2000", "maybe_field": 7, "hash_field": {} }-->

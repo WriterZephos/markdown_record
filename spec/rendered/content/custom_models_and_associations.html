@@ -115,7 +115,7 @@ end
     <p>Once the associations are defined, you will want to make sure your JSON objects in your markdown have the required fields. For the example above, the DslCommand model will automatically be given a <code>section_id</code> field that will need to be populated in your markdown like so:</p>
     <pre><code class="html">&lt;!--model { &quot;type&quot;: &quot;markdown_record/demo/dsl_command&quot;, &quot;id&quot;: 6, &quot;name&quot;: &quot;directory_fragment&quot;, &quot;section_id&quot;: 1 } --&gt;
 </code></pre>
-    <p>Then you can use the association in your code just like ActiveRecord associtions:</p>
+    <p>Then you can use the association in your code just like ActiveRecord associations:</p>
     <pre><code class="ruby">MarkdownRecord::Demo::Section.find(3).dsl_commands.all
  =&gt; 
 [#&lt;MarkdownRecord::Demo::DslCommand section_id: 1, description: &quot;...&quot;, ...&gt;, ...]

@@ -95,7 +95,7 @@
       <li><code>&lt;application root path&gt;/mdr/json/&lt;content_path&gt;</code></li>
       <li><code>&lt;application root path&gt;/&lt;content_path&gt;</code></li>
     </ul>
-    <p><code>content_path</code> in the above routes is the path to a rendered file or directory (relative to the <code>rendered</code> folder). When you navigate to a path that points to a directory, you will see the concatenated contens of everything that is in that directory.</p>
+    <p><code>content_path</code> in the above routes is the path to a rendered file or directory (relative to the <code>rendered</code> folder). When you navigate to a path that points to a directory, you will see the concatenated contents of everything that is in that directory.</p>
     <p>The <code>html</code> routes only return HTML, while the <code>json</code> routes only return JSON. The generic route returns either HTML or JSON depending on the ACCEPT header of your request or the extension of the url you are accessing (for example, appending <code>.json</code> at the end of the current url will load all the JSON models defined in this this document&#39;s markdown source files using the Content DSL commands described above).</p>
     <p>In addition to the above routes, routes for downloading content are provided as well. They are:</p>
     <ul>

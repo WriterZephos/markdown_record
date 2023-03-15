@@ -2,6 +2,8 @@
 
 Welcome to MarkdownRecord. This project is still in BETA stage, and as such is subject to rapid change. There are many things that still need improving, so bear that in mind. That said, please feel free to test this project out and provide feedback in the form of GitHub issues! Thank you.
 
+You can find the complete usage guide [here](https://markdown-record-docs.herokuapp.com/mdr/content/home).
+
 MarkdownRecord is a Rails engine that allows you to write markdown with embedded json like this:
 
 ```md
@@ -97,33 +99,36 @@ $ rails g markdown_record --demo
 The above command will install the engine, resulting in the following output and changes to your application:
 
 ```bash
-      create  markdown_record/content
-      create  markdown_record/layouts
-      create  markdown_record/rendered
-       exist  markdown_record/content
-      create  markdown_record/content/controller_helpers.md.erb
-      create  markdown_record/content/configuration.md.erb
-      create  markdown_record/content/sandbox/foo.md
-      create  markdown_record/content/home.md.erb
-      create  markdown_record/content/installation.md.erb
-      create  markdown_record/content/rendering_basics.md.erb
-      create  markdown_record/content/content_dsl.md.erb
-      create  markdown_record/content/routes.md.erb
-      create  markdown_record/content/model_basics.md.erb
-      create  markdown_record/content/content_frags.md.erb
-      create  markdown_record/content/erb_syntax_and_view_helpers.md.erb
-      create  markdown_record/content/custom_models_and_associations.md.erb
-       exist  markdown_record/layouts
-      create  markdown_record/layouts/_concatenated_layout.html.erb
-      create  markdown_record/layouts/_custom_layout.html.erb
-      create  markdown_record/layouts/_file_layout.html.erb
-      create  markdown_record/layouts/_global_layout.html.erb
-       exist  app/assets/images
-      create  app/assets/images/ruby-logo.png
-      create  config/initializers/markdown_record.rb
-      create  Thorfile
-      create  lib/tasks/render_content.thor
-        gsub  config/routes.rb
+  create  markdown_record/content
+  create  markdown_record/layouts
+  create  markdown_record/rendered
+    exist  markdown_record/content
+  create  markdown_record/content/10_custom_models_and_associations.md.erb
+  create  markdown_record/content/11_controller_helpers.md.erb
+  create  markdown_record/content/12_configuration.md.erb
+  create  markdown_record/content/13_sandbox/1_foo.md
+  create  markdown_record/content/13_sandbox/2_sandbox_nested/1_bar.md
+  create  markdown_record/content/1_home.md.erb
+  create  markdown_record/content/2_installation.md.erb
+  create  markdown_record/content/3_rendering_basics.md.erb
+  create  markdown_record/content/4_content_dsl.md.erb
+  create  markdown_record/content/5_routes.md.erb
+  create  markdown_record/content/6_model_basics.md.erb
+  create  markdown_record/content/7_content_frags.md.erb
+  create  markdown_record/content/8_erb_syntax_and_view_helpers.md.erb
+  create  markdown_record/content/9_layouts.md.erb
+    exist  markdown_record/layouts
+  create  markdown_record/layouts/_concatenated_layout.html.erb
+  create  markdown_record/layouts/_custom_layout.html.erb
+  create  markdown_record/layouts/_file_layout.html.erb
+  create  markdown_record/layouts/_global_layout.html.erb
+    exist  app/assets/images
+  create  app/assets/images/ruby-logo.png
+  create  config/initializers/markdown_record.rb
+  create  Thorfile
+  create  lib/tasks/render_content.thor
+    gsub  config/routes.rb
+    gsub  config/routes.rb
 ```
 
 The files and folders inside `markdown_record/content` are for demo purposes only, and can be deleted once you are ready to create your own content.
@@ -195,7 +200,9 @@ rendered: /markdown_record/rendered/content/controller_helpers.html
 42 files saved.
 ```
 
-Congratulations! You have installed MarkdownRecord. If you are not viewing this from the host application already, go ahead and start your Rails server and navigate to http://localhost:3000/mdr/content/home to continue following this guide.
+Congratulations! You have installed MarkdownRecord. If you are not viewing this from the host application already, go ahead and start your Rails server with `rails s` and navigate to http://localhost:3000/mdr/content/home to continue following this guide.
+
+Alternatively, you can find the complete usage guide [here](https://markdown-record-docs.herokuapp.com/mdr/content/home).
 
 ## Contributing
 
@@ -220,6 +227,7 @@ To test a local version of this gem in a local app, simply add the `path` parame
 
 - Make the Content DSL extensible
 - Add support for raw JSON files as source content
+- Support semantic versioning in numeric filename prefixes
 
 ## License
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).

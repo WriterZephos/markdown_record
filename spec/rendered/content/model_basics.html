@@ -121,7 +121,7 @@
       <li><code>where</code>: subsequent calls to this query method will merge the passed filters into the previously provided filter hash.</li>
       <li><code>not</code>: this method takes a hash of filters that is negated, so it will only return models that don&#39;t pass filters.</li>
       <li><code>fragmentize</code>: this method turns the association into a fragment association, meaning it will filter and return <code>MarkdownRecord::ContentFragment</code> models only.</li>
-      <li><code>to_fragments</code>: this method queries for MarkdownRecord models but returns their coresponding content fragments instead. This will often result in duplicates due to models being defined in the same file.</li>
+      <li><code>to_fragments</code>: this method queries for MarkdownRecord models but returns their corresponding content fragments instead. This will often result in duplicates due to models being defined in the same file.</li>
       <li><code>all</code>: this method simply returns an Array of models, filtered according to whatever filters have been provided to the association object.</li>
     </ul>
     <p><code>MarkdownRecord::Association</code> also supports the <code>to_a</code>, <code>each</code>, <code>map</code>, <code>count</code>, <code>any?</code>, <code>empty?</code>, <code>first</code>, <code>last</code>, <code>second</code>, <code>third</code> and <code>fourth</code> methods which get executed on the backing Array after loading the data with the most recent filters. For additional functionality, you may call <code>all</code> or <code>to_a</code> to work with the backing Array directly.</p>
@@ -136,7 +136,7 @@
       <li><code>:null</code>: the attribute value must be nil/null.</li>
       <li>Any other valid JSON type, in which case the attribute value must equal the filter value.</li>
     </ul>
-    <p>In addition, you can pass <code>:__and__</code> or <code>:__or__</code> as filter keys that point to arrays of filter hashes. In the former case, all filter hashes must pass, and in the later case, only one of the filter hases mus pass.</p>
+    <p>In addition, you can pass <code>:__and__</code> or <code>:__or__</code> as filter keys that point to arrays of filter hashes. In the former case, all filter hashes must pass, and in the later case, only one of the filter hashes must pass.</p>
     <p>Finally, you can pass <code>:__not__</code> as a filter key as well, which should point to a filter hash where all the filters must not pass.</p>
     <p>Examples:</p>
     <pre><code class="ruby"># querying with a string value

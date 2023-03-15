@@ -141,7 +141,7 @@
       </li>
     </ul>
     <h3>Breadcrumbs</h3>
-    <p>Using the view helpers in conjuction with content fragments, you can easily build navigations that automatically updates when you rerender your content. This guide uses this technique and you can find the following code in the <code>_global_layout.html.erb</code> layout:</p>
+    <p>Using the view helpers in conjunction with content fragments, you can easily build navigation that automatically updates when you rerender your content. This guide uses this technique and you can find the following code in the <code>_global_layout.html.erb</code> layout:</p>
     <pre><code class="html"><%% fragment.parents_from("content/home").each_with_index do |frag, index| %>
     <%% unless index == 0%>
         &lt;span class=&quot;breadcrumb_divider&quot;&gt;/&lt;/span&gt;

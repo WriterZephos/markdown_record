@@ -100,7 +100,7 @@
 --&gt;
 </code></pre>
     <p><em>Note: you can write these JSON object inline as well to be more concise.</em></p>
-    <p>As you can see, all that is required is a JSON object inside a special comment that defines your data. The <code>model</code> part of the comment is a DSL commant that tells MarkdownRecord how to process the comment, and in this case it will take your JSON object and include it in its final renderd JSON output, which will automatically make it available via the provided routes and controllers. If this part is missing or unrecognized, then the comment will be treated as a plain HTML comment and nothing will be done with its contents.</p>
+    <p>As you can see, all that is required is a JSON object inside a special comment that defines your data. The <code>model</code> part of the comment is a DSL command that tells MarkdownRecord how to process the comment, and in this case it will take your JSON object and include it in its final rendered JSON output, which will automatically make it available via the provided routes and controllers. If this part is missing or unrecognized, then the comment will be treated as a plain HTML comment and nothing will be done with its contents.</p>
     <p>There are several different DSL commands that you can use to define application data within your markdown source documents. They are as follows:</p>
     <!--model { "type": "markdown_record/demo/dsl_command", "id": 1, "name": "model", "section_id": 3 } -->
     <!--attribute:description:string-->
@@ -146,7 +146,7 @@
         <!--attribute:description:string--></li>
       <li>
         <p><code>fragment</code> is similar to <code>model</code> in that it expects a JSON object, but the object is assigned to the <code>meta</code> attribute of the <code>ContentFragment</code> corresponding to the current markdown file. As such, this command should only be used once in each file. This command provides a way of attaching custom data to ContentFragments, such as a layout you want to use for rendering from a controller, details about the content&#39;s author, or perhaps who should be able to access it, etc. You can then interact this data in your application code.</p>
-        <p>Since content is not just rendered for each individual file, but is also concatenated into rendered files for each directory, the ContentFraments representing these concatenated files will have each file&#39;s fragment meta data as a nested object, indexed by the respective file&#39;s path.
+        <p>Since content is not just rendered for each individual file, but is also concatenated into rendered files for each directory, the ContentFragments representing these concatenated files will have each file&#39;s fragment meta data as a nested object, indexed by the respective file&#39;s path.
         </p>
         <p>Example:</p>
         <pre><code class="html">&lt;!--fragment { &quot;author&quot;: &quot;Bryant Morrill&quot; } --&gt;
