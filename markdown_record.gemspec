@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.metadata["changelog_uri"] = "https://github.com/WriterZephos/markdown_record"
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
-    Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+    Dir["{app,config,db,lib,templates}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   end
 
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
