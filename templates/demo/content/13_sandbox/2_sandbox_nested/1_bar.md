@@ -3,7 +3,7 @@
 
 Feel free to use this directory as a sandbox to experiment with the things you learn from the guide, without fear of messing up the guide itself. The things defined here are used for automated tests only, so feel free to  delete/alter anything you want here.
 
-When you are done experimenting and want to start creating for real, feel free to delete the entire guids and use the online hosted version for reference going forward.
+When you are done experimenting and want to start creating for real, feel free to delete the entire guide and use the online hosted version for reference going forward.
 
 *Note: you will need to add the .erb extension to this file to use ERB syntax in it.*
 

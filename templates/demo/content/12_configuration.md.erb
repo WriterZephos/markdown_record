@@ -9,7 +9,7 @@ You can configure `MarkdownRecord` in the initializer that is generated upon ins
 
 - `content_root`: the path to the directory containing your markdown source files. This is `markdown_record/content` inside your application root by default.
 - `rendered_content_root`: the path to the directory where rendered content will be saves. This is `markdown_record/rendered` inside your application root by default.
-- `layout_directory`: the path to the directory containing the layouts used durring rendering. This is `markdown_record/layouts` inside your application root by default.
+- `layout_directory`: the path to the directory containing the layouts used during rendering. This is `markdown_record/layouts` inside your application root by default.
 - `concatenated_layout_path`: the relative path (from `layout_directory`) to the layout that should be used for files rendered from the concatenated contents of a directory.
 - `file_layout_path`: the relative path (from `layout_directory`) to the layout that should be used for files rendered from a single markdown source file.
 - `global_layout_path`: the relative path (from `layout_directory`) to the layout that should be used for all rendered files.
@@ -23,4 +23,4 @@ You can configure `MarkdownRecord` in the initializer that is generated upon ins
 - `mount_path`: the path where the MarkdownRecord engine is mounted inside the host application. It is `mdr` by default.
 - `render_content_fragment_json`: a boolean value that determines whether MarkdownRecord renders content fragments and saves them to the `rendered_content_root` in JSON files with the `_fragments` suffix. If this is set to `false`, then MarkdownRecord will render your markdown content each time MarkdownRecord models queries are executed. This is set to `true` by default.
 - `render_controller`: the controller used to render ERB content during the rendering process. If this isn't set, then the host application's `ApplicationController` will be used. By default this is `nil`.
-- `ignore_numeric_prefix`: configurew whether or not MarkdownRecord ignores the numeric prefixes of filenames. The default value is `true`. When it is set to `false`, the numeric prefixes will be included in the `filename` attribute of models, the `id` attribute of content fragments, and the `content_path` parameter of requests to the routes for rendered content.
+- `ignore_numeric_prefix`: configures whether or not MarkdownRecord ignores the numeric prefixes of filenames. The default value is `true`. When it is set to `false`, the numeric prefixes will be included in the `filename` attribute of models, the `id` attribute of content fragments, and the `content_path` parameter of requests to the routes for rendered content.

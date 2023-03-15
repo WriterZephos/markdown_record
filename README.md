@@ -1,9 +1,17 @@
 # MarkdownRecord
 
+Welcome to MarkdownRecord. This project is still in BETA stage, and as such is subject to rapid change. There are many things that still need improving, so bear that in mind. That said, please feel free to test this project out and provide feedback in the form of GitHub issues! Thank you.
+
 MarkdownRecord is a Rails engine that allows you to write markdown with embedded json like this:
 
 ```md
-<!--model { "type": "markdown_record/demo/section", "id":   3, "name": "Content DSL" } -->
+<!--model
+  { 
+    "type": "markdown_record/demo/section", 
+    "id":   3, 
+    "name": "Content DSL"
+  } 
+-->
 
 # Content DSL
 
@@ -36,11 +44,11 @@ Or render your markdown content as JSON like this:
 {"markdown_record/demo/section":[{"type":"markdown_record/demo/section","id":3,"name":"Content DSL","subdirectory":"content","filename":"content_dsl"}]}
 ```
 
-All without creating a single controller, writing a single migration, creating a single view, or defining a single route.
+## All without creating a single controller, writing a single migration, creating a single view, or defining a single route.
 
 In other words, MarkdownRecord allows you to write your website's content and define static data at the same time, in the same markdown source file, and have it immediately available to render from your application. By embedding your static data right inside your markdown, or rather extracting your data from your content, you can cut out the hassle of writing database migrations and building forms just to store data that doesn't need to be updated by end users. This approach also helps to keep your application maintainable and consistent, as there will be less code (always a good thing) and only one source of truth for both your written copy and its associated data.
 
-The MarkdownRecord engine is packed with super useful features, such as content fragments which let you interact with your source files from within your application code, a powerful markdown Content DSL that lets you extract data out of your written content and interact with it in an object oriented way, and view helpers to make navigating between your rendered HTML content easy.
+The MarkdownRecord engine is packed with super useful features, such as content fragments which let you interact with your source files from within your application code, a powerful (and soon to be extensible) markdown Content DSL that lets you extract data out of your written content and interact with it in an object oriented way, and view helpers to make navigating between your rendered HTML content easy.
 
 ---
 
@@ -53,11 +61,11 @@ MarkdownRecord is a solution for when you need to render written content in your
 - Hosting the rules for a table top game alongside a character or army building feature which needs to know what options are defined in the rules.
 - Any situation where you have written copy and you want to represent the relationships between pieces of it or the concepts it describes in an your application code.
 
-MarkdownRecord could be described as a *server side content management system*, as opposed to client side systems such as WordPress and other common blogging platforms, where the writing and editing are done in a browser. With MarkdownRecord you can write content locally without having to worry about converting it to HTML, storing it in a database or integrating a text editor into your web application. It gives you an alternative and way to deal with data with very few compromizes.
+MarkdownRecord could be described as a *server side content management system*, as opposed to client side systems such as WordPress and other common blogging platforms, where the writing and editing are done in a browser. With MarkdownRecord you can write content locally without having to worry about converting it to HTML, storing it in a database or integrating a text editor into your web application. It gives you an alternative and way to deal with data with very few compromises.
 
 ## Why not use MarkdownRecord?
 
-MarkdownRecord should not be used if the code repository the host application lives in cannot be pushed to whenever content changes (unless there is some work around in place to fetch updated content and render it automatically). Without additional automation in place, you must run a command to have the engine pre-render your content locally, then push the results to whereever your application is hosted. As such, content that requires creating or editing from the client side is not something this engine should be used for.
+MarkdownRecord should not be used if the code repository the host application lives in cannot be pushed to whenever content changes (unless there is some work around in place to fetch updated content and render it automatically). Without additional automation in place, you must run a command to have the engine pre-render your content locally, then push the results to wherever your application is hosted. As such, content that requires creating or editing from the client side is not something this engine should be used for.
 
 ---
 # Usage
@@ -118,7 +126,7 @@ The above command will install the engine, resulting in the following output and
         gsub  config/routes.rb
 ```
 
-The files and folders inside `markdown_record/content` are for demo purposes only, and can be deleted once youare are ready to create your own content.
+The files and folders inside `markdown_record/content` are for demo purposes only, and can be deleted once you are ready to create your own content.
 
 By default, MarkdownRecord will look in the `markdown_record/content` directory for all your content, and all rendered content will be saved to the `markdown_record/rendered` directory.
 
@@ -190,7 +198,28 @@ rendered: /markdown_record/rendered/content/controller_helpers.html
 Congratulations! You have installed MarkdownRecord. If you are not viewing this from the host application already, go ahead and start your Rails server and navigate to http://localhost:3000/mdr/content/home to continue following this guide.
 
 ## Contributing
-Contribution guides coming soon.
+
+Contributions to this project are welcome. Please simply fork the project and open MRs into the main repo if you have something you would like to add or fix. Opening issues for any bugs or improvements you want to be considered is also appreciated.
+
+While working within this code base, use `rake spec` to run tests. You can pass `SPEC=<path to spec file>` to run a specific spec file, and you make append `:<line number>` to run a specific example.
+
+Things that need doing:
+
+- Backfill pending tests
+- Backfill missing tests
+- Reorganize the `lib` folder to not be such a mess
+- Write RDoc docs throughout
+
+To test a local version of this gem in a local app, simply add the `path` parameter in your gemfile like so:
+
+```
+ gem "markdown_record", path: "../markdown_record"
+```
+
+## Roadmap
+
+- Make the Content DSL extensible
+- Add support for raw JSON files as source content
 
 ## License
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).

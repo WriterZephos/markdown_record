@@ -18,7 +18,7 @@ The `meta` attribute contains a `Hash` populated with any data you that you defi
 
 ### Querying Content Fragments
 
-You can query content fragmets just like you query other MarkdownRecord models, but these queries will only return content fragments. Using filter values that are Hashes, howevers, will allow you to query and filter content fragments based on their `meta` attribute.
+You can query content fragments just like you query other MarkdownRecord models, but these queries will only return content fragments. Using filter values that are Hashes, however, will allow you to query and filter content fragments based on their `meta` attributes.
 
 ## Associations
 
@@ -54,7 +54,7 @@ MarkdownRecord::ContentFragment.find("content/content_frags").parent
  => #<MarkdownRecord::ContentFragment concatenated: false, filename: "home", id: "content/home", meta: {"name"=>"Home", ...}, subdirectory: "content", type: "markdown_record/content_fragment">
 ```
 
-The ability to overried the natural `parent` of a content fragment is useful for constructing a list or hierarchy of content that is not strictly based on file structure. The `parents_from` method is useful in doing this, as it builds a hierarchy but respect any `parent_id` of the content fragments it comes across instead of assuming the containing directory is the parent. This is useful for constructing breadcrumbs and navigation in your views.
+The ability to override the natural `parent` of a content fragment is useful for constructing a list or hierarchy of content that is not strictly based on file structure. The `parents_from` method is useful in doing this, as it builds a hierarchy but respect any `parent_id` of the content fragments it comes across instead of assuming the containing directory is the parent. This is useful for constructing breadcrumbs and navigation in your views.
 
 Exampe:
 

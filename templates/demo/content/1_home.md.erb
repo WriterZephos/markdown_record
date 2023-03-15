@@ -21,11 +21,11 @@ The general workflow while using MarkdownRecord, once installed in your applicat
 2. Run the provided Thor task to render your markdown content into HTML and JSON.
 3. Use the built in `MarkdownRecord::ContentFragment` model to directly reference your rendered content inside your application. 
 4. Use the provided view helpers to link to the rendered content in your application's views, relying only on the controllers provided by the engine for serving the content if you wish.
-5. Use model classes inheritiing from `MarkdownRecord::Base` to interact with your html and json rendered content, taking advantage of the associations you can define manually as well a the automatic associations they have based on content location.
+5. Use model classes inheriting from `MarkdownRecord::Base` to interact with your html and json rendered content, taking advantage of the associations you can define manually as well a the automatic associations they have based on content location.
 
-The next step is to read through the <%= link_to_markdown_record(::MarkdownRecord::ContentFragment.find("content/rendering_basics"), "Rendering Basics") %> section to understand the basic rendering proces of markdown source content into HTML and JSON.
+The next step is to read through the <%= link_to_markdown_record(::MarkdownRecord::ContentFragment.find("content/rendering_basics"), "Rendering Basics") %> section to understand the basic rendering process of markdown source content into HTML and JSON.
 
-The folowing links will take you to other sections of this guide. Each section builds upon the last, so it is recommended to read through them in order if you are new to MarkdownRecord.
+The following links will take you to other sections of this guide. Each section builds upon the last, so it is recommended to read through them in order if you are new to MarkdownRecord.
 
 - <%= link_to_markdown_record(::MarkdownRecord::ContentFragment.find("content/content_dsl"))%> 
 - <%= link_to_markdown_record(::MarkdownRecord::ContentFragment.find("content/routes")) %>

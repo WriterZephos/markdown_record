@@ -76,7 +76,7 @@ MarkdownRecord provides the following view helpers to use in your ERB views as w
 
 ### Breadcrumbs
 
-Using the view helpers in conjuction with content fragments, you can easily build navigations that automatically updates when you rerender your content. This guide uses this technique and you can find the following code in the `_global_layout.html.erb` layout:
+Using the view helpers in conjunction with content fragments, you can easily build navigation that automatically updates when you rerender your content. This guide uses this technique and you can find the following code in the `_global_layout.html.erb` layout:
 
 ```html
 <%%% fragment.parents_from("content/home").each_with_index do |frag, index| %>

@@ -22,7 +22,7 @@ To do this, simply write an HTML comment like this in your markdown files:
 
 *Note: you can write these JSON object inline as well to be more concise.*
 
-As you can see, all that is required is a JSON object inside a special comment that defines your data. The `model` part of the comment is a DSL commant that tells MarkdownRecord how to process the comment, and in this case it will take your JSON object and include it in its final renderd JSON output, which will automatically make it available via the provided routes and controllers. If this part is missing or unrecognized, then the comment will be treated as a plain HTML comment and nothing will be done with its contents.
+As you can see, all that is required is a JSON object inside a special comment that defines your data. The `model` part of the comment is a DSL command that tells MarkdownRecord how to process the comment, and in this case it will take your JSON object and include it in its final rendered JSON output, which will automatically make it available via the provided routes and controllers. If this part is missing or unrecognized, then the comment will be treated as a plain HTML comment and nothing will be done with its contents.
 
 There are several different DSL commands that you can use to define application data within your markdown source documents. They are as follows:
 
@@ -75,7 +75,7 @@ There are several different DSL commands that you can use to define application 
 <!--attribute:description:string-->
 - `fragment` is similar to `model` in that it expects a JSON object, but the object is assigned to the `meta` attribute of the `ContentFragment` corresponding to the current markdown file. As such, this command should only be used once in each file. This command provides a way of attaching custom data to ContentFragments, such as a layout you want to use for rendering from a controller, details about the content's author, or perhaps who should be able to access it, etc. You can then interact this data in your application code.
 
-    Since content is not just rendered for each individual file, but is also concatenated into rendered files for each directory, the ContentFraments representing these concatenated files will have each file's fragment meta data as a nested object, indexed by the respective file's path.
+    Since content is not just rendered for each individual file, but is also concatenated into rendered files for each directory, the ContentFragments representing these concatenated files will have each file's fragment meta data as a nested object, indexed by the respective file's path.
     <!--end_attribute-->
 
     Example:

@@ -14,7 +14,7 @@ All of the following routes should now resolve successfully:
 - `<application root path>/<content_path>`
 
 
-`content_path` in the above routes is the path to a rendered file or directory (relative to the `rendered` folder). When you navigate to a path that points to a directory, you will see the concatenated contens of everything that is in that directory.
+`content_path` in the above routes is the path to a rendered file or directory (relative to the `rendered` folder). When you navigate to a path that points to a directory, you will see the concatenated contents of everything that is in that directory.
 
 The `html` routes only return HTML, while the `json` routes only return JSON. The generic route returns either HTML or JSON depending on the ACCEPT header of your request or the extension of the url you are accessing (for example, appending `.json` at the end of the current url will load all the JSON models defined in this this document's markdown source files using the Content DSL commands described above).
 
