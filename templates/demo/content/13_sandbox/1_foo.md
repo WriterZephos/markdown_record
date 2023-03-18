@@ -1,4 +1,5 @@
 <!--directory_fragment { "author": "You", "name": "Sandbox", "parent_id": "content/home" } -->
+<!--fragment { "name": "Foo", "author": "You" } -->
 <!--use_layout:_custom_layout.html.erb-->
 
 Feel free to use this directory as a sandbox to experiment with the things you learn from the guide, without fear of messing up the guide itself. The things defined here are used for automated tests only, so feel free to  delete/alter anything you want here.

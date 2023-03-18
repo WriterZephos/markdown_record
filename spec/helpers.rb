@@ -24,25 +24,41 @@ module Helpers
     FileUtils.mkdir_p "markdown_record/rendered"
   end
 
-  def verify_files(files, remove = true)
-    all_exist = true
-    files.each do |file|
-      all_exist &= Pathname.new(file).exist?
-      FileUtils.remove_entry(file, true) if remove
-    end
-    all_exist
+  def expect_files(fls, remove = true)
+    existing_files = fls.map do |file|
+      if Pathname.new(file).exist?
+        FileUtils.remove_entry(file, true) if remove
+        file
+      else
+        nil
+      end
+    end.compact
+
+    expect(fls.join("\n")).to eq(existing_files.join("\n"))
   end
 
-  def verify_file_contents(files)
+  def expect_no_files(fls, remove = true)
+    existing_files = fls.map do |file|
+      if Pathname.new(file).exist?
+        FileUtils.remove_entry(file, true) if remove
+        file
+      else
+        nil
+      end
+    end.compact
+
+    expect(existing_files.empty?).to eq(true)
+  end
+
+  def expect_file_contents(files)
     all_correct = true
     files.each do |f|
-      all_correct &= (File.read(files.first) == File.read(files.first.gsub("markdown_record/rendered/", "../rendered/")))
+      expect(File.read(files.first)).to eq(File.read(files.first.gsub("markdown_record/rendered/", "../rendered/")))
     end
-    all_correct
   end
 
-  def verify_output(index)
-    output_for_dummy == output_for_spec(index)
+  def expect_output(index)
+    expect(output_for_dummy).to eq(output_for_spec(index))
   end
 
   def files(index)

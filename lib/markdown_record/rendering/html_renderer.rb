@@ -52,7 +52,7 @@ module MarkdownRecord
 
     def render_html(html)
       rendered_html = @markdown.render(html)
-      remove_dsl(rendered_html) 
+      remove_json_dsl_commands(rendered_html) 
     end
 
     def process_html_recursively(file_or_directory, full_path, options)
@@ -101,7 +101,8 @@ module MarkdownRecord
     def concatenate_html_recursively(content, html)
       case content.class.name
       when Hash.name
-        sorted_hash_values(content).each do |v|
+        MarkdownRecord.config.filename_sorter.hash_to_sorted_values(content).each do |v|
+          
           concatenate_html_recursively(v, html)
         end
       when String.name
@@ -110,23 +111,9 @@ module MarkdownRecord
       html
     end
 
-    def sorted_hash_values(hash)
-      values = []
-      keys = hash.keys.sort_by do |k|
-        basename = k.split("/").last
-        m = basename.match(/^(\d+)_/)
-        m.try(:[], 1).to_i || k
-      end
-
-      keys.each do |k|
-        values << hash[k] if !k.include?(".concat")
-      end
-      values
-    end
-
     def custom_layout(html)
       layout = use_layout_dsl(html)
-      return unless layout
+      return nil unless layout
 
       File.read(::MarkdownRecord.config.layout_directory.join(layout))
     end
@@ -166,7 +153,7 @@ module MarkdownRecord
 
     def finalize_html(html, full_path)
       locals = erb_locals_from_path(full_path)
-      final_html = html
+      final_html = remove_html_dsl_command(html) 
       final_html = render_erb(global_layout, locals.merge(html: final_html)) if global_layout
       
       HTML_SUBSTITUTIONS.each do |find, replace|

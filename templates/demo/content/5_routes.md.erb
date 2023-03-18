@@ -1,5 +1,5 @@
 <!--fragment { "author": "Bryant Morrill", "parent_id": "content/home", "name": "Routes" } -->
-<!--model { "type": "markdown_record/demo/section", "id":   4, "name": "Routes" } -->
+<!--model { "type": "markdown_record/demo/section", "id": 4, "name": "Routes" } -->
 
 # Routes
 
@@ -28,16 +28,19 @@ The download routes are not enabled by default, but can be enabled if you want t
 
 Here is a complete list of links to all the rendered HTML files of this demo (each item has a JSON and an HTML version), all of which use the routes described above:
 
-<% ::MarkdownRecord::ContentFragment.all.each do |frag| %>
+- <%= link_to_markdown_record(fragment.parent, fragment.parent.id) %><br>
+<% fragment.parent.children.each do |frag| %>
 - <%= link_to_markdown_record(frag, frag.id) %><br>
 <% end %>
 
-<% ::MarkdownRecord::ContentFragment.all.each do |frag| %>
-- <%= link_to_markdown_record_html(frag, frag.html_route) %><br>
+- <%= link_to_markdown_record(fragment.parent, fragment.parent.id) %><br>
+<% fragment.parent.children.each do |frag| %>
+- <%= link_to_markdown_record_html(frag, frag.id) %><br>
 <% end %>
 
-<% ::MarkdownRecord::ContentFragment.all.each do |frag| %>
-- <%= link_to_markdown_record_json(frag, frag.json_route) %><br>
+- <%= link_to_markdown_record(fragment.parent, fragment.parent.id) %><br>
+<% fragment.parent.children.each do |frag| %>
+- <%= link_to_markdown_record_json(frag, frag.id) %><br>
 <% end %>
 
 Some of the above routes are the rendered versions of individual files, and some are the concatenated and rendered contents of an entire directory.

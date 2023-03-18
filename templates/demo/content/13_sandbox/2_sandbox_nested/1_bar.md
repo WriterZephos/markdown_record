@@ -1,4 +1,5 @@
 <!--directory_fragment { "author": "You", "name": "Sandbox", "parent_id": "content/sandbox/foo" } -->
+<!--fragment { "name": "Bar", "author": "You" } -->
 <!--use_layout:_custom_layout.html.erb-->
 
 Feel free to use this directory as a sandbox to experiment with the things you learn from the guide, without fear of messing up the guide itself. The things defined here are used for automated tests only, so feel free to  delete/alter anything you want here.
@@ -6,6 +7,8 @@ Feel free to use this directory as a sandbox to experiment with the things you l
 When you are done experimenting and want to start creating for real, feel free to delete the entire guide and use the online hosted version for reference going forward.
 
 *Note: you will need to add the .erb extension to this file to use ERB syntax in it.*
+
+Notice how this file's *parent* is `foo`. This is set using the `fragment` DSL command.
 
 <!--model { "id": 1, "type": "markdown_record/tests/child_model", "model_id": 1, "string_field": "hey", "int_field": 100, "float_field": 95.5, "bool_field": true, "date_field": "03/13/2023", "maybe_field": null, "hash_field": {} }-->
 

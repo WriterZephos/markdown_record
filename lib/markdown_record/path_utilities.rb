@@ -7,17 +7,17 @@ module MarkdownRecord
       rendered_path = Pathname.new("/").join(full_path)
       
       filename = clean_path(rendered_path.basename)
-      filename = remove_numeric_prefixes(filename)
+      filename = remove_prefix(filename)
       
       subdirectory = clean_path(rendered_path.parent)
-      subdirectory = remove_numeric_prefixes(subdirectory)
+      subdirectory = remove_prefix(subdirectory)
 
       [filename, subdirectory, full_path.to_s.split(".").last]
     end
 
     def rendered_path(full_path)
       rendered_path = clean_path(full_path.to_s)
-      rendered_path = remove_numeric_prefixes(rendered_path)
+      rendered_path = remove_prefix(rendered_path)
       Pathname.new(rendered_path)
     end
 
@@ -73,11 +73,9 @@ module MarkdownRecord
       clean_path(::MarkdownRecord.config.rendered_content_root.to_s)
     end
 
-    def remove_numeric_prefixes(filename_or_id)
+    def remove_prefix(filename_or_id)
       if MarkdownRecord.config.ignore_numeric_prefix
-        parts = filename_or_id.split("/")
-        parts = parts.map { |p| p.gsub(/^\d+_/,"")}
-        parts.join("/")
+        MarkdownRecord.config.filename_sorter.remove_prefix(filename_or_id)
       else
         filename_or_id
       end

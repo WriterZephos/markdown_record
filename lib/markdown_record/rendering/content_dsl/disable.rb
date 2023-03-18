@@ -15,7 +15,7 @@ module MarkdownRecord
       end
 
       def self.remove_dsl(text)
-        text.gsub(ENCODED_REGEX, "")
+        text.gsub(REGEX, "").gsub(ENCODED_REGEX, "")
       end
     end
   end

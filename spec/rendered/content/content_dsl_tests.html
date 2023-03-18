@@ -1,0 +1,239 @@
+<style>
+  body{
+    background-color: black;
+    padding: 10px;
+  }
+  code{
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    white-space: break-spaces;
+    background-color: rgb(110 118 129 / 40%);
+    border-radius: 6px;
+  }
+  pre{
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    color: #f2f2f2;
+    background-color: #161b22;
+    border-radius: 6px;
+    font-family: andale mono, monaco, monospace;
+    word-wrap: normal;
+  }
+  pre code{
+    color: inherit;
+    background-color: inherit;
+    font-family: inherit;
+    padding: 0px;
+    margin: 0;
+    font-size: inherit;
+    white-space: inherit;
+    background-color: inherit;
+    border-radius: 0px;
+  }
+  h1{
+    color: #6699ff;
+  }
+  h2{
+    color: #b3ccff;
+  }
+  h3{
+    color: #b3ccff;
+  }
+  h4{
+    color: #b3ccff;
+  }
+  a{
+    color: #33ffcc;
+  }
+  .container {
+    margin-bottom: 10px;
+    padding: 10px;
+    color: #f2f2f2;
+    background-color: #0d1117;
+    font-family: trebuchet ms;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .rendered_at{
+    font-size: 12px;
+  }
+  .navigation ul{
+    padding: 0px;
+  }
+  .navigation li{
+    display: inline;
+  }
+  .success{
+    color: green;
+  }
+  .failure{
+    color: red;
+  }
+</style>
+<div class="container">
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content">/mdr/content</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/test_files_home">/mdr/content/test_files_home</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/content_dsl_tests">Content DSL Tests</a></li>
+    </ul>
+  </div>
+  <style>
+    .concatenated{
+      border: 1px solid #a5d6ff;
+      padding: 10px;
+    }
+  </style>
+  <div class="concatenated">
+    <style>
+      .custom_layout_file {
+        padding: 10px;
+        border: 1px solid pink;
+        margin-bottom: 10px;
+      }
+    </style>
+    <div class="custom_layout_file">
+      <h3>Rendered Using a Custom Layout</h3>
+      <p>This file uses the following Content DSL Methods:</p>
+      <ul>
+        <li><code>directory_fragment</code></li>
+        <li><code>fragment</code></li>
+        <li><code>use_layout</code></li>
+        <li><code>model</code></li>
+        <li><code>attribute</code> (using types: <code>html</code>, <code>md</code>, <code>int</code>, <code>float</code>, <code>string</code>)</li>
+        <li><code>end_attribute</code></li>
+        <li><code>end_model</code></li>
+        <li><code>disable</code></li>
+        <li><code>enable</code></li>
+      </ul>
+      <p>This file should use the custom layout, which has a pink border.</p>
+      <pre><code class="html">&lt;!--use_layout:_custom_layout.html.erb--&gt;
+</code></pre>
+      <p>This file&#39;s directory content fragment is defined as so (the breadcrumb links should reflect the name field):</p>
+      <pre><code class="html">&lt;!--directory_fragment { &quot;name&quot;: &quot;Content DSL Tests&quot;, &quot;parent_id&quot;: &quot;content/test_files_home&quot; } --&gt;
+</code></pre>
+      <p>This file&#39;s content fragment is defined as so:</p>
+      <pre><code class="html">&lt;!--fragment { &quot;string_field&quot;: &quot;foo&quot;, &quot;int_field&quot;: 100, &quot;float_field&quot;: 95.5, &quot;bool_field&quot;: true, &quot;date_field&quot;: &quot;03/13/2023&quot;, &quot;maybe_field&quot;: null }--&gt;
+</code></pre>
+      <p>The following MarkdownRecord::Tests::Model instances are defined:</p>
+      <pre><code class="html">&lt;!--model { &quot;id&quot;: 1, &quot;type&quot;: &quot;tests/model&quot;, &quot;string_field&quot;: &quot;foo&quot;, &quot;int_field&quot;: 100, &quot;float_field&quot;: 95.5, &quot;bool_field&quot;: true, &quot;date_field&quot;: &quot;03/13/2023&quot;, &quot;maybe_field&quot;: null, &quot;hash_field&quot;: {} }--&gt;
+</code></pre>
+      Rendered: 
+      <span class="success">YES</span>
+      <hr>
+      <pre><code class="html">&lt;!--model { &quot;id&quot;: 2, &quot;type&quot;: &quot;tests/model&quot;, &quot;string_field&quot;: &quot;bar&quot;, &quot;int_field&quot;: 42, &quot;float_field&quot;: 99.9, &quot;bool_field&quot;: false, &quot;date_field&quot;: &quot;12/25/2020&quot;, &quot;maybe_field&quot;: 50, &quot;hash_field&quot;: { &quot;some_data&quot;: { &quot;some_field&quot;: 999 }}  }--&gt;
+</code></pre>
+      Rendered: 
+      <span class="success">YES</span>
+      <hr>
+      <p>The following attributes are defined:</p>
+      <pre><code class="html">&lt;!--attribute:html:test_html_attribute--&gt;
+&lt;p&gt;This is an html test attribute value for test model 2.&lt;/p&gt;
+&lt;!--end_attribute--&gt;
+</code></pre>
+      <!--attribute:html:test_html_attribute-->
+      <p>This is an html test attribute value for test model 2.</p>
+      <hr>
+      <pre><code class="html">&lt;!--attribute:md:test_md_attribute--&gt;
+#### This is a markdown test attribute value for test model 2.
+&lt;!--end_attribute--&gt;
+</code></pre>
+      <!--attribute:md:test_md_attribute-->
+      <h4>This is a markdown test attribute value for test model 2.</h4>
+      <hr>
+      <pre><code class="html">&lt;!--attribute:int:test_int_attribute--&gt;
+999
+&lt;!--end_attribute--&gt;
+</code></pre>
+      <!--attribute:int:test_int_attribute-->
+      <p>999
+      </p>
+      <hr>
+      <p>The following model should not be rendered:</p>
+      <pre><code class="html">&lt;!--disable--&gt;
+&lt;!--model { &quot;id&quot;: 3, &quot;type&quot;: &quot;tests/model&quot;, &quot;string_field&quot;: &quot;bar&quot;, &quot;int_field&quot;: 42, &quot;float_field&quot;: 99.9, &quot;bool_field&quot;: false, &quot;date_field&quot;: &quot;12/25/2020&quot;, &quot;maybe_field&quot;: 50, &quot;hash_field&quot;: { &quot;some_data&quot;: { &quot;some_field&quot;: 999 }}  }--&gt;
+&lt;!--enable--&gt;
+</code></pre>
+      Rendered: <span class="success">NO</span>
+      <hr>
+      <p>More attributes:</p>
+      <pre><code class="html">&lt;!--attribute:float:test_float_attribute--&gt;
+96.3
+&lt;!--end_attribute--&gt;
+</code></pre>
+      <hr>
+      <!--attribute:float:test_float_attribute-->
+      <p>96.3
+      </p>
+      <p>This attribute should be on the first model, instead of the second one:</p>
+      <pre><code class="html">&lt;!--attribute:string:test_float_attribute--&gt;
+This is a string test attribute value for test model 1.
+&lt;!--end_attribute--&gt;
+</code></pre>
+      <!--attribute:string:test_float_attribute-->
+      <p>This is a string test attribute value for test model 1.
+      </p>
+      <!--content/content_dsl_tests/content_dsl-->
+      <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/content/content_dsl_tests/content_dsl">content/content_dsl_tests/content_dsl</a></em></p>
+    </div>
+    <style>
+      .custom_layout_file {
+        padding: 10px;
+        border: 1px solid pink;
+        margin-bottom: 10px;
+      }
+    </style>
+    <div class="custom_layout_file">
+      <h3>Rendered Using a Custom Layout</h3>
+      <p>This file should use the custom layout, which has a pink border.</p>
+      <p>This file defines several Tests::ChildModel instances:</p>
+      <pre><code class="html">&lt;!--model { &quot;id&quot;: 1, &quot;type&quot;: &quot;tests/child_model&quot;, &quot;model_id&quot;: 1, &quot;string_field&quot;: &quot;hey&quot;, &quot;int_field&quot;: 100, &quot;float_field&quot;: 95.5, &quot;bool_field&quot;: true, &quot;date_field&quot;: &quot;03/13/2023&quot;, &quot;maybe_field&quot;: null, &quot;hash_field&quot;: {} }--&gt;
+</code></pre>
+      Rendered: 
+      <span class="success">YES</span>
+      <hr>
+      <pre><code class="html">&lt;!--model { &quot;id&quot;: 2, &quot;type&quot;: &quot;tests/child_model&quot;, &quot;model_id&quot;: 1, &quot;string_field&quot;: &quot;asdf&quot;, &quot;int_field&quot;: 333, &quot;float_field&quot;: 10.5, &quot;bool_field&quot;: false, &quot;date_field&quot;: &quot;01/01/2000&quot;, &quot;maybe_field&quot;: 7, &quot;hash_field&quot;: {} }--&gt;
+</code></pre>
+      Rendered: 
+      <span class="success">YES</span>
+      <hr>
+      <pre><code class="html">&lt;!--model { &quot;id&quot;: 3, &quot;type&quot;: &quot;tests/child_model&quot;, &quot;model_id&quot;: 2, &quot;string_field&quot;: &quot;qwert&quot;, &quot;int_field&quot;: 42, &quot;float_field&quot;: 1776, &quot;bool_field&quot;: true, &quot;date_field&quot;: &quot;09/11/2001&quot;, &quot;maybe_field&quot;: null, &quot;hash_field&quot;: { &quot;some_data&quot;: { &quot;some_field&quot;: 555 }}  }--&gt;
+</code></pre>
+      Rendered: 
+      <span class="success">YES</span>
+      <hr>
+      <pre><code class="html">&lt;!--model { &quot;id&quot;: 4, &quot;type&quot;: &quot;tests/child_model&quot;, &quot;model_id&quot;: 2, &quot;string_field&quot;: &quot;ho&quot;, &quot;int_field&quot;: 42, &quot;float_field&quot;: 99.9, &quot;bool_field&quot;: false, &quot;date_field&quot;: &quot;12/25/2020&quot;, &quot;maybe_field&quot;: 50, &quot;hash_field&quot;: { &quot;some_data&quot;: { &quot;some_field&quot;: 999 }}  }--&gt;
+</code></pre>
+      Rendered: 
+      <span class="success">YES</span>
+      <hr>
+      <p>And one MarkdownRecord::Tests::OtherChildModels:</p>
+      <pre><code class="html">&lt;!--model { &quot;id&quot;: 1, &quot;type&quot;: &quot;tests/other_child_model&quot;, &quot;model_id&quot;: 2, &quot;string_field&quot;: &quot;ho&quot;, &quot;int_field&quot;: 42, &quot;float_field&quot;: 99.9, &quot;bool_field&quot;: false, &quot;date_field&quot;: &quot;12/25/2020&quot;, &quot;maybe_field&quot;: 50, &quot;hash_field&quot;: { &quot;some_data&quot;: { &quot;some_field&quot;: 999 }}  }--&gt;
+</code></pre>
+      Rendered: 
+      <span class="success">YES</span>
+      <hr>
+      <!--content/content_dsl_tests/nested_directory/associations-->
+      <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/content/content_dsl_tests/nested_directory/associations">content/content_dsl_tests/nested_directory/associations</a></em></p>
+    </div>
+    <!--content/content_dsl_tests-->
+    <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/content/content_dsl_tests">content/content_dsl_tests</a></em></p>
+  </div>
+  <!--content/content_dsl_tests-->
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content">/mdr/content</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/test_files_home">/mdr/content/test_files_home</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/content_dsl_tests">Content DSL Tests</a></li>
+    </ul>
+  </div>
+</div>

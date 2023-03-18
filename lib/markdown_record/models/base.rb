@@ -21,5 +21,13 @@ module MarkdownRecord
     def self.json_klass
       name.underscore
     end
+
+    def model_name
+      OpenStruct.new param_key: type
+    end
+
+    def to_key
+      [id]
+    end
   end
 end

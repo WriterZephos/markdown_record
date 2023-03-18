@@ -24,12 +24,12 @@ module MarkdownRecord
       json = filters[:klass].present? ? json[filters.delete(:klass).json_klass] : json.values.flatten
       json ||= []
 
-      filtered_models = json.select do |model|
-        passes_filters?(model.with_indifferent_access, filters.dup)
+      models = json.map do |model|
+        model["type"].camelize.safe_constantize&.new(model)
       end
 
-      filtered_models.map do |model|
-        model["type"].camelize.safe_constantize&.new(model)
+      models.select do |model|
+        passes_filters?(model.attributes.with_indifferent_access, filters.dup)
       end
     end
 
@@ -93,14 +93,34 @@ module MarkdownRecord
       when Hash.name
         if attributes[filter_key]&.class == ActiveSupport::HashWithIndifferentAccess
           passes_filters?(attributes[filter_key], filter_value)
+        elsif attributes[filter_key]&.class == Array && filter_value[:__include__]
+          attributes[filter_key].include?(filter_value[:__include__])
         end
-        
       when nil.class.name
         attributes[filter_key].nil?
       when Regexp.name
         attributes[filter_key] =~ filter_value
+      when Range.name
+        filter_value.member?(attributes[filter_key])
       else
-        filter_value == attributes[filter_key]
+        evaluate_attribute(filter_value, filter_key, attributes)
+      end
+    end
+
+    def evaluate_attribute(filter_value, filter_key, atts)
+      case atts[filter_key].class.name
+      when Integer.name
+        filter_value.to_i == atts[filter_key]
+      when Float
+        filter_value.to_f == atts[filter_key]
+      when String.name
+        filter_value.to_s == atts[filter_key]
+      when TrueClass.name
+        [:true, "true", true].include?(filter_value)
+      when FalseClass.name
+        [:false, "false", false].include?(filter_value)
+      else
+        filter_value == atts[filter_key]
       end
     end
   end

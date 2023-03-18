@@ -19,7 +19,7 @@ module MarkdownRecord
 
     def validate_filenames(val)
       if val.is_a?(Hash)
-        temp_keys = val.keys.map { |v| remove_numeric_prefixes(v) }
+        temp_keys = val.keys.map { |v| remove_prefix(v) }
         
         dups = temp_keys.group_by{|e| clean_path(e)}.keep_if{|_, e| e.length > 1}
         if dups.any?

@@ -16,11 +16,12 @@ module MarkdownRecord
     def render_models_for_subdirectory(subdirectory: "", **options)
       @directory_meta = {}
       content = @indexer.index(subdirectory: subdirectory)
-
+      
+      opts = options.merge(:concat_top_level => MarkdownRecord.config.always_concatenate_json)
       rendered_subdirectory = base_content_path.join(subdirectory)
-      json_hash, _ = render_models_recursively(content, rendered_subdirectory, options)
+      json_hash, _ = render_models_recursively(content, rendered_subdirectory, opts, true)
 
-      save_content_recursively(json_hash, options, Pathname.new(""))
+      save_content_recursively(json_hash, opts, Pathname.new(""))
       json_hash
     end
 
@@ -38,14 +39,18 @@ module MarkdownRecord
 
   private
 
-    def render_models_recursively(file_or_directory, full_path, options)
+    def render_models_recursively(file_or_directory, full_path, options, top_level = false)
       case file_or_directory.class.name;
       when Hash.name # if it is a directory
         directory_hash, concat_hash = *render_nested_models(file_or_directory, full_path, options)
 
-        # concatenate child hashes if :concat = true
-        if options[:concat]
+        # concatenate child hashes if :concat = true or we are at top level
+        if options[:concat] || (options[:concat_top_level] && top_level)
           concatenate_nested_models(full_path, directory_hash, concat_hash, options)
+        end
+
+        if !options[:concat] && (options[:concat_top_level] && top_level)
+          directory_hash = directory_hash.select { |f| f.include?(".concat") }
         end
 
         [directory_hash, concat_hash]
@@ -59,7 +64,7 @@ module MarkdownRecord
         content_hash = { full_path.basename.to_s => content }
         result = [{}, {}]
         result[0] = content_hash if options[:deep]
-        result[1] = content_hash if options[:concat]
+        result[1] = content_hash if (options[:concat] || options[:concat_top_level])
         result
       end
     end

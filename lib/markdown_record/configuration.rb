@@ -19,6 +19,8 @@ module MarkdownRecord
     attr_accessor :render_content_fragment_json
     attr_accessor :render_controller
     attr_accessor :ignore_numeric_prefix
+    attr_accessor :filename_sorter
+    attr_accessor :always_concatenate_json
 
     RENDER_STRATEGIES = [:full, :directory, :file]
 
@@ -33,6 +35,7 @@ module MarkdownRecord
       @global_layout_path = "_global_layout.html.erb"
       @public_layout = "layouts/application"
       @render_strategy = :full
+      @always_concatenate_json = true
       @html_routes = [:show]
       @json_routes = [:show]
       @content_routes = [:show]
@@ -40,6 +43,7 @@ module MarkdownRecord
       @render_content_fragment_json = true
       @render_controller = nil
       @ignore_numeric_prefix = true
+      @filename_sorter = MarkdownRecord::FileSorting::Base.new
     end
 
     def render_strategy_options(strategy = nil)

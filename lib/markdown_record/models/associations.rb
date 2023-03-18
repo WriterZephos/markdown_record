@@ -82,7 +82,7 @@ module MarkdownRecord
     end
 
     def fragment
-      self.class.new_association.fragmentize.__find__(fragment_id)
+      @fragment ||= self.class.new_association.fragmentize.__find__(fragment_id)
     end
 
   private

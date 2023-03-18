@@ -19,6 +19,10 @@ module MarkdownRecord
       MarkdownRecord::Association.new(base_filters, search_filters).fragmentize
     end
 
+    def find_relative(id)
+      self.class.find("#{subdirectory}/#{id}")
+    end
+
     def fragment_id
       id
     end
