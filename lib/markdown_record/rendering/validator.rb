@@ -33,7 +33,7 @@ module MarkdownRecord
     end
 
     def validate_models
-      @json["#{base_content_path.basename}.concat"].each do |klass, array|
+      @json["#{base_content_root_name.basename}.concat"].each do |klass, array|
         ids = array.map { |o| o["id"] }
         dups = ids.group_by{|e| e}.keep_if{|_, e| e.length > 1}
         if dups.any?
@@ -43,7 +43,7 @@ module MarkdownRecord
     end
 
     def validate_fragments
-      frags = @json["#{base_content_path.basename}.concat"]["markdown_record/content_fragment"]
+      frags = @json["#{base_content_root_name.basename}.concat"]["markdown_record/content_fragment"]
       frags.each do |frag|
         parent_id = frag.dig("meta", "parent_id")
         if parent_id

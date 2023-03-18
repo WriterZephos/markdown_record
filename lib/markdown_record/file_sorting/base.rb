@@ -6,24 +6,9 @@ module MarkdownRecord
         @sort_regex = sort_regex
       end
 
-      def hash_to_sorted_values(hash)
-        values = []
-        keys = sort_filenames(hash.keys)
-
-        keys.each do |k|
-          values << hash[k] if !k.include?(".concat")
-        end
-        values
-      end
-
-      def sort_filenames(filenames)
-        filenames.sort_by do |f|
-          m = f.split("/").last.match(@sort_regex)
-
-          val = to_sort_value(m.try(:[], 1))
-
-          val || f
-        end
+      def path_to_sort_value(path)
+        m = path.split("/").last.match(@sort_regex)
+        to_sort_value(m.try(:[], 1))
       end
 
       def to_sort_value(value)

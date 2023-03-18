@@ -10,9 +10,11 @@ RSpec.describe ::RenderContent do
   }
 
   # Uncomment the before(:all) and after blocks and run once to
-  # populate the comparison data in rendered.txt AFTER you have visually
-  # inspected the output to make sure everything is good.
-  # Then comment them again and run it to get passing.
+  # populate the comparison data in spec/rendered/rendered.txt
+  # AFTER you have visually inspected the output to make sure 
+  # everything is good, then copied the rendered content into 
+  # spec/rendered.
+  # Then comment them again and run thte tests to get them passing.
 
   # before(:all) do
   #   reset_output_for_specs

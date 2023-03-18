@@ -25,7 +25,7 @@ module MarkdownRecord
       rendered_path(full_path).to_s
     end
 
-    def base_content_path
+    def base_content_root_name
       basename = ::MarkdownRecord.config.content_root.basename
 
       # must use "/" so that `.parent` returns correctly

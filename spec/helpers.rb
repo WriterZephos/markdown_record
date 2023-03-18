@@ -33,7 +33,7 @@ module Helpers
         nil
       end
     end.compact
-
+    
     expect(fls.join("\n")).to eq(existing_files.join("\n"))
   end
 
@@ -53,7 +53,7 @@ module Helpers
   def expect_file_contents(files)
     all_correct = true
     files.each do |f|
-      expect(File.read(files.first)).to eq(File.read(files.first.gsub("markdown_record/rendered/", "../rendered/")))
+      expect(File.read(f)).to eq(File.read(f.gsub("markdown_record/rendered/", "../rendered/")))
     end
   end
 

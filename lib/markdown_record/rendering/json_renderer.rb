@@ -18,23 +18,11 @@ module MarkdownRecord
       content = @indexer.index(subdirectory: subdirectory)
       
       opts = options.merge(:concat_top_level => MarkdownRecord.config.always_concatenate_json)
-      rendered_subdirectory = base_content_path.join(subdirectory)
+      rendered_subdirectory = base_content_root_name.join(subdirectory)
       json_hash, _ = render_models_recursively(content, rendered_subdirectory, opts, true)
 
       save_content_recursively(json_hash, opts, Pathname.new(""))
       json_hash
-    end
-
-    def render_models_for_file(file_path:, **options)
-      file = @indexer.file(file_path)
-      
-      # render json models
-      json = render_models(file, file_path, options)
-      
-      # save json
-      @file_saver.save_to_file(json.to_json, "#{clean_path(file_path)}.json", options)
-      
-      json
     end
 
   private
