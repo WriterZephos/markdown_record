@@ -5,7 +5,6 @@ module MarkdownRecord
     include ::MarkdownRecord::PathUtilities
     
     def initialize(source_models = nil)
-      @indexer = ::MarkdownRecord::Indexer.new
     end
 
     def where(filters, subdirectory = nil)
@@ -28,9 +27,11 @@ module MarkdownRecord
         model["type"].camelize.safe_constantize&.new(model)
       end
 
-      models.select do |model|
+      model = models.select do |model|
         passes_filters?(model.attributes.with_indifferent_access, filters.dup)
       end
+
+      model
     end
 
     def json_source(path)
@@ -40,12 +41,8 @@ module MarkdownRecord
       end
 
       json = ::MarkdownRecord::JsonRenderer.new.render_models_for_subdirectory(subdirectory: "",:concat => true, :deep => true, :save => false, :render_content_fragment_json => true)
-      
-      filename, subdirectory = full_path_to_parts(path)
 
-      tokens = subdirectory.gsub(base_rendered_root, "").split("/")
-      tokens << "#{filename}.concat"
-      json.dig(*tokens) || {}
+      json
     end
 
     def passes_filters?(attributes, filters)

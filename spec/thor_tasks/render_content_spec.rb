@@ -9,24 +9,24 @@ RSpec.describe ::RenderContent do
     }
   }
 
-  # Uncomment the before(:all) and after blocks and run once to
+  let(:copy_output) { false }
+
+  # Uncomment the before(:all) and the let var and run once to
   # populate the comparison data in spec/rendered/rendered.txt
   # AFTER you have visually inspected the output to make sure 
   # everything is good, then copied the rendered content into 
   # spec/rendered.
   # Then comment them again and run thte tests to get them passing.
-
   # before(:all) do
   #   reset_output_for_specs
   # end
 
-  # after do
-  #   copy_output_for_specs
-  # end
+  # let(:copy_output) { true }
 
   describe "render_content:html" do
     it "does a dry run render of html" do
       ::RenderContent.new.invoke(:html, [], options)
+      copy_output_for_specs if copy_output
       expect_output(0)
       expect_no_files(files(0))
     end
@@ -35,6 +35,7 @@ RSpec.describe ::RenderContent do
   describe "render_content:json" do
     it "does a dry run render of json" do
       ::RenderContent.new.invoke(:json, [], options)
+      copy_output_for_specs if copy_output
       expect_output(1)
       expect_no_files(files(1))
     end
@@ -43,6 +44,7 @@ RSpec.describe ::RenderContent do
   describe "render_content:all" do
     it "does a dry run render of html and json" do
       ::RenderContent.new.invoke(:all, [], options)
+      copy_output_for_specs if copy_output
       expect_output(2)
       expect_no_files(files(2))
     end
@@ -60,6 +62,7 @@ RSpec.describe ::RenderContent do
     describe "render_content:html" do
       it "does a dry run render of html" do
         ::RenderContent.new.invoke(:html, [], options)
+        copy_output_for_specs if copy_output
         expect_output(3)
         expect_no_files(files(3))
       end
@@ -68,6 +71,7 @@ RSpec.describe ::RenderContent do
     describe "render_content:json" do
       it "does a dry run render of json" do
         ::RenderContent.new.invoke(:json, [], options)
+        copy_output_for_specs if copy_output
         expect_output(4)
         expect_no_files(files(4))
       end
@@ -76,6 +80,7 @@ RSpec.describe ::RenderContent do
     describe "render_content:all" do
       it "does a dry run render of html and json" do
         ::RenderContent.new.invoke(:all, [], options)
+        copy_output_for_specs if copy_output
         expect_output(5)
         expect_no_files(files(5))
       end
@@ -94,6 +99,7 @@ RSpec.describe ::RenderContent do
     describe "render_content:html" do
       it "renders html" do
         ::RenderContent.new.invoke(:html, [], options)
+        copy_output_for_specs if copy_output
         expect_output(6)
         expect_file_contents(files(6))
         expect_files(files(6))
@@ -103,6 +109,7 @@ RSpec.describe ::RenderContent do
     describe "render_content:json" do
       it "renders json" do
         ::RenderContent.new.invoke(:json, [], options)
+        copy_output_for_specs if copy_output
         expect_output(7)
         expect_file_contents(files(7))
         expect_files(files(7))
@@ -112,6 +119,7 @@ RSpec.describe ::RenderContent do
     describe "render_content:all" do
       it "renders html and json" do
         ::RenderContent.new.invoke(:all, [], options)
+        copy_output_for_specs if copy_output
         expect_output(8)
         expect_file_contents(files(8))
         expect_files(files(8))
@@ -131,6 +139,7 @@ RSpec.describe ::RenderContent do
     describe "render_content:all" do
       it "renders html and json" do
         ::RenderContent.new.invoke(:all, [], options)
+        copy_output_for_specs if copy_output
         expect_output(9)
         expect_files(files(9))
       end
@@ -149,6 +158,7 @@ RSpec.describe ::RenderContent do
     describe "render_content:all" do
       it "renders html and json" do
         ::RenderContent.new.invoke(:all, [], options)
+        copy_output_for_specs if copy_output
         expect_output(10)
         expect_files(files(10))
       end

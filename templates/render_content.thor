@@ -11,6 +11,7 @@ class RenderContent < Thor
   desc "html", "renders html content"
   def html
     return unless validate
+    
     lines = []
     strategy_options = generate_render_strategy_options(options)
     report_start(lines, strategy_options, "html")

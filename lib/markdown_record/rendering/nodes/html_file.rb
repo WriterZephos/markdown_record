@@ -7,8 +7,15 @@ module MarkdownRecord
           super
         end
 
-        def deep?
-          @options[:deep]
+        def render(file_saver)
+          render_html
+          process_html
+          finalize_html
+          save(file_saver)
+        end
+
+        def concatenated_html
+          @processed_html
         end
 
         def raw_content
@@ -22,9 +29,9 @@ module MarkdownRecord
         end
 
         def process_html
-          return unless deep?
+          return unless @options[:deep]
 
-          super
+          @processed_html = render_erbs(@rendered_html)
         end
 
         def layout

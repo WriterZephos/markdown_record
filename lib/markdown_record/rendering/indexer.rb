@@ -8,16 +8,6 @@ module MarkdownRecord
       index
     end
 
-    def file(path)
-      file_path = ::MarkdownRecord.config.content_root.join(path)
-
-      if Pathname.new(path).extname == ".md" && file_path.exist?
-        File.read(file_path)
-      else
-        nil
-      end
-    end
-
     def recursive_index(parent_dir_path, index)
       parent_root = Dir.new(parent_dir_path)
       parent_root.children.each do |child|

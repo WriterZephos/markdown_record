@@ -3,50 +3,30 @@ module MarkdownRecord
     module Nodes
       class HtmlDirectory < MarkdownRecord::Rendering::Nodes::HtmlBase
 
-        def initialize(pathname, markdown, options)
-          super
-        end
-
-        def render_html
+        def render(file_saver)
           children.each do |child|
-            child.render_html
-          end
-        end
-
-        def process_html
-          children.each do |child|
-            child.process_html
+            child.render(file_saver)
           end
 
-          return unless concat?
-
-          @rendered_html = concatenate
-          super
+          process_html
+          finalize_html
+          save(file_saver)
         end
 
-        def finalize_html
-          children.each { |child| child.finalize_html }
+        def concatenated_html
+          return @concatenated_html if @concatenated_html.present?
 
-          super
-        end
-
-        def concatenate
           sorted_children = children.sort_by(&:sort_value)
-          sorted_children.map(&:concatenate).compact.join("\r\n")
-        end
-
-        def save(file_saver)
-          children.each do |child|
-            child.save(file_saver)
-          end
-
-          super
+          @concatenated_html = sorted_children.map(&:concatenated_html).compact.join("\r\n")
+          @concatenated_html
         end
 
       private
 
-        def concat?
-          @options[:concat]
+        def process_html
+          return unless @options[:concat]
+
+          @processed_html = render_erbs(concatenated_html)
         end
 
         def children

@@ -14,7 +14,7 @@ module MarkdownRecord
     def render_html_for_subdirectory(subdirectory: "", **options)
       
       start_path = ::MarkdownRecord.config.content_root.join(subdirectory)
-      node = MarkdownRecord::Rendering::Nodes::HtmlDirectory.new(start_path,@markdown, options)
+      node = MarkdownRecord::Rendering::Nodes::HtmlDirectory.new(start_path, @markdown, options)
 
       node.render(@file_saver)
     end

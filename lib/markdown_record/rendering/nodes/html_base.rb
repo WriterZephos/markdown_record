@@ -22,17 +22,6 @@ module MarkdownRecord
           @sorter = MarkdownRecord.config.filename_sorter
         end
 
-        def render(file_saver)
-          render_html
-          process_html
-          finalize_html
-          save(file_saver)
-        end
-
-        def process_html
-          @processed_html = render_erbs(@rendered_html)
-        end
-
         def finalize_html
           return unless @processed_html.present?
 
