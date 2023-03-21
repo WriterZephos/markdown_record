@@ -28,7 +28,7 @@ module MarkdownRecord
     end
 
     def name
-      meta[:name]
+      meta[:name] || Pathname.new(id).basename.to_s
     end
 
     def exists?
