@@ -14,6 +14,7 @@ module MarkdownRecord
       @search_filters = search_filters
       @data = []
       @fulfilled = false
+      @force_render = false
     end
 
     def execute
@@ -24,9 +25,15 @@ module MarkdownRecord
       else
         final_filters.merge!(:exclude_fragments => true)
       end
-      results = MarkdownRecord::ModelInflator.new.where(final_filters)
+      results = MarkdownRecord::ModelInflator.new(@force_render).where(final_filters)
       @data.push(*results)
       @fulfilled = true
+    end
+
+    def force_render
+      reset
+      @force_render = true
+      self
     end
 
     def fragmentize

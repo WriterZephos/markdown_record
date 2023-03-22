@@ -8,26 +8,27 @@ module MarkdownRecord
             child.render(file_saver)
           end
 
+          concatenate_html
           process_html
           finalize_html
-          save(file_saver)
+
+          if @options[:concat]
+            save(file_saver) 
+          end
+        end
+
+        def concatenate_html
+          return @rendered_html if @rendered_html.present?
+
+          sorted_children = children.sort_by(&:sort_value)
+          @rendered_html = sorted_children.map(&:concatenated_html).compact.join("\r\n")
         end
 
         def concatenated_html
-          return @concatenated_html if @concatenated_html.present?
-
-          sorted_children = children.sort_by(&:sort_value)
-          @concatenated_html = sorted_children.map(&:concatenated_html).compact.join("\r\n")
-          @concatenated_html
+          @rendered_html
         end
 
       private
-
-        def process_html
-          return unless @options[:concat]
-
-          @processed_html = render_erbs(concatenated_html)
-        end
 
         def children
           @children ||= Dir.new(@pathname).children.map do |child|

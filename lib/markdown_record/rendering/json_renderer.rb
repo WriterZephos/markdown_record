@@ -14,6 +14,7 @@ module MarkdownRecord
       start_path = ::MarkdownRecord.config.content_root.join(subdirectory)
       node = MarkdownRecord::Rendering::Nodes::JsonDirectory.new(start_path, options, true)
       node.render(@file_saver)
+      node.json_models
     end
   end
 end

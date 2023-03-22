@@ -5,50 +5,40 @@ module MarkdownRecord
 
         def initialize(pathname, options, top_level = false)
           super(pathname, options)
-
+          @concatenated = true
           @top_level = top_level
         end
 
-        def render(file_saver)
-          prerender
-          apply_scope
+        def render(file_saver, inherited_scope = nil)
+          # Only override scope if this directory
+          # doesn't have its own scope defined
+          # First call to scope will search files
+          # and get the scope if defined.
+          @scope = inherited_scope unless scope
+
+          children.each do |child|
+            child.render(file_saver, scope)
+          end
+
           concatenate_json
-
-          save_json(file_saver)
-
-          @json_models
+          save(file_saver) if @options[:concat] || (@options[:concat_top_level] && @top_level)
         end
 
-        def prerender
-          children.each do |child|
-            child.prerender
-          end
+        def fragment_meta
+          @fragment_meta ||= children.select {|c| c.respond_to?(:directory_meta) }.reduce({}) { |meta, child| meta.merge(child.directory_meta) }
         end
 
-        def apply_scope(scope = nil)
-          find_directory_scope
-          @scope ||= scope
-          children.each do |child|
-            child.apply_scope(@scope)
-          end
+        def scope
+          @scope ||= children.select {|c| c.respond_to?(:directory_scope) }.find(&:directory_scope)&.directory_scope
         end
-        
-        def save_json(file_saver)
-          children.each do |child|
-            child.save_json(file_saver)
-          end
 
-          if @options[:concat] || (@options[:concat_top_level] && @top_level)
-            save(file_saver)
-          end
-        end
+      private
 
         def concatenate_json
-          return {} unless @options[:concat] || (@options[:concat_top_level] && @top_level)
-          @json_models = {}
-
+          return unless @options[:concat] || (@options[:concat_top_level] && @top_level)
+        
           children.each do |child|
-            @json_models.merge!(child.concatenate_json.dup) do |key, oldval, newval|
+            @json_models.merge!(child.json_models) do |key, oldval, newval|
               oldval + newval
             end
           end
@@ -60,41 +50,7 @@ module MarkdownRecord
             @json_models[k] = @json_models[k].dup
           end
 
-          concatenate_directory_meta
           add_content_fragment
-          @json_models
-        end
-
-        def directory_meta
-          {}
-        end
-
-        def directory_scope
-          nil
-        end
-
-      private
-
-        def concatenate_directory_meta
-          @fragment_meta = {}
-          children.each do |child|
-            @fragment_meta.merge!(child.directory_meta)
-          end
-        end
-
-        def find_directory_scope
-          children.each do |child|
-            @scope ||= child.directory_scope
-          end
-        end
-
-        def add_content_fragment
-          return unless @options[:render_content_fragment_json]
-
-          content_fragment_hash = fragment_attributes_from_path(@name).merge("meta" => @fragment_meta, "concatenated" => true, "__scope__" => @scope)
-          
-          @json_models["markdown_record/content_fragment"] ||= []
-          @json_models["markdown_record/content_fragment"] << content_fragment_hash
         end
 
         def children

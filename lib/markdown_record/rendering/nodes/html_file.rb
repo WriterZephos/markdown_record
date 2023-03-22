@@ -3,23 +3,14 @@ module MarkdownRecord
     module Nodes
       class HtmlFile < MarkdownRecord::Rendering::Nodes::HtmlBase
 
-        def initialize(pathname, markdown, options)
-          super
-        end
-
         def render(file_saver)
           render_html
           process_html
           finalize_html
-          save(file_saver)
-        end
 
-        def concatenated_html
-          @processed_html
-        end
-
-        def raw_content
-          @raw_content ||= File.read(@pathname)
+          if @options[:deep]
+            save(file_saver)
+          end
         end
 
         def render_html
@@ -28,18 +19,16 @@ module MarkdownRecord
           @rendered_html = html
         end
 
-        def process_html
-          return unless @options[:deep]
+        def raw_content
+          @raw_content ||= File.read(@pathname)
+        end
 
-          @processed_html = render_erbs(@rendered_html)
+        def concatenated_html
+          @processed_html
         end
 
         def layout
           @layout ||= custom_layout(@rendered_html) || file_layout
-        end
-
-        def concatenate
-          @processed_html
         end
 
         def custom_layout(html)

@@ -22,6 +22,17 @@ module MarkdownRecord
           @sorter = MarkdownRecord.config.filename_sorter
         end
 
+        def render(file_saver)
+          @rendered_html = ""
+          process_html
+          finalize_html
+          save(file_saver)
+        end
+
+        def process_html
+          @processed_html = render_erbs(@rendered_html)
+        end
+
         def finalize_html
           return unless @processed_html.present?
 
@@ -47,12 +58,25 @@ module MarkdownRecord
         def render_erbs(html)
           processed_html = html.gsub(/<p>(\&lt;%(\S|\s)*?%\&gt;)<\/p>/){ CGI.unescapeHTML($1) }
           processed_html = processed_html.gsub(/(\&lt;%(\S|\s)*?%\&gt;)/){ CGI.unescapeHTML($1) }
-          locals = erb_locals_from_path(@name)
-          processed_html = render_erb(processed_html, locals) if @name.ends_with?(".md.erb")
+          locals = erb_locals_from_path(name)
+          processed_html = render_erb(processed_html, locals) if name.ends_with?(".md.erb")
           processed_html = render_erb(layout, locals.merge(html: processed_html)) if layout
           processed_html
         end
-    
+
+        def layout
+          nil
+        end
+
+        def render_erb(html, locals)
+          render_controller = ::MarkdownRecord.config.render_controller || ::ApplicationController
+          rendered_erb = render_controller.render(
+            inline: html,
+            locals: locals
+          ).to_str
+          rendered_erb
+        end
+
         def global_layout
           global_layout_path = ::MarkdownRecord.config.global_layout_path
           @global_layout ||= global_layout_path ? load_layout(global_layout_path) : nil
@@ -60,15 +84,6 @@ module MarkdownRecord
 
         def load_layout(path)
           File.read(::MarkdownRecord.config.layout_directory.join(path))
-        end
-
-        def render_erb(html, locals)
-          render_controller = ::MarkdownRecord.config.render_controller || ::ApplicationController
-          ren_html = render_controller.render(
-            inline: html,
-            locals: locals
-          ).to_str
-          ren_html
         end
 
         def sort_value

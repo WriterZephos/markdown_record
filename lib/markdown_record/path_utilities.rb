@@ -48,8 +48,8 @@ module MarkdownRecord
       
       frag_id = path_to_fragment_id(full_path)
 
-      fragment = ::MarkdownRecord::ContentFragment.find(frag_id)
-
+      fragment = ::MarkdownRecord::ContentFragment.force_render_find(frag_id)
+      
       {
         filename: filename, 
         subdirectory: subdirectory, 

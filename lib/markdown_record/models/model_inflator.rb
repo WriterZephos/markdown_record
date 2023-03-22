@@ -3,10 +3,11 @@ require "markdown_record/path_utilities"
 module MarkdownRecord
   class ModelInflator
     include ::MarkdownRecord::PathUtilities
-    
-    def initialize(source_models = nil)
-    end
 
+    def initialize(force_render = false)
+      @force_render = force_render
+    end
+    
     def where(filters, subdirectory = nil)
       path = if subdirectory.nil?
                file_path = base_rendered_path
@@ -35,7 +36,7 @@ module MarkdownRecord
     end
 
     def json_source(path)
-      if Pathname.new(path).exist?
+      if Pathname.new(path).exist? && !@force_render
         json = JSON.parse(File.read(path))
         return json
       end

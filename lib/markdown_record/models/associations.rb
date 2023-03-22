@@ -52,8 +52,16 @@ module MarkdownRecord
         new_association({ :klass => self }, filters)
       end
 
+      def force_render_where(filters = {})
+        new_association({ :klass => self }, filters).force_render
+      end
+
       def find(id, scope = nil)
         new_association({ :klass => self }).__find__(id, scope)
+      end
+
+      def force_render_find(id, scope = nil)
+        new_association({ :klass => self }).force_render.__find__(id, scope)
       end
 
       def infer_klass(association, options)

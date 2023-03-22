@@ -3,48 +3,47 @@ module MarkdownRecord
     module Nodes
       class JsonFile < MarkdownRecord::Rendering::Nodes::JsonBase
 
-        attr_reader :directory_meta
-        attr_reader :directory_scope
-
         def initialize(...)
           super(...)
-
-          @json_models = {}
-          @fragment_meta = {}
-          @directory_meta = {}
+          @concatenated = false
         end
 
-        def prerender
+        def render(file_saver, inherited_scope = nil)
+          @scope ||= inherited_scope
           render_json
+          apply_scope
+          save(file_saver) if @options[:deep]
         end
 
-        def apply_scope(scope = nil)
-          @json_models.each do |klass, array|
-            if klass == MarkdownRecord::ContentFragment.name.underscore
-              array.each do |model|
-                model["__scope__"] = scope
-              end
-            else
-              array.each do |model|
-                model["scope"] = scope
-                model["scoped_id"] = to_scoped_id(scope, model["id"])
-              end
-            end
-
-          end
+        def fragment_meta
+          @fragment_meta ||= fragment_dsl(raw_content)
+          @fragment_meta ||= {}
         end
 
-        def concatenate_json
-          @json_models
+        def scope
+          @scope ||= scope_dsl(raw_content)
         end
 
-        def save_json(file_saver)
-          if @options[:deep]
-            save(file_saver)
-          end
+        def directory_scope
+          @directory_scope ||= scope
         end
-        
+
+        def directory_meta
+          @directory_meta ||= directory_fragment_dsl(raw_content)
+          @directory_meta ||= {}
+        end
+
       private
+
+        def apply_scope
+          @json_models.each do |klass, array|
+            next if klass == MarkdownRecord::ContentFragment.name.underscore
+            array.each do |model|
+              model["scope"] = scope
+              model["scoped_id"] = to_scoped_id(scope, model["id"])
+            end
+          end
+        end
         
         def raw_content
           @raw_content ||= File.read(@pathname)
@@ -67,9 +66,7 @@ module MarkdownRecord
             end
     
             if dsl_command && enabled
-              extract_scope(text)
               extract_model(text, described_models)
-              extract_fragment_meta(text)
               extract_attribute(text, described_models)
               pop_attribute(text,described_models)
               pop_model(text, described_models)
@@ -83,22 +80,6 @@ module MarkdownRecord
           end
 
           add_content_fragment if @options[:deep]
-        end
-
-        def add_content_fragment
-          return unless @options[:render_content_fragment_json]
-
-          content_fragment_hash = fragment_attributes_from_path(@name).merge("meta" => @fragment_meta, "concatenated" => false)
-          
-          @json_models["markdown_record/content_fragment"] ||= []
-          @json_models["markdown_record/content_fragment"] << content_fragment_hash
-        end
-
-        def extract_scope(text)
-          directory_scope = scope_dsl(text)
-          return nil unless directory_scope
-    
-          @directory_scope ||= directory_scope
         end
 
         def extract_model(text, described_models)
@@ -124,20 +105,6 @@ module MarkdownRecord
             @json_models[model["type"]] << model
       
             described_models.push(model)
-          end
-        end
-    
-        def extract_fragment_meta(text)
-          meta = fragment_dsl(text)
-    
-          if meta
-            @fragment_meta = meta
-          end
-    
-          directory_meta = directory_fragment_dsl(text)
-    
-          if directory_meta
-            @directory_meta = directory_meta
           end
         end
     
