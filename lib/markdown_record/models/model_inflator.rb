@@ -27,11 +27,11 @@ module MarkdownRecord
         model["type"].camelize.safe_constantize&.new(model)
       end
 
-      model = models.select do |model|
+      models = models.select do |model|
         passes_filters?(model.attributes.with_indifferent_access, filters.dup)
       end
 
-      model
+      models
     end
 
     def json_source(path)
