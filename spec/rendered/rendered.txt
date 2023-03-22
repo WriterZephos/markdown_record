@@ -211,3 +211,237 @@ rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl.html
 
 *****
 
+---------------------------------------------------------------
+rendering json content with options {:concat=>true, :deep=>true, :save=>true, :render_content_fragment_json=>true} ...
+---------------------------------------------------------------
+rendered: /markdown_record/rendered/content_fragments.json
+rendered: /markdown_record/rendered/content.json
+rendered: /markdown_record/rendered/content/test_files_home_fragments.json
+rendered: /markdown_record/rendered/content/test_files_home.json
+rendered: /markdown_record/rendered/content/content_dsl_tests_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl.json
+---------------------------------------------------------------
+12 files rendered.
+12 files saved.
+
+*****
+
+---------------------------------------------------------------
+rendering html content with options {:concat=>true, :deep=>true, :save=>false, :render_content_fragment_json=>true} ...
+---------------------------------------------------------------
+rendered: /markdown_record/rendered/content.html
+rendered: /markdown_record/rendered/content/test_files_home.html
+rendered: /markdown_record/rendered/content/content_dsl_tests.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl.html
+---------------------------------------------------------------
+6 files rendered.
+0 files saved.
+
+*****
+
+---------------------------------------------------------------
+rendering json content with options {:concat=>true, :deep=>true, :save=>false, :render_content_fragment_json=>true} ...
+---------------------------------------------------------------
+rendered: /markdown_record/rendered/content_fragments.json
+rendered: /markdown_record/rendered/content.json
+rendered: /markdown_record/rendered/content/test_files_home_fragments.json
+rendered: /markdown_record/rendered/content/test_files_home.json
+rendered: /markdown_record/rendered/content/content_dsl_tests_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl.json
+---------------------------------------------------------------
+12 files rendered.
+0 files saved.
+
+*****
+
+---------------------------------------------------------------
+rendering html and json content with options {:concat=>true, :deep=>true, :save=>false, :render_content_fragment_json=>true} ...
+---------------------------------------------------------------
+rendered: /markdown_record/rendered/content_fragments.json
+rendered: /markdown_record/rendered/content.json
+rendered: /markdown_record/rendered/content/test_files_home_fragments.json
+rendered: /markdown_record/rendered/content/test_files_home.json
+rendered: /markdown_record/rendered/content/content_dsl_tests_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl.json
+rendered: /markdown_record/rendered/content.html
+rendered: /markdown_record/rendered/content/test_files_home.html
+rendered: /markdown_record/rendered/content/content_dsl_tests.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl.html
+---------------------------------------------------------------
+18 files rendered.
+0 files saved.
+
+*****
+
+---------------------------------------------------------------
+rendering html content with options {:concat=>true, :deep=>true, :save=>false, :render_content_fragment_json=>true} ...
+---------------------------------------------------------------
+rendered: /markdown_record/rendered/content/content_dsl_tests.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl.html
+---------------------------------------------------------------
+4 files rendered.
+0 files saved.
+
+*****
+
+---------------------------------------------------------------
+rendering json content with options {:concat=>true, :deep=>true, :save=>false, :render_content_fragment_json=>true} ...
+---------------------------------------------------------------
+rendered: /markdown_record/rendered/content/content_dsl_tests_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl.json
+---------------------------------------------------------------
+8 files rendered.
+0 files saved.
+
+*****
+
+---------------------------------------------------------------
+rendering html and json content with options {:concat=>true, :deep=>true, :save=>false, :render_content_fragment_json=>true} ...
+---------------------------------------------------------------
+rendered: /markdown_record/rendered/content/content_dsl_tests_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl.json
+rendered: /markdown_record/rendered/content/content_dsl_tests.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl.html
+---------------------------------------------------------------
+12 files rendered.
+0 files saved.
+
+*****
+
+---------------------------------------------------------------
+rendering html content with options {:concat=>true, :deep=>true, :save=>true, :render_content_fragment_json=>true} ...
+---------------------------------------------------------------
+rendered: /markdown_record/rendered/content.html
+rendered: /markdown_record/rendered/content/test_files_home.html
+rendered: /markdown_record/rendered/content/content_dsl_tests.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl.html
+---------------------------------------------------------------
+6 files rendered.
+6 files saved.
+
+*****
+
+---------------------------------------------------------------
+rendering json content with options {:concat=>true, :deep=>true, :save=>true, :render_content_fragment_json=>true} ...
+---------------------------------------------------------------
+rendered: /markdown_record/rendered/content_fragments.json
+rendered: /markdown_record/rendered/content.json
+rendered: /markdown_record/rendered/content/test_files_home_fragments.json
+rendered: /markdown_record/rendered/content/test_files_home.json
+rendered: /markdown_record/rendered/content/content_dsl_tests_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl.json
+---------------------------------------------------------------
+12 files rendered.
+12 files saved.
+
+*****
+
+---------------------------------------------------------------
+rendering html and json content with options {:concat=>true, :deep=>true, :save=>true, :render_content_fragment_json=>true} ...
+---------------------------------------------------------------
+rendered: /markdown_record/rendered/content_fragments.json
+rendered: /markdown_record/rendered/content.json
+rendered: /markdown_record/rendered/content/test_files_home_fragments.json
+rendered: /markdown_record/rendered/content/test_files_home.json
+rendered: /markdown_record/rendered/content/content_dsl_tests_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl.json
+rendered: /markdown_record/rendered/content.html
+rendered: /markdown_record/rendered/content/test_files_home.html
+rendered: /markdown_record/rendered/content/content_dsl_tests.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl.html
+---------------------------------------------------------------
+18 files rendered.
+18 files saved.
+
+*****
+
+---------------------------------------------------------------
+rendering html and json content with options {:concat=>true, :deep=>false, :save=>true, :render_content_fragment_json=>true} ...
+---------------------------------------------------------------
+rendered: /markdown_record/rendered/content_fragments.json
+rendered: /markdown_record/rendered/content.json
+rendered: /markdown_record/rendered/content/content_dsl_tests_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory.json
+rendered: /markdown_record/rendered/content.html
+rendered: /markdown_record/rendered/content/content_dsl_tests.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory.html
+---------------------------------------------------------------
+9 files rendered.
+9 files saved.
+
+*****
+
+---------------------------------------------------------------
+rendering html and json content with options {:concat=>false, :deep=>true, :save=>true, :render_content_fragment_json=>true} ...
+---------------------------------------------------------------
+rendered: /markdown_record/rendered/content/test_files_home_fragments.json
+rendered: /markdown_record/rendered/content/test_files_home.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl_fragments.json
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl.json
+rendered: /markdown_record/rendered/content/test_files_home.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/nested_directory/associations.html
+rendered: /markdown_record/rendered/content/content_dsl_tests/content_dsl.html
+---------------------------------------------------------------
+9 files rendered.
+9 files saved.
+
+*****
+

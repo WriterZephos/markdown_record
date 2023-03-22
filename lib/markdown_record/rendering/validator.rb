@@ -34,7 +34,7 @@ module MarkdownRecord
 
     def validate_models
       @json.each do |klass, array|
-        ids = array.map { |o| o["id"] }
+        ids = array.map { |o| [o["id"], o["scope"]] }
         dups = ids.group_by{|e| e}.keep_if{|_, e| e.length > 1}
         if dups.any?
           raise ::MarkdownRecord::Errors::DuplicateIdError.new(klass, dups.keys.first)

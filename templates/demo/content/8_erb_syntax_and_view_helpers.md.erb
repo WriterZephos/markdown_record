@@ -1,5 +1,5 @@
-<!--fragment { "author": "Bryant Morrill", "parent_id": "content/home", "name": "ERB Syntax and View Helpers" } -->
-<!--model { "type": "markdown_record/demo/section", "id": 7, "name": "ERB Syntax and View Helpers" } -->
+<!--fragment { "author": "Bryant Morrill", "relative_parent_id": "home", "name": "ERB Syntax and View Helpers" } -->
+<!--model { "type": "section", "id": 7, "name": "ERB Syntax and View Helpers" } -->
 
 # ERB Syntax and View Helpers
 
@@ -38,7 +38,7 @@ MarkdownRecord provides the following view helpers to use in your ERB views as w
     When you pass it into the view helper like so:
     
     ```html
-    <%%%= link_to_markdown_record(fragment)%>
+    <%%= link_to_markdown_record(fragment) %>
     ```
 
     The result would be the following markup:
@@ -58,7 +58,7 @@ MarkdownRecord provides the following view helpers to use in your ERB views as w
     Unless you pass in a name explicitly:
 
     ```html
-    <%%%= link_to_markdown_record(fragment, "Click Here!") %>
+    <%%= link_to_markdown_record(fragment, "Click Here!") %>
     ```
 
     Which will produce:
@@ -79,10 +79,10 @@ MarkdownRecord provides the following view helpers to use in your ERB views as w
 Using the view helpers in conjunction with content fragments, you can easily build navigation that automatically updates when you rerender your content. This guide uses this technique and you can find the following code in the `_global_layout.html.erb` layout:
 
 ```html
-<%%% fragment.parents_from("content/home").each_with_index do |frag, index| %>
-    <%%% unless index == 0%>
+<%% fragment.parents_from("content/home").each_with_index do |frag, index| %>
+    <%% unless index == 0%>
         <span class="breadcrumb_divider">/</span>
-    <%%% end %>
-    <li><%%%= link_to_markdown_record(frag)%>
-<%%% end %>
+    <%% end %>
+    <li><%%= link_to_markdown_record(frag) %>
+<%% end %>
 ```

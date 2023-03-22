@@ -1,5 +1,5 @@
-<!--fragment { "author": "Bryant Morrill", "parent_id": "content/home", "name": "Model Basics" } -->
-<!--model { "type": "markdown_record/demo/section", "id": 5, "name": "Model Basics" } -->
+<!--fragment { "author": "Bryant Morrill", "relative_parent_id": "home", "name": "Model Basics" } -->
+<!--model { "type": "section", "id": 5, "name": "Model Basics" } -->
 
 # MarkdownRecord Models
 
@@ -27,18 +27,18 @@ The `type` attribute is the fully qualified class name of the model in underscor
 These methods all work similarly to ActiveRecord by design. For example, if we use the models defined in the previously in this guide, then we could do this:
 
 ```ruby
-::MarkdownRecord::Demo::DslCommand.find(4)
- => #<MarkdownRecord::Demo::DslCommand description: "end_model tells MarkdownRecord to pop the top model of the stack. This command isn't necessary unless you are defining models in a way that requires you to assign attributes to a model that is no longer the top model on the stack.", filename: "content_dsl", id: 4, name: "end_model", subdirectory: "content/api_docs", type: "markdown_record/demo/dsl_command">
+DslCommand.find(4)
+ => #<DslCommand description: "end_model tells MarkdownRecord to pop the top model of the stack. This command isn't necessary unless you are defining models in a way that requires you to assign attributes to a model that is no longer the top model on the stack.", filename: "content_dsl", id: 4, name: "end_model", subdirectory: "content/api_docs", type: "dsl_command">
 
 ```
 
 *or*
 
 ```ruby
-::MarkdownRecord::Demo::DslCommand.all
+DslCommand.all
  => 
-[#<MarkdownRecord::Demo::DslCommand description: "...", name: "model", ...>,
- #<MarkdownRecord::Demo::DslCommand description: "...", name: "attribute", ...>
+[#<DslCommand description: "...", name: "model", ...>,
+ #<DslCommand description: "...", name: "attribute", ...>
  ...
 ]
 ```
@@ -73,18 +73,18 @@ Examples:
 
 ```ruby
 # querying with a string value
-MarkdownRecord::Demo::DslCommand.where(:name => "model").all
- => [#<MarkdownRecord::Demo::DslCommand ...>]
+DslCommand.where(:name => "model").all
+ => [#<DslCommand ...>]
 ```
 
 ```ruby
 # querying for models that don't have "fragment" in the name.
-MarkdownRecord::Demo::DslCommand.where(__not__: { :name => /fragment/}).map(&:name)
+DslCommand.where(__not__: { :name => /fragment/}).map(&:name)
  => ["model", "attribute", "end_attribute", "end_model", "use_layout"]
 ```
 
 ```ruby
-MarkdownRecord::Demo::DslCommand.where(__or__: [{ :name => /fragment/}, {:name => :null}]).map(&:name)
+DslCommand.where(__or__: [{ :name => /fragment/}, {:name => :null}]).map(&:name)
  => ["model", "fragment", "directory_fragment"]
 ```
 

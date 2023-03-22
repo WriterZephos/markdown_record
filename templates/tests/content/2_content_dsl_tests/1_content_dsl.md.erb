@@ -3,6 +3,7 @@ This file uses the following Content DSL Methods:
 - `directory_fragment`
 - `fragment`
 - `use_layout`
+- `scope`
 - `model`
 - `attribute` (using types: `html`, `md`, `int`, `float`, `string`)
 - `end_attribute`
@@ -31,6 +32,13 @@ This file's content fragment is defined as so:
 ````
 <!--fragment { "string_field": "foo", "int_field": 100, "float_field": 95.5, "bool_field": true, "date_field": "03/13/2023", "maybe_field": null }-->
 
+The models defined in this subdirectory and it's nested directories are all in an isolated scope, using the `scope` DSL method:
+
+```html
+<!---scope:v_0_1_3-->
+````
+<!--scope:v_0_1_3-->
+
 The following MarkdownRecord::Tests::Model instances are defined:
 
 ```html
@@ -39,7 +47,7 @@ The following MarkdownRecord::Tests::Model instances are defined:
 
 <!--model { "id": 1, "type": "tests/model", "string_field": "foo", "int_field": 100, "float_field": 95.5, "bool_field": true, "date_field": "03/13/2023", "maybe_field": null, "hash_field": {} }-->
 
-<% model = Tests::Model.find(1)%>
+<% model = Tests::Model.find(1, "v_0_1_3")%>
 Rendered: <% report = if model.present? %>
 <span class="success">YES</span>
 <% else %>
@@ -54,7 +62,7 @@ Rendered: <% report = if model.present? %>
 
 <!--model { "id": 2, "type": "tests/model", "string_field": "bar", "int_field": 42, "float_field": 99.9, "bool_field": false, "date_field": "12/25/2020", "maybe_field": 50, "hash_field": { "some_data": { "some_field": 999 }}  }-->
 
-<% model = Tests::Model.find(2)%>
+<% model = Tests::Model.find(2, "v_0_1_3")%>
 Rendered: <% report = if model.present? %>
 <span class="success">YES</span>
 <% else %>
@@ -113,7 +121,7 @@ The following model should not be rendered:
 <!--model { "id": 3, "type": "tests/model", "string_field": "bar", "int_field": 42, "float_field": 99.9, "bool_field": false, "date_field": "12/25/2020", "maybe_field": 50, "hash_field": { "some_data": { "some_field": 999 }}  }-->
 <!--enable-->
 
-<% model = Tests::Model.find(3)%>
+<% model = Tests::Model.find(3, "v_0_1_3")%>
 Rendered: <% report = if model.present? %>
 <span class="failure">YES</span>
 <% else %>

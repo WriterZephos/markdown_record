@@ -1,5 +1,5 @@
 module MarkdownRecord
-  module Rendering
+  module RenderingHelpers
     def generate_render_strategy_options(options)
 
       strategy_options = if options[:strat].present?

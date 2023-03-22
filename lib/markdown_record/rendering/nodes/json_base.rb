@@ -26,7 +26,7 @@ module MarkdownRecord
           return unless @options[:render_content_fragment_json]
 
           content_fragment_hash = fragment_attributes_from_path(@name).merge("meta" => @fragment_meta, "concatenated" => concatenated)
-    
+          
           @json_models["markdown_record/content_fragment"] ||= []
           @json_models["markdown_record/content_fragment"] << content_fragment_hash
         end

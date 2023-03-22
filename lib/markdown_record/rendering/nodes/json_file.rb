@@ -4,6 +4,7 @@ module MarkdownRecord
       class JsonFile < MarkdownRecord::Rendering::Nodes::JsonBase
 
         attr_reader :directory_meta
+        attr_reader :directory_scope
 
         def initialize(...)
           super(...)
@@ -13,16 +14,28 @@ module MarkdownRecord
           @directory_meta = {}
         end
 
-        def render(file_saver)
+        def prerender
           render_json
+        end
 
-          if @options[:deep]
-            save(file_saver)
+        def apply_scope(scope = nil)
+          @json_models.each do |klass, array|
+            next if klass == MarkdownRecord::ContentFragment.name.underscore
+            array.each do |model|
+              model["scope"] = scope
+              model["scoped_id"] = to_scoped_id(scope, model["id"])
+            end
           end
         end
 
-        def concatenated_json
+        def concatenate_json
           @json_models
+        end
+
+        def save_json(file_saver)
+          if @options[:deep]
+            save(file_saver)
+          end
         end
         
       private
@@ -48,6 +61,7 @@ module MarkdownRecord
             end
     
             if dsl_command && enabled
+              extract_scope(text)
               extract_model(text, described_models)
               extract_fragment_meta(text)
               extract_attribute(text, described_models)
@@ -65,11 +79,19 @@ module MarkdownRecord
           add_content_fragment if @options[:deep]
         end
 
-        def extract_model(html, described_models)
-          model = model_dsl(html)
+        def extract_scope(text)
+          directory_scope = scope_dsl(text)
+          return nil unless directory_scope
+    
+          @directory_scope ||= directory_scope
+        end
+
+        def extract_model(text, described_models)
+          model = model_dsl(text)
     
           if model
             return unless model["type"].present?
+            return unless model["id"].present?
 
             filename, subdirectory = full_path_to_parts(name)
     
@@ -90,14 +112,14 @@ module MarkdownRecord
           end
         end
     
-        def extract_fragment_meta(html)
-          meta = fragment_dsl(html)
+        def extract_fragment_meta(text)
+          meta = fragment_dsl(text)
     
           if meta
             @fragment_meta = meta
           end
     
-          directory_meta = directory_fragment_dsl(html)
+          directory_meta = directory_fragment_dsl(text)
     
           if directory_meta
             @directory_meta = directory_meta
@@ -133,8 +155,8 @@ module MarkdownRecord
           end
         end
     
-        def pop_model(html, described_models)      
-          if end_model_dsl(html)
+        def pop_model(text, described_models)      
+          if end_model_dsl(text)
             described_models.pop
           end
         end

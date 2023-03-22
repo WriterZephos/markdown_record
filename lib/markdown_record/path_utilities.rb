@@ -25,6 +25,14 @@ module MarkdownRecord
       rendered_path(full_path).to_s
     end
 
+    def to_scoped_id(scope, id)
+      "#{scope}:s:#{id}"
+    end
+
+    def scoped_id_to_parts(scoped_id)
+      scoped_id.split(":s:")
+    end
+
     def base_content_root_name
       basename = ::MarkdownRecord.config.content_root.basename
 
@@ -55,7 +63,7 @@ module MarkdownRecord
       
       {
         id: frag_id,
-        type: MarkdownRecord::ContentFragment.name.underscore,
+        type: ::MarkdownRecord::ContentFragment.name.underscore,
         subdirectory: subdirectory,
         filename: filename
       }.stringify_keys

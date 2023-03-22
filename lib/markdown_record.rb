@@ -22,8 +22,8 @@ require "markdown_record/models/model_inflator"
 require "markdown_record/models/association"
 require "markdown_record/models/associations"
 require "markdown_record/models/content_associations"
-require "markdown_record/models/base"
-require "markdown_record/models/content_fragment"
+# require "markdown_record/models/base"
+# require "markdown_record/models/content_fragment"
 
 module MarkdownRecord
   def self.config

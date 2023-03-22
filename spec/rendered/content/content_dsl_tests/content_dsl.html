@@ -77,8 +77,6 @@
   <div class="navigation">
     <ul>
       <li>Breadcrumbs: </li>
-      <li><a href="/mdr/content">content</a></li>
-      <span class="breadcrumb_divider">/</span>
       <li><a href="/mdr/content/test_files_home">test_files_home</a></li>
       <span class="breadcrumb_divider">/</span>
       <li><a href="/mdr/content/content_dsl_tests">Content DSL Tests</a></li>
@@ -100,6 +98,7 @@
       <li><code>directory_fragment</code></li>
       <li><code>fragment</code></li>
       <li><code>use_layout</code></li>
+      <li><code>scope</code></li>
       <li><code>model</code></li>
       <li><code>attribute</code> (using types: <code>html</code>, <code>md</code>, <code>int</code>, <code>float</code>, <code>string</code>)</li>
       <li><code>end_attribute</code></li>
@@ -115,6 +114,9 @@
 </code></pre>
     <p>This file&#39;s content fragment is defined as so:</p>
     <pre><code class="html">&lt;!--fragment { &quot;string_field&quot;: &quot;foo&quot;, &quot;int_field&quot;: 100, &quot;float_field&quot;: 95.5, &quot;bool_field&quot;: true, &quot;date_field&quot;: &quot;03/13/2023&quot;, &quot;maybe_field&quot;: null }--&gt;
+</code></pre>
+    <p>The models defined in this subdirectory and it&#39;s nested directories are all in an isolated scope, using the <code>scope</code> DSL method:</p>
+    <pre><code class="html">&lt;!--scope:v_0_1_3--&gt;
 </code></pre>
     <p>The following MarkdownRecord::Tests::Model instances are defined:</p>
     <pre><code class="html">&lt;!--model { &quot;id&quot;: 1, &quot;type&quot;: &quot;tests/model&quot;, &quot;string_field&quot;: &quot;foo&quot;, &quot;int_field&quot;: 100, &quot;float_field&quot;: 95.5, &quot;bool_field&quot;: true, &quot;date_field&quot;: &quot;03/13/2023&quot;, &quot;maybe_field&quot;: null, &quot;hash_field&quot;: {} }--&gt;
@@ -181,8 +183,6 @@ This is a string test attribute value for test model 1.
   <div class="navigation">
     <ul>
       <li>Breadcrumbs: </li>
-      <li><a href="/mdr/content">content</a></li>
-      <span class="breadcrumb_divider">/</span>
       <li><a href="/mdr/content/test_files_home">test_files_home</a></li>
       <span class="breadcrumb_divider">/</span>
       <li><a href="/mdr/content/content_dsl_tests">Content DSL Tests</a></li>

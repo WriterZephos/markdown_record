@@ -1,7 +1,7 @@
 module MarkdownRecord
   module FileSorting
     class SemVerSorter < MarkdownRecord::FileSorting::Base
-      def initialize(sort_regex = /(\d+(?:_\d+)*)_/)
+      def initialize(sort_regex = /(\d+(?:_\d+)*)(?:_|$)/)
         super(sort_regex)
       end
 

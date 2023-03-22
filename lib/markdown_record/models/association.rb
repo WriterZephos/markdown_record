@@ -2,6 +2,8 @@ require "markdown_record/errors/duplicate_id_error"
 
 module MarkdownRecord
   class Association
+    include MarkdownRecord::PathUtilities
+    
     attr_accessor :base_filters
     attr_accessor :search_filters
     attr_reader :fulfilled
@@ -120,11 +122,19 @@ module MarkdownRecord
       @data.fourth(...)
     end
 
-    def __find__(id)
+    def __find__(id, scope = nil)
       reset
-      search_filters.merge!({:id => id})
+
+      if scope.nil?
+        search_filters.merge!({:id => id, :scope => scope})
+      else
+        search_filters.merge!({:scoped_id => to_scoped_id(scope, id)})
+      end
+      
       execute
+
       raise ::MarkdownRecord::Errors::DuplicateIdError.new(@base_filters[:klass].name, id) if @data.count > 1
+
       @data.first
     end
   end

@@ -19,8 +19,9 @@ module MarkdownRecord
       MarkdownRecord::Association.new(base_filters, search_filters).fragmentize
     end
 
-    def find_relative(id)
-      self.class.find("#{subdirectory}/#{id}")
+    def find_relative(relative_id)
+      real_id = Pathname.new(id).parent.join(relative_id).to_s
+      self.class.find(real_id)
     end
 
     def fragment_id
@@ -73,7 +74,14 @@ module MarkdownRecord
     end
 
     def parent
-      self.class.find(meta[:parent_id] || subdirectory)
+      if meta[:parent_id].present?
+        self.class.find(meta[:parent_id])
+      elsif meta[:relative_parent_id].present?
+        real_id = Pathname.new(id).parent.join(meta[:relative_parent_id])
+        self.class.find(real_id)
+      else
+        self.class.find(subdirectory)
+      end
     end
 
     def ancestors_from(ancestor)
@@ -97,6 +105,7 @@ module MarkdownRecord
 
     def parents_from(ancestor)
       ancestor = self.class.find(ancestor) if ancestor.is_a?(String)
+
 
       parents = []
       current_parent = self

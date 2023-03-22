@@ -1,7 +1,7 @@
 require "thor"
 
 class RenderContent < Thor
-  include MarkdownRecord::Rendering
+  include MarkdownRecord::RenderingHelpers
   
   class_option :subdirectory, required: false, type: :string, aliases: :d, default: ""
   class_option :save, type: :boolean, aliases: :s, default: false

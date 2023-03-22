@@ -17,7 +17,7 @@ module MarkdownRecord
 
       def remove_prefix(filename_or_id)
         parts = filename_or_id.split("/")
-        parts = parts.map { |p| p.gsub(@sort_regex,"")}
+        parts = parts.map { |p| p.sub(@sort_regex,"")}
         parts.join("/")
       end
     end

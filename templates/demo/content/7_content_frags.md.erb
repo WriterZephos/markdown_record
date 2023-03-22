@@ -1,5 +1,5 @@
-<!--fragment { "author": "Bryant Morrill", "parent_id": "content/home", "name": "Content Fragments" } -->
-<!--model { "type": "markdown_record/demo/section", "id": 6, "name": "Content Fragments" } -->
+<!--fragment { "author": "Bryant Morrill", "relative_parent_id": "home", "name": "Content Fragments" } -->
+<!--model { "type": "section", "id": 6, "name": "Content Fragments" } -->
 
 # Content Fragments
 
@@ -32,7 +32,7 @@ Each of the above associations use the file tree structure, meaning that they wi
 
 The `parent` method, however, can have its behavior overridden by setting a `parent_id` field in the `meta` hash of the content fragment to the id of another content fragment using the Content DSL.
 
-For example, the file that this text is written in is at `content/blog/content_frags.md`, meaning that the parent of the directory level content fragment with `id = "content/blog"` would normally be the directory level content fragment with `id = "content"`.
+For example, the file that this text is written in is at `content/7_content_frags.md`, meaning that the parent of the directory level content fragment with `id = "content/content_frags"` would normally be the directory level content fragment with `id = "content"`.
 
 In code, this would look like:
 
@@ -41,7 +41,7 @@ MarkdownRecord::ContentFragment.find("content/content_frags").parent
  => #<MarkdownRecord::ContentFragment concatenated: true, filename: "content", id: "content", meta: {"name"=>"Demo", ...}, subdirectory: "", type: "markdown_record/content_fragment"> 
 ```
 
-But one of the files in in `content/blog` uses the Content DSL to define meta data for the directory content fragment, like so:
+But this file uses the Content DSL to define meta data for the content fragment corresponding to it, like so:
 
 ```html
 <!---directory_fragment { "name": "Example: Blog", "parent_id": "content/home" } -->

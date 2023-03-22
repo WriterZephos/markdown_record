@@ -15,6 +15,7 @@ class MarkdownRecordGenerator < Rails::Generators::Base
 
   def copy_demo_or_base
     if options[:demo]
+      directory "demo/models", "app/models"
       directory "demo/content", "markdown_record/content"
       directory "demo/layouts", "markdown_record/layouts"
       directory "demo/assets/images", "app/assets/images"

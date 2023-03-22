@@ -9,6 +9,8 @@ module MarkdownRecord
     attribute :type, :type => String
     attribute :subdirectory, :type => String
     attribute :filename, :type => String
+    attribute :scope, :type => String
+    attribute :scoped_id, :type => String
 
     def self.new_association(base_filters = {}, search_filters = {})
       MarkdownRecord::Association.new(base_filters, search_filters)
@@ -27,7 +29,7 @@ module MarkdownRecord
     end
 
     def to_key
-      [id]
+      scope.nil? ? [id] : ["#{scope}::id"]
     end
   end
 end

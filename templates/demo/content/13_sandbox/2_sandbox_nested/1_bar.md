@@ -1,4 +1,4 @@
-<!--directory_fragment { "author": "You", "name": "Sandbox", "parent_id": "content/sandbox/foo" } -->
+<!--directory_fragment { "author": "You", "name": "Sandbox", "relative_parent_id": "../foo" } -->
 <!--fragment { "name": "Bar", "author": "You" } -->
 <!--use_layout:_custom_layout.html.erb-->
 
