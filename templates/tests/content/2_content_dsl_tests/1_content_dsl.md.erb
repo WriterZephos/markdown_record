@@ -121,7 +121,7 @@ The following model should not be rendered:
 <!--model { "id": 3, "type": "tests/model", "string_field": "bar", "int_field": 42, "float_field": 99.9, "bool_field": false, "date_field": "12/25/2020", "maybe_field": 50, "hash_field": { "some_data": { "some_field": 999 }}  }-->
 <!--enable-->
 
-<% model = Tests::Model.find(3, "v_0_1_3")%>
+<% model = Tests::Model.find(3, scope)%>
 Rendered: <% report = if model.present? %>
 <span class="failure">YES</span>
 <% else %>

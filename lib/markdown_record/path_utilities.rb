@@ -26,6 +26,8 @@ module MarkdownRecord
     end
 
     def to_scoped_id(scope, id)
+      return id.to_s unless scope.present?
+
       "#{scope}:s:#{id}"
     end
 
@@ -52,7 +54,8 @@ module MarkdownRecord
         filename: filename, 
         subdirectory: subdirectory, 
         frag_id: frag_id,
-        fragment: fragment
+        fragment: fragment,
+        scope: fragment.__scope__
       }
     end
 

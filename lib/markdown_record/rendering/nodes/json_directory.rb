@@ -61,7 +61,7 @@ module MarkdownRecord
           end
 
           concatenate_directory_meta
-          add_content_fragment(true)
+          add_content_fragment
           @json_models
         end
 
@@ -86,6 +86,15 @@ module MarkdownRecord
           children.each do |child|
             @scope ||= child.directory_scope
           end
+        end
+
+        def add_content_fragment
+          return unless @options[:render_content_fragment_json]
+
+          content_fragment_hash = fragment_attributes_from_path(@name).merge("meta" => @fragment_meta, "concatenated" => true, "__scope__" => @scope)
+          
+          @json_models["markdown_record/content_fragment"] ||= []
+          @json_models["markdown_record/content_fragment"] << content_fragment_hash
         end
 
         def children

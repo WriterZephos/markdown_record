@@ -5,6 +5,8 @@ module MarkdownRecord
     attribute :meta, :type => Object
     attribute :concatenated, :type => Boolean
 
+    attribute :__scope__
+
     def initialize(attributes = nil, options = {})
       super
 

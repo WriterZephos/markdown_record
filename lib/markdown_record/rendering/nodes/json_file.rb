@@ -20,11 +20,17 @@ module MarkdownRecord
 
         def apply_scope(scope = nil)
           @json_models.each do |klass, array|
-            next if klass == MarkdownRecord::ContentFragment.name.underscore
-            array.each do |model|
-              model["scope"] = scope
-              model["scoped_id"] = to_scoped_id(scope, model["id"])
+            if klass == MarkdownRecord::ContentFragment.name.underscore
+              array.each do |model|
+                model["__scope__"] = scope
+              end
+            else
+              array.each do |model|
+                model["scope"] = scope
+                model["scoped_id"] = to_scoped_id(scope, model["id"])
+              end
             end
+
           end
         end
 
@@ -77,6 +83,15 @@ module MarkdownRecord
           end
 
           add_content_fragment if @options[:deep]
+        end
+
+        def add_content_fragment
+          return unless @options[:render_content_fragment_json]
+
+          content_fragment_hash = fragment_attributes_from_path(@name).merge("meta" => @fragment_meta, "concatenated" => false)
+          
+          @json_models["markdown_record/content_fragment"] ||= []
+          @json_models["markdown_record/content_fragment"] << content_fragment_hash
         end
 
         def extract_scope(text)
