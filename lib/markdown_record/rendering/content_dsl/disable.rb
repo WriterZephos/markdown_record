@@ -2,7 +2,7 @@ module MarkdownRecord
   module ContentDsl
     module Disable
       REGEX = /<!--\s*disable\s*-->/
-      ENCODED_REGEX = /(?<!<code>|<code class="html">)&lt;!--\s*disable\s*--&gt;(?!<\/code>)/
+      ENCODED_REGEX = /&lt;!--\s*disable\s*--&gt;/
 
       def disable_dsl(text)
         match = text.match(REGEX)

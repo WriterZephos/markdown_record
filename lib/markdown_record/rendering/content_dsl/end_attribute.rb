@@ -1,8 +1,8 @@
 module MarkdownRecord
   module ContentDsl
     module EndAttribute
-      REGEX = /(?<!`|`\\n|`html\\n)<!--\s*end_attribute\s*-->(?!`|\\n`)/
-      ENCODED_REGEX = /(?<!<code>|<code class="html">)&lt;!--\s*end_attribute\s*--&gt;(?!<\/code>)/
+      REGEX = /<!--\s*end_attribute\s*-->/
+      ENCODED_REGEX = /&lt;!--\s*end_attribute\s*--&gt;/
 
       def end_attribute_dsl(text)
         match = text.match(REGEX)

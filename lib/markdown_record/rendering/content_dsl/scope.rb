@@ -1,8 +1,8 @@
 module MarkdownRecord
   module ContentDsl
     module Scope
-      REGEX = /(?<!`|`\\n|`html\\n)<!--\s*scope\s*:\s*(.*)\s*-->(?!`|\\n`)/
-      ENCODED_REGEX = /(?<!<code>|<code class="html">)&lt;!--\s*scope\s*:\s*(.*)\s*--&gt;(?!<\/code>)/
+      REGEX = /<!--\s*scope\s*:\s*(.*)\s*-->/
+      ENCODED_REGEX = /&lt;!--\s*scope\s*:\s*(.*)\s*--&gt;/
 
       def scope_dsl(text)
         match = text.match(REGEX)

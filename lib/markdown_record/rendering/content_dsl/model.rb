@@ -1,8 +1,8 @@
 module MarkdownRecord
   module ContentDsl
     module Model
-      REGEX = /(?<!`|`\\n|`html\\n)<!--\s*model\s*({[\s"'\\\w:,.\[\]\{\}_\/|\-]*})\s*-->(?!`|\\n`)/
-      ENCODED_REGEX = /(?<!<code>|<code class="html">)&lt;!--\s*model\s*({[\s"'\\\w:,.\[\]\{\}_\/|\-]*})\s*--&gt;(?!<\/code>)/
+      REGEX = /<!--\s*model\s*({[\s"'\\\w:,.\[\]\{\}_\/|\-]*})\s*-->/
+      ENCODED_REGEX = /&lt;!--\s*model\s*({[\s"'\\\w:,.\[\]\{\}_\/|\-]*})\s*--&gt;/
 
       def model_dsl(text)
         match = text.match(REGEX)
