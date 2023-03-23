@@ -37,28 +37,36 @@ RSpec.describe :models, :render => true do
       end
 
       describe "where" do
-        it "filters by not_null" do
-          expect(Tests::ChildModel.where(:maybe_field => :not_null).all).to eq([Tests::ChildModel.find(2, scope), Tests::ChildModel.find(4, scope)])
-        end
-
-        it "filters by null" do
-          expect(Tests::ChildModel.where(:maybe_field => :null).all).to eq([Tests::ChildModel.find(1, scope), Tests::ChildModel.find(3, scope)])
-        end
-
-        it "filters by nil" do
-          expect(Tests::ChildModel.where(:maybe_field => nil, :scope => scope).all).to eq([Tests::ChildModel.find(1, scope), Tests::ChildModel.find(3, scope)])
-        end
-
-        it "filters by regex" do
-          expect(Tests::ChildModel.where(:string_field => /^asdf/).all).to eq([Tests::ChildModel.find(2, scope)])
+        it "filters by array of values" do
+          expect(Tests::ChildModel.where(:int_field => [42, 100.7], :scope => scope).all).to eq([Tests::ChildModel.find(3, scope), Tests::ChildModel.find(4, scope)])
         end
 
         it "filters by value" do
           expect(Tests::ChildModel.where(:float_field => 99.9).all).to eq([Tests::ChildModel.find(4, scope)])
         end
 
-        it "filters by array of values" do
-          expect(Tests::ChildModel.where(:int_field => [42, 100.7], :scope => scope).all).to eq([Tests::ChildModel.find(3, scope), Tests::ChildModel.find(4, scope)])
+        it "filters by hash" do
+          expect(Tests::ChildModel.where(:hash_field => {:some_data => { :some_field => 999}}, :scope => scope).all).to eq([Tests::ChildModel.find(4, scope)])
+        end
+
+        it "filters by nil" do
+          expect(Tests::ChildModel.where(:maybe_field => nil, :scope => scope).all).to eq([Tests::ChildModel.find(1, scope), Tests::ChildModel.find(3, scope)])
+        end
+
+        it "filters by range" do
+          expect(Tests::ChildModel.where(:int_field => 67..101).all).to eq([Tests::ChildModel.find(1, scope)])
+        end
+
+        it "filters by regexp" do
+          expect(Tests::ChildModel.where(:string_field => /^asdf/).all).to eq([Tests::ChildModel.find(2, scope)])
+        end
+
+        it "filters by not_null" do
+          expect(Tests::ChildModel.where(:maybe_field => :not_null).all).to eq([Tests::ChildModel.find(2, scope), Tests::ChildModel.find(4, scope)])
+        end
+
+        it "filters by null" do
+          expect(Tests::ChildModel.where(:maybe_field => :null).all).to eq([Tests::ChildModel.find(1, scope), Tests::ChildModel.find(3, scope)])
         end
       end
 

@@ -18,12 +18,11 @@ require "markdown_record/rendering/nodes/json_directory"
 require "markdown_record/rendering/nodes/html_base"
 require "markdown_record/rendering/nodes/html_file"
 require "markdown_record/rendering/nodes/html_directory"
+require "markdown_record/models/filtering"
 require "markdown_record/models/model_inflator"
 require "markdown_record/models/association"
 require "markdown_record/models/associations"
 require "markdown_record/models/content_associations"
-# require "markdown_record/models/base"
-# require "markdown_record/models/content_fragment"
 
 module MarkdownRecord
   def self.config
