@@ -97,7 +97,18 @@ There are several different DSL commands that you can use to define application 
     Example:
     
     ```html
-    <!--use_layout:_custom_layout.html.erb-->
+    <!---use_layout:_custom_layout.html.erb-->
+    ```
+    <!--end_model-->
+
+- `scope:<scope_name>` defines a scope that will apply to all models defined in the current subdirectory and all nested directories until another scope is defines. By default, all models exist in the `nil` scope if no scope is defined. Scopes provide isolation for models, which allows you to copy content and reuse model ids, as long as the duplicate ids do not exist in the same scope. The trade off, however, is that you will need to provide the scope when querying for those models in your application code.
+
+    This is advantageous for things like versioned documents, where you want to duplicate your content and it would be a hassle to change ids and keep track of ids across versions.
+
+    Example:
+    
+    ```html
+    <!---scope:v_0_1_4-->
     ```
     <!--end_model-->
 

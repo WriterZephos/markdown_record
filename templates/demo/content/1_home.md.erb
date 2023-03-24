@@ -1,6 +1,8 @@
 <!--directory_fragment { "name": "Demo", "author": "Bryant Morrill" } -->
 <!--fragment { "name": "Home", "author": "Bryant Morrill" } -->
 
+<!--model {"type": "version", "id": "1"}-->
+
 # MarkdownRecord
 
 Welcome to MarkdownRecord!
@@ -12,6 +14,8 @@ If you haven't installed it locally yet, you can find instructions <%= link_to_m
 After following the installation guide, you should see a `markdown_record` folder inside your application root. This folder contains three subdirectories: `content`, `layouts` and `rendered`.
 
 Feel free to poke around and explore the files in the directories mentioned above as you go through this guide. They will serve as a great reference to help make sense of the features and concepts described here.
+
+You can find the hosted version of these docs [here](https://markdown-record-docs.herokuapp.com/).
 
 ## Workflow
 
@@ -38,3 +42,16 @@ The following links will take you to other sections of this guide. Each section 
 - <%= link_to_markdown_record(fragment.find_relative("configuration")) %>
 - <%= link_to_markdown_record(fragment.find_relative("sandbox")) %>
 
+## 0.1.4 Release Notes
+
+Version 0.1.4 is the second beta version to be published and is packed with tons of big improvements. This is the first version that is really usable. Changes since 0.1.3 are as follows:
+
+- Added rendering scopes to isolate models within scopes, allowing reuse of ids, etc.
+- View helper quality of life changes - chaining url and path helpers onto `main_app` is no longer necessary.
+- Added a new `render_fragment` view helper.
+- Made MarkdownRecord models compatible with the Rails `dom_id` view helper.
+- Made view helper links use the id basename for Content Fragments by default (if no other text is provided) if the `meta[:name]` field isn't set.
+- Allow setting the `relative_parent_id` for content fragments, which overrides the `parent` just like `parent_id` but with a relative id.
+- Added `find_relative` method on `MarkdownRecord::ContentFragment`.
+- Greatly enhanced file sorting and numeric prefix options, so that prefixing files with dates or semantic versions is now possible.
+- HUGE refactors and code improvements behind the scenes. Sandi Metz would be proud.

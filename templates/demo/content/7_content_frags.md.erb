@@ -44,7 +44,7 @@ MarkdownRecord::ContentFragment.find("content/content_frags").parent
 But this file uses the Content DSL to define meta data for the content fragment corresponding to it, like so:
 
 ```html
-<!---directory_fragment { "name": "Example: Blog", "parent_id": "content/home" } -->
+<!---directory_fragment { "name": "Content Fragments", "parent_id": "content/home" } -->
 ```
 
 The `parent_id` in the `meta` hash overrides the default behavior, which changes what fragment is returned from `parent`:
@@ -65,6 +65,8 @@ MarkdownRecord::ContentFragment.find("content/sandbox/foo")
  => ["content/home", "content/sandbox"]
 ```
 
+As an alternative to `parent_id`, you can use `relative_parent_id` which does the same thing, but accepts an id that is relative to the current file's containing directory. For example, the previous exampel would use `home` instead of `content/home` to assign the same fragment as the parent if the current file was in `content`.
+
 ## Instance Methods
 
 `MarkdownRecord::ContentFragment` has the following instance methods:
@@ -76,3 +78,4 @@ MarkdownRecord::ContentFragment.find("content/sandbox/foo")
 - `read_html`: reads the corresponding HTML file.
 - `json_path`: returns the path to the corresponding JSON file.
 - `html_path`: returns the path to the corresponding HTML file.
+- `find_relative`: does the same thing as `MarkdownRecord::ContentFragment.find`, but is an instance method and finds another content fragment based on a retative path/id provided.

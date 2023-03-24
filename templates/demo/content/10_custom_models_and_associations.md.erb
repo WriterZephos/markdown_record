@@ -61,6 +61,26 @@ DslCommand.find(1).section
 
 `has_many_content` will define a method that returns an `MarkdownRecord::Association` object, which you can then chain queries onto. `belongs_to_content`  and `has_one_content` will define methods that returns a single MarkdownContent model.
 
+### Scopes
+
+If a model is defined within a scope (using the `scope` Content DSL command), then all its associations are assumed to be within that scope, and must point to other models that are within that scope.
+
+Furthermore, when querying for models that are defined within a scope without using associations, you will need to provide the scope like so:
+
+```ruby
+DslCommand.find(1, "v_0_1_3")
+ => #<DslCommand description: "model is the main command...", scope: "v_0_1_3", scoped_id: "v_0_1_3:s:1", section_id: 3, subdirectory: "content", type: "dsl_command"> 
+```
+
+Or
+
+```ruby
+DslCommand.where(:section_id => 3, :scope => "v_0_1_3").all
+ => [#<DslCommand >,...]
+````
+
+Association methods do not need the `scope` provided, since they are assumed to be in the same scope as the model instance you call them on.
+
 ### Associations on ActiveRecord Models
 
 You can easily integrate MarkdownRecord and ActiveRecord models together using the `MarkdownRecord::ContentAssociations` module. Just include it in your ActiveRecord model like so:

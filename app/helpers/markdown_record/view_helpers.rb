@@ -81,6 +81,8 @@ module MarkdownRecord
       unless fragment_or_model.is_a?(MarkdownRecord::ContentFragment)
         fragment = fragment_or_model.fragment 
       end
+
+      fragment ||= fragment_or_model
       
       raw(fragment.read_html)
     end
