@@ -2,7 +2,7 @@
 
 Welcome to MarkdownRecord. This project is still in BETA stage, and as such is subject to rapid change. There are many things that still need improving, so bear that in mind. That said, please feel free to test this project out and provide feedback in the form of GitHub issues! Thank you.
 
-You can find the complete usage guide [here](https://markdown-record-docs.herokuapp.com/mdr/content/home).
+You can find the complete usage guide [here](https://markdown-record-docs.herokuapp.com/).
 
 MarkdownRecord is a Rails engine that allows you to write markdown with embedded json like this:
 
@@ -214,7 +214,7 @@ rendered: /markdown_record/rendered/content/custom_models_and_associations.html
 
 Congratulations! You have installed MarkdownRecord. If you are not viewing this from the host application already, go ahead and start your Rails server with `rails s` and navigate to http://localhost:3000/mdr/content/home to continue following this guide.
 
-Alternatively, you can find the complete usage guide [here](https://markdown-record-docs.herokuapp.com/mdr/content/home).
+Alternatively, you can find the complete usage guide [here](https://markdown-record-docs.herokuapp.com/).
 
 ## Contributing
 
