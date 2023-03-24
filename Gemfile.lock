@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    markdown_record (0.1.4)
+    markdown_record (0.1.5)
       active_attr (~> 0.15.4)
       htmlbeautifier
       rails (>= 7.0.4.2)
