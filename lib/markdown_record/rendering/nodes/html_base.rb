@@ -14,6 +14,10 @@ module MarkdownRecord
           /&lt;!---/ => "&lt;!--"
         }
 
+        HTML_MACROS = {
+          /<code(?:.*?)>((?:.|\s)*?)<\/code>/ => lambda { |match, first| match.gsub(first, CGI.unescapeHTML(CGI.escapeHTML(first))) }
+        }
+
         def initialize(pathname, markdown, options)
           @markdown = markdown
           @pathname = pathname
@@ -42,6 +46,12 @@ module MarkdownRecord
 
           HTML_SUBSTITUTIONS.each do |find, replace|
             final_html = final_html.gsub(find, replace)
+          end
+
+          HTML_MACROS.each do |regex, macro|
+            final_html = final_html.gsub(regex) do |match|
+              macro.call(match, $1).html_safe
+            end
           end
 
           final_html = final_html.squeeze("\n")

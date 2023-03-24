@@ -51,7 +51,7 @@ The `where` query method takes an optional hash of filters and returns a `Markdo
 - `to_fragments`: this method queries for MarkdownRecord models but returns their corresponding content fragments instead. This will often result in duplicates due to models being defined in the same file.
 - `all`: this method simply returns an Array of models, filtered according to whatever filters have been provided to the association object.
 
-`MarkdownRecord::Association` also supports the `to_a`, `each`, `map`, `count`, `any?`, `empty?`, `first`, `last`, `second`, `third` and `fourth` methods which get executed on the backing Array after loading the data with the most recent filters. For additional functionality, you may call `all` or `to_a` to work with the backing Array directly.
+`MarkdownRecord::Association` supports any method you can call on the underlying array that contains the query results.
 
 ## Filters
 

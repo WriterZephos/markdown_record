@@ -77,56 +77,21 @@ module MarkdownRecord
       self
     end
 
-    def each(...)
-      execute unless fulfilled
-      all unless fulfilled
-      @data.each(...)
+    def method_missing(method, *args, &block)
+      if @data.respond_to?(method)
+        execute unless fulfilled
+        @data.send(method, *args, &block)
+      else
+        super
+      end
     end
 
-    def map(...)
-      execute unless fulfilled
-      execute
-      @data.map(...)
-    end
-
-    def count(...)
-      execute unless fulfilled
-      @data.count(...)
-    end
-
-    def any?(...)
-      execute unless fulfilled
-      @data.any?(...)
-    end
-
-    def empty?(...)
-      execute unless fulfilled
-      @data.empty?(...)
-    end
-
-    def first(...)
-      execute unless fulfilled
-      @data.first(...)
-    end
-
-    def last(...)
-      execute unless fulfilled
-      @data.first(...)
-    end
-
-    def second(...)
-      execute unless fulfilled
-      @data.second(...)
-    end
-
-    def third(...)
-      execute unless fulfilled
-      @data.third(...)
-    end
-
-    def fourth(...)
-      execute unless fulfilled
-      @data.fourth(...)
+    def respond_to?(method)
+      if @data.respond_to?(method)
+        true
+      else
+        super
+      end
     end
 
     def __find__(id, scope = nil)
