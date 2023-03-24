@@ -19,7 +19,7 @@ module MarkdownRecord
 
     def validate_filenames(val)
       if val.is_a?(Hash)
-        temp_keys = val.keys.map { |v| remove_numeric_prefixes(v) }
+        temp_keys = val.keys.map { |v| remove_prefix(v) }
         
         dups = temp_keys.group_by{|e| clean_path(e)}.keep_if{|_, e| e.length > 1}
         if dups.any?
@@ -33,8 +33,8 @@ module MarkdownRecord
     end
 
     def validate_models
-      @json["#{base_content_path.basename}.concat"].each do |klass, array|
-        ids = array.map { |o| o["id"] }
+      @json.each do |klass, array|
+        ids = array.map { |o| [o["id"], o["scope"]] }
         dups = ids.group_by{|e| e}.keep_if{|_, e| e.length > 1}
         if dups.any?
           raise ::MarkdownRecord::Errors::DuplicateIdError.new(klass, dups.keys.first)
@@ -43,7 +43,7 @@ module MarkdownRecord
     end
 
     def validate_fragments
-      frags = @json["#{base_content_path.basename}.concat"]["markdown_record/content_fragment"]
+      frags = @json["markdown_record/content_fragment"]
       frags.each do |frag|
         parent_id = frag.dig("meta", "parent_id")
         if parent_id

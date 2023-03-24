@@ -1,8 +1,8 @@
 module MarkdownRecord
   module ContentDsl
     module Attribute
-      REGEX = /(?<!`|`\\n|`html\\n)<!--\s*attribute\s*:\s*(\w+)\s*(?::((?:html|md|int|float|string)?))?-->(?!`|\\n`)/
-      ENCODED_REGEX = /(?<!<code>|<code class="html">)&lt;!--\s*attribute\s*:\s*(\w+)\s*(?::((?:html|md|int|float|string)?))?--&gt;(?!<\/code>)/
+      REGEX = /<!--\s*attribute\s*:\s*(\w+)\s*(?::((?:html|md|int|float|string)?))?-->/
+      ENCODED_REGEX = /&lt;!--\s*attribute\s*:\s*(\w+)\s*(?::((?:html|md|int|float|string)?))?--&gt;/
 
       def attribute_dsl(text)
         match = text.match(REGEX)
@@ -15,7 +15,7 @@ module MarkdownRecord
       end
 
       def self.remove_dsl(text)
-        text.gsub(ENCODED_REGEX, "")
+        text.gsub(REGEX, "").gsub(ENCODED_REGEX, "")
       end
     end
   end

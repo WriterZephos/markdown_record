@@ -1,7 +1,7 @@
 require "thor"
 
 class RenderContent < Thor
-  include MarkdownRecord::Rendering
+  include MarkdownRecord::RenderingHelpers
   
   class_option :subdirectory, required: false, type: :string, aliases: :d, default: ""
   class_option :save, type: :boolean, aliases: :s, default: false
@@ -11,6 +11,7 @@ class RenderContent < Thor
   desc "html", "renders html content"
   def html
     return unless validate
+    
     lines = []
     strategy_options = generate_render_strategy_options(options)
     report_start(lines, strategy_options, "html")

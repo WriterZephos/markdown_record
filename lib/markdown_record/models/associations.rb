@@ -11,7 +11,7 @@ module MarkdownRecord
         foreign_key = "#{self.name.demodulize.underscore}_id".to_sym
         
         define_method(association) do
-          klass.new_association({:klass => klass, foreign_key => self.id})
+          klass.new_association({:klass => klass, :scope => self.scope, foreign_key => self.id})
         end
       end
 
@@ -22,7 +22,7 @@ module MarkdownRecord
         foreign_key = "#{self.name.demodulize.underscore}_id".to_sym
         
         define_method(association) do
-          results = klass.new_association({:klass => klass, foreign_key => self.id}).all
+          results = klass.new_association({:klass => klass, :scope => self.scope, foreign_key => self.id}).all
           if results.count > 1
             raise ArgumentError.new("Multiple MarkdownRecords belong to the same record in a has_one_content assocition: #{self.class.name} has a has_one_content #{association} and the following records ids were found #{ results.map(&:id) } ")
           end
@@ -40,7 +40,7 @@ module MarkdownRecord
         self.attribute foreign_key unless self.attributes[foreign_key].present?
         
         define_method(association) do
-          klass.find(self[foreign_key])
+          klass.find(self[foreign_key], self.scope)
         end
       end
 
@@ -52,8 +52,16 @@ module MarkdownRecord
         new_association({ :klass => self }, filters)
       end
 
-      def find(id)
-        new_association({ :klass => self }).__find__(id)
+      def force_render_where(filters = {})
+        new_association({ :klass => self }, filters).force_render
+      end
+
+      def find(id, scope = nil)
+        new_association({ :klass => self }).__find__(id, scope)
+      end
+
+      def force_render_find(id, scope = nil)
+        new_association({ :klass => self }).force_render.__find__(id, scope)
       end
 
       def infer_klass(association, options)
@@ -69,20 +77,20 @@ module MarkdownRecord
     end
 
     def siblings(filters = {})
-      self.class.new_association(filters.merge({:subdirectory => subdirectory}).merge!(not_self))
+      self.class.new_association(filters.merge({:subdirectory => subdirectory, :scope => scope}).merge!(not_self))
     end
 
     def class_siblings(filters = {})
-      self.class.new_association(filters.merge({:klass => self.class, :subdirectory => subdirectory, :__not__ => { :id => self.id }}))
+      self.class.new_association(filters.merge({:klass => self.class, :scope => scope, :subdirectory => subdirectory, :__not__ => { :id => self.id }}))
     end
 
     def children(filters = {})
       sub_start = "#{subdirectory}/".delete_prefix("/")
-      self.class.new_association(filters.merge({:subdirectory => Regexp.new("#{sub_start}[\\S|\\w]+")}).merge!(not_self))
+      self.class.new_association(filters.merge({:scope => scope, :subdirectory => Regexp.new("#{sub_start}[\\S|\\w]+")}).merge!(not_self))
     end
 
     def fragment
-      self.class.new_association.fragmentize.__find__(fragment_id)
+      @fragment ||= self.class.new_association.fragmentize.__find__(fragment_id)
     end
 
   private

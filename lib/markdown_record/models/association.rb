@@ -2,6 +2,8 @@ require "markdown_record/errors/duplicate_id_error"
 
 module MarkdownRecord
   class Association
+    include MarkdownRecord::PathUtilities
+    
     attr_accessor :base_filters
     attr_accessor :search_filters
     attr_reader :fulfilled
@@ -12,6 +14,7 @@ module MarkdownRecord
       @search_filters = search_filters
       @data = []
       @fulfilled = false
+      @force_render = false
     end
 
     def execute
@@ -22,9 +25,15 @@ module MarkdownRecord
       else
         final_filters.merge!(:exclude_fragments => true)
       end
-      results = MarkdownRecord::ModelInflator.new.where(final_filters)
+      results = MarkdownRecord::ModelInflator.new(@force_render).where(final_filters)
       @data.push(*results)
       @fulfilled = true
+    end
+
+    def force_render
+      reset
+      @force_render = true
+      self
     end
 
     def fragmentize
@@ -120,11 +129,19 @@ module MarkdownRecord
       @data.fourth(...)
     end
 
-    def __find__(id)
+    def __find__(id, scope = nil)
       reset
-      search_filters.merge!({:id => id})
+
+      if scope.nil?
+        search_filters.merge!({:id => id, :scope => scope})
+      else
+        search_filters.merge!({:scoped_id => to_scoped_id(scope, id)})
+      end
+      
       execute
+
       raise ::MarkdownRecord::Errors::DuplicateIdError.new(@base_filters[:klass].name, id) if @data.count > 1
+
       @data.first
     end
   end

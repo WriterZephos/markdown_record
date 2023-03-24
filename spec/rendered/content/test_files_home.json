@@ -1,0 +1,1 @@
+{"tests/model":[{"id":1,"type":"tests/model","string_field":"foo","int_field":100,"float_field":95.5,"bool_field":true,"date_field":"03/13/2023","maybe_field":null,"hash_field":{},"subdirectory":"content","filename":"test_files_home","scope":null,"scoped_id":"1"}]}

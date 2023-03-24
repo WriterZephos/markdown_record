@@ -7,17 +7,17 @@ module MarkdownRecord
       rendered_path = Pathname.new("/").join(full_path)
       
       filename = clean_path(rendered_path.basename)
-      filename = remove_numeric_prefixes(filename)
+      filename = remove_prefix(filename)
       
       subdirectory = clean_path(rendered_path.parent)
-      subdirectory = remove_numeric_prefixes(subdirectory)
+      subdirectory = remove_prefix(subdirectory)
 
       [filename, subdirectory, full_path.to_s.split(".").last]
     end
 
     def rendered_path(full_path)
       rendered_path = clean_path(full_path.to_s)
-      rendered_path = remove_numeric_prefixes(rendered_path)
+      rendered_path = remove_prefix(rendered_path)
       Pathname.new(rendered_path)
     end
 
@@ -25,7 +25,17 @@ module MarkdownRecord
       rendered_path(full_path).to_s
     end
 
-    def base_content_path
+    def to_scoped_id(scope, id)
+      return id.to_s unless scope.present?
+
+      "#{scope}:s:#{id}"
+    end
+
+    def scoped_id_to_parts(scoped_id)
+      scoped_id.split(":s:")
+    end
+
+    def base_content_root_name
       basename = ::MarkdownRecord.config.content_root.basename
 
       # must use "/" so that `.parent` returns correctly
@@ -38,13 +48,14 @@ module MarkdownRecord
       
       frag_id = path_to_fragment_id(full_path)
 
-      fragment = ::MarkdownRecord::ContentFragment.find(frag_id)
+      fragment = ::MarkdownRecord::ContentFragment.force_render_find(frag_id)
       
       {
         filename: filename, 
         subdirectory: subdirectory, 
         frag_id: frag_id,
-        fragment: fragment
+        fragment: fragment,
+        scope: fragment.__scope__
       }
     end
 
@@ -55,7 +66,7 @@ module MarkdownRecord
       
       {
         id: frag_id,
-        type: MarkdownRecord::ContentFragment.name.underscore,
+        type: ::MarkdownRecord::ContentFragment.name.underscore,
         subdirectory: subdirectory,
         filename: filename
       }.stringify_keys
@@ -73,11 +84,9 @@ module MarkdownRecord
       clean_path(::MarkdownRecord.config.rendered_content_root.to_s)
     end
 
-    def remove_numeric_prefixes(filename_or_id)
+    def remove_prefix(filename_or_id)
       if MarkdownRecord.config.ignore_numeric_prefix
-        parts = filename_or_id.split("/")
-        parts = parts.map { |p| p.gsub(/^\d+_/,"")}
-        parts.join("/")
+        MarkdownRecord.config.filename_sorter.remove_prefix(filename_or_id)
       else
         filename_or_id
       end

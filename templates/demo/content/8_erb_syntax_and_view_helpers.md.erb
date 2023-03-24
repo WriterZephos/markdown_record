@@ -1,5 +1,5 @@
-<!--fragment { "author": "Bryant Morrill", "parent_id": "content/home", "name": "ERB Syntax and View Helpers" } -->
-<!---model { "type": "markdown_record/demo/section", "id":   7, "name": "ERB Syntax and View Helpers" } -->
+<!--fragment { "author": "Bryant Morrill", "relative_parent_id": "home", "name": "ERB Syntax and View Helpers" } -->
+<!--model { "type": "section", "id": 7, "name": "ERB Syntax and View Helpers" } -->
 
 # ERB Syntax and View Helpers
 
@@ -13,6 +13,7 @@ MarkdownRecord supports the use of ERB syntax in your markdown source files. It 
 - `subdirectory`: the subdirectory of the file being rendered.
 - `frag_id`: the id of the fragment corresponding to the file being rendered.
 - `fragment`: the content fragment model instance corresponding to the file being rendered.
+- `scope`: the scope the file falls under, if any.
 
 ## Rails View Helpers
 
@@ -22,9 +23,29 @@ For example, the image below is rendered using the `image_tag` tag helper:
 
 <%= image_tag("ruby-logo") %>
 
+MarkdownRecord models can also be passed to `dom_id` for use in Turbo-frames, etc:
+
+```
+<%%= dom_id(fragment) %>
+```
+
 ## View Helpers
 
 MarkdownRecord provides the following view helpers to use in your ERB views as well as in your markdown content source files:
+
+- `render_fragment`: renders the html content of the passed in contend fragment, or the fragment corresponding to the file where a MarkdownRecor model is defined.
+
+    For example:
+
+    ```
+    <%%= render_fragment(@post) %>
+    ```
+
+    Or
+
+    ```
+    <%%= render_fragment(@post.fragment) %>
+    ```
 
 - `link_to_markdown_record`: generates a link to the content fragment you pass in, or else the content fragment corresponding to the MarkdownRecord model you pass in.
 
@@ -38,7 +59,7 @@ MarkdownRecord provides the following view helpers to use in your ERB views as w
     When you pass it into the view helper like so:
     
     ```html
-    <%%%= link_to_markdown_record(fragment)%>
+    <%%= link_to_markdown_record(fragment) %>
     ```
 
     The result would be the following markup:
@@ -49,16 +70,16 @@ MarkdownRecord provides the following view helpers to use in your ERB views as w
 
     Notice how the text in the link is the name value found in the content fragment meta attribute. This is because MarkdownRecord checks to see if the model passed in responds to `name`, and `MarkdownRecord::ContentFragment` has a `name` method that returns the `name` field, if present, from its meta hash.
 
-    A fragment without a name will be rendered like this:
+    A fragment without a name will be rendered using the corresponding file name like this:
 
     ```html
-    <a href="/mdr/content/erb_syntax_and_view_helpers">/mdr/content/blog/view_helpers</a>
+    <a href="/mdr/content/erb_syntax_and_view_helpers">view_helpers</a>
     ```
 
     Unless you pass in a name explicitly:
 
     ```html
-    <%%%= link_to_markdown_record(fragment, "Click Here!") %>
+    <%%= link_to_markdown_record(fragment, "Click Here!") %>
     ```
 
     Which will produce:
@@ -79,10 +100,10 @@ MarkdownRecord provides the following view helpers to use in your ERB views as w
 Using the view helpers in conjunction with content fragments, you can easily build navigation that automatically updates when you rerender your content. This guide uses this technique and you can find the following code in the `_global_layout.html.erb` layout:
 
 ```html
-<%%% fragment.parents_from("content/home").each_with_index do |frag, index| %>
-    <%%% unless index == 0%>
+<%% fragment.parents_from("content/home").each_with_index do |frag, index| %>
+    <%% unless index == 0%>
         <span class="breadcrumb_divider">/</span>
-    <%%% end %>
-    <li><%%%= link_to_markdown_record(frag)%>
-<%%% end %>
+    <%% end %>
+    <li><%%= link_to_markdown_record(frag) %>
+<%% end %>
 ```

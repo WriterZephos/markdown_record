@@ -1,5 +1,5 @@
-<!--fragment { "author": "Bryant Morrill", "parent_id": "content/home", "name": "Custom Models and Associations" } -->
-<!---model { "type": "markdown_record/demo/section", "id":   8, "name": "Custom Models and Associations" } -->
+<!--fragment { "author": "Bryant Morrill", "relative_parent_id": "home", "name": "Custom Models and Associations" } -->
+<!--model { "type": "section", "id": 9, "name": "Custom Models and Associations" } -->
 
 # Custom Models and Associations
 
@@ -43,23 +43,43 @@ end
 Once the associations are defined, you will want to make sure your JSON objects in your markdown have the required fields. For the example above, the DslCommand model will automatically be given a `section_id` field that will need to be populated in your markdown like so:
 
 ```html
-<!---model { "type": "markdown_record/demo/dsl_command", "id": 6, "name": "directory_fragment", "section_id": 1 } -->
+<!---model { "type": "dsl_command", "id": 6, "name": "directory_fragment", "section_id": 1 } -->
 ```
 
 Then you can use the association in your code just like ActiveRecord associations:
 
 ```ruby
-MarkdownRecord::Demo::Section.find(3).dsl_commands.all
+Section.find(3).dsl_commands.all
  => 
-[#<MarkdownRecord::Demo::DslCommand section_id: 1, description: "...", ...>, ...]
+[#<DslCommand section_id: 1, description: "...", ...>, ...]
 ```
 
 ```ruby
-MarkdownRecord::Demo::DslCommand.find(1).section
- => #<MarkdownRecord::Demo::Section filename: "content_dsl", id: 3, name: "Content DSL", subdirectory: "content", type: "markdown_record/demo/section">
+DslCommand.find(1).section
+ => #<Section filename: "content_dsl", id: 3, name: "Content DSL", subdirectory: "content", type: "section">
 ```
 
 `has_many_content` will define a method that returns an `MarkdownRecord::Association` object, which you can then chain queries onto. `belongs_to_content`  and `has_one_content` will define methods that returns a single MarkdownContent model.
+
+### Scopes
+
+If a model is defined within a scope (using the `scope` Content DSL command), then all its associations are assumed to be within that scope, and must point to other models that are within that scope.
+
+Furthermore, when querying for models that are defined within a scope without using associations, you will need to provide the scope like so:
+
+```ruby
+DslCommand.find(1, "v_0_1_3")
+ => #<DslCommand description: "model is the main command...", scope: "v_0_1_3", scoped_id: "v_0_1_3:s:1", section_id: 3, subdirectory: "content", type: "dsl_command"> 
+```
+
+Or
+
+```ruby
+DslCommand.where(:section_id => 3, :scope => "v_0_1_3").all
+ => [#<DslCommand >,...]
+````
+
+Association methods do not need the `scope` provided, since they are assumed to be in the same scope as the model instance you call them on.
 
 ### Associations on ActiveRecord Models
 

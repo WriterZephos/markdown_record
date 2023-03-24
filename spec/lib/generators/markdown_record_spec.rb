@@ -27,7 +27,7 @@ RSpec.describe ::MarkdownRecordGenerator do
   }
 
   it "copies the correct files" do
-    expect(verify_files(files_and_directories, false)).to eq(true)
+    expect_files(files_and_directories, false)
     expect(File.read("config/routes.rb")).to include(routes_top_lines)
   end
 end

@@ -1,0 +1,162 @@
+This file uses the following Content DSL Methods:
+
+- `directory_fragment`
+- `fragment`
+- `use_layout`
+- `scope`
+- `model`
+- `attribute` (using types: `html`, `md`, `int`, `float`, `string`)
+- `end_attribute`
+- `end_model`
+- `disable`
+- `enable`
+
+This file should use the custom layout, which has a pink border.
+
+```html
+<!---use_layout:_custom_layout.html.erb-->
+````
+<!--use_layout:_custom_layout.html.erb-->
+
+This file's directory content fragment is defined as so (the breadcrumb links should reflect the name field):
+
+```html
+<!---directory_fragment { "name": "Content DSL Tests", "parent_id": "content/test_files_home" } -->
+````
+<!--directory_fragment { "name": "Content DSL Tests", "parent_id": "content/test_files_home" } -->
+
+This file's content fragment is defined as so:
+
+```html
+<!---fragment { "string_field": "foo", "int_field": 100, "float_field": 95.5, "bool_field": true, "date_field": "03/13/2023", "maybe_field": null }-->
+````
+<!--fragment { "string_field": "foo", "int_field": 100, "float_field": 95.5, "bool_field": true, "date_field": "03/13/2023", "maybe_field": null }-->
+
+The models defined in this subdirectory and it's nested directories are all in an isolated scope, using the `scope` DSL method:
+
+```html
+<!---scope:v_0_1_3-->
+````
+<!--scope:v_0_1_3-->
+
+The following MarkdownRecord::Tests::Model instances are defined:
+
+```html
+<!---model { "id": 1, "type": "tests/model", "string_field": "foo", "int_field": 100, "float_field": 95.5, "bool_field": true, "date_field": "03/13/2023", "maybe_field": null, "hash_field": {} }-->
+```
+
+<!--model { "id": 1, "type": "tests/model", "string_field": "foo", "int_field": 100, "float_field": 95.5, "bool_field": true, "date_field": "03/13/2023", "maybe_field": null, "hash_field": {} }-->
+
+<% model = Tests::Model.find(1, "v_0_1_3")%>
+Rendered: <% report = if model.present? %>
+<span class="success">YES</span>
+<% else %>
+<span class="failure">NO</span>
+<% end %>
+
+----
+
+```html
+<!---model { "id": 2, "type": "tests/model", "string_field": "bar", "int_field": 42, "float_field": 99.9, "bool_field": false, "date_field": "12/25/2020", "maybe_field": 50, "hash_field": { "some_data": { "some_field": 999 }}  }-->
+```
+
+<!--model { "id": 2, "type": "tests/model", "string_field": "bar", "int_field": 42, "float_field": 99.9, "bool_field": false, "date_field": "12/25/2020", "maybe_field": 50, "hash_field": { "some_data": { "some_field": 999 }}  }-->
+
+<% model = Tests::Model.find(2, "v_0_1_3")%>
+Rendered: <% report = if model.present? %>
+<span class="success">YES</span>
+<% else %>
+<span class="failure">NO</span>
+<% end %>
+
+----
+
+The following attributes are defined:
+
+```html
+<!---attribute:html:test_html_attribute-->
+<p>This is an html test attribute value for test model 2.</p>
+<!---end_attribute-->
+```
+
+<!--attribute:html:test_html_attribute-->
+<p>This is an html test attribute value for test model 2.</p>
+<!--end_attribute-->
+
+----
+
+```html
+<!---attribute:md:test_md_attribute-->
+#### This is a markdown test attribute value for test model 2.
+<!---end_attribute-->
+```
+
+<!--attribute:md:test_md_attribute-->
+#### This is a markdown test attribute value for test model 2.
+<!--end_attribute-->
+
+----
+
+```html
+<!---attribute:int:test_int_attribute-->
+999
+<!---end_attribute-->
+```
+
+<!--attribute:int:test_int_attribute-->
+999
+<!--end_attribute-->
+
+----
+
+The following model should not be rendered:
+
+```html
+<!---disable-->
+<!---model { "id": 3, "type": "tests/model", "string_field": "bar", "int_field": 42, "float_field": 99.9, "bool_field": false, "date_field": "12/25/2020", "maybe_field": 50, "hash_field": { "some_data": { "some_field": 999 }}  }-->
+<!---enable-->
+```
+
+<!--disable-->
+<!--model { "id": 3, "type": "tests/model", "string_field": "bar", "int_field": 42, "float_field": 99.9, "bool_field": false, "date_field": "12/25/2020", "maybe_field": 50, "hash_field": { "some_data": { "some_field": 999 }}  }-->
+<!--enable-->
+
+<% model = Tests::Model.find(3, scope)%>
+Rendered: <% report = if model.present? %>
+<span class="failure">YES</span>
+<% else %>
+<span class="success">NO</span>
+<% end %>
+
+----
+
+More attributes:
+
+```html
+<!---attribute:float:test_float_attribute-->
+96.3
+<!---end_attribute-->
+```
+
+----
+
+<!--attribute:float:test_float_attribute-->
+96.3
+<!--end_attribute-->
+
+<!--end_model-->
+
+This attribute should be on the first model, instead of the second one:
+
+```html
+<!---attribute:string:test_float_attribute-->
+This is a string test attribute value for test model 1.
+<!---end_attribute-->
+```
+
+<!--attribute:string:test_float_attribute-->
+This is a string test attribute value for test model 1.
+<!--end_attribute-->
+
+<!--end_model-->
+

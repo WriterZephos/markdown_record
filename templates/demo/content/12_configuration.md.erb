@@ -1,5 +1,5 @@
-<!--fragment { "author": "Bryant Morrill", "parent_id": "content/home", "name": "Configuration" } -->
-<!---model { "type": "markdown_record/demo/section", "id":   9, "name": "Configuration" } -->
+<!--fragment { "author": "Bryant Morrill", "relative_parent_id": "home", "name": "Configuration" } -->
+<!--model { "type": "section", "id": 11, "name": "Configuration" } -->
 
 # Configuration
 
@@ -24,3 +24,22 @@ You can configure `MarkdownRecord` in the initializer that is generated upon ins
 - `render_content_fragment_json`: a boolean value that determines whether MarkdownRecord renders content fragments and saves them to the `rendered_content_root` in JSON files with the `_fragments` suffix. If this is set to `false`, then MarkdownRecord will render your markdown content each time MarkdownRecord models queries are executed. This is set to `true` by default.
 - `render_controller`: the controller used to render ERB content during the rendering process. If this isn't set, then the host application's `ApplicationController` will be used. By default this is `nil`.
 - `ignore_numeric_prefix`: configures whether or not MarkdownRecord ignores the numeric prefixes of filenames. The default value is `true`. When it is set to `false`, the numeric prefixes will be included in the `filename` attribute of models, the `id` attribute of content fragments, and the `content_path` parameter of requests to the routes for rendered content.
+- `filename_sorter`: the file sorting instance to be used to organized concatenated content. The default value is `MarkdownRecord::FileSorting::Base.new`
+
+## File sorting
+
+MarkdownRecord uses an instance of `MarkdownRecord::FileSorting::Base` by default to sort files in order to determine concatenation order of the markdown content it renders. This class is also responsible for trimming the numeric prefix prefixes off filenames. However, two additional classes are available for this purpose to allow the use of different kinds of prefixes and sort orders. They are:
+
+- `MarkdownRecord::FileSorting::DateSorter`: this class sorts files by a date prefix. By default it expects to find a prefix matching the regular expression: `/^(\d\d\d\d?_\d\d?_\d\d?)/` and parses that prefix using the data pattern: `"%Y_%m_%d"`. However you can override both of these upon instantiation like so:
+
+    ```ruby
+      MarkdownRecord::FileSorting::DateSorter.new(<regexp>, <date_pattern_string>)
+    ````
+
+- `MarkdownRecord::FileSorting::SemVerSorter`: this class sorts files by a semantive version prefix. By default it expects to find a prefix matching the regular expression: `/(\d+(?:_\d+)*)(?:_|$)/`. This allows any number of version parts, including just a single number, which would make it functionally equivalent to the default file sorter `MarkdownRecord::FileSorting::Base`. However, you can override the regex used like so:
+
+    ```ruby
+      MarkdownRecord::FileSorting::SemVerSorter.new(<regexp>)
+    ````
+
+You may also implement your own file sorter. It only needs to implement a `to_sort_value(value)` method which returns an object that responds to `<=>`.

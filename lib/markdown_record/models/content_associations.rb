@@ -1,6 +1,7 @@
 module MarkdownRecord
   module ContentAssociations
     extend ActiveSupport::Concern
+    include MarkdownRecord::PathUtilities
 
     class_methods do
       def has_many_content(association, **options)
@@ -11,7 +12,7 @@ module MarkdownRecord
         raise ArgumentError.new("#{self} does not have the #{foreign_key} attribute required for this association.") unless self.attribute_names.include?(foreign_key)
 
         define_method(association) do
-          klass.new_association({:klass => klass, :id => self[foreign_key.to_sym]})
+          klass.new_association({:klass => klass, :scoped_id => self[foreign_key.to_sym]})
         end
       end
 
@@ -27,7 +28,8 @@ module MarkdownRecord
         raise ArgumentError.new("#{self} does not have the #{foreign_key} attribute required for this association.") unless self.attribute_names.include?(foreign_key)
         
         define_method(association) do
-          klass.find(self[foreign_key])
+          assoc_scope, assoc_id = scoped_id_to_parts(self[foreign_key])
+          klass.find(assoc_id, assoc_scope)
         end
       end
 

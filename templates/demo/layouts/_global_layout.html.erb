@@ -82,6 +82,7 @@
 
 <div class="container">
   <div class="navigation">
+    <div>Version: <%= MarkdownRecord::VERSION %></div>
     <ul>
       <li>Breadcrumbs: </li>
       <% fragment.parents_from("content/home").each_with_index do |frag, index| %>

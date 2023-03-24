@@ -78,13 +78,21 @@
   .navigation li{
     display: inline;
   }
+
+  .success{
+    color: green;
+  }
+
+  .failure{
+    color: red;
+  }
 </style>
 
 <div class="container">
   <div class="navigation">
     <ul>
       <li>Breadcrumbs: </li>
-      <% fragment.parents_from("content/home").each_with_index do |frag, index| %>
+      <% fragment.parents_from("content/test_files_home").each_with_index do |frag, index| %>
         <% unless index == 0%>
           <span class="breadcrumb_divider">/</span>
         <% end %>
@@ -97,7 +105,7 @@
   <div class="navigation">
     <ul>
       <li>Breadcrumbs: </li>
-      <% fragment.parents_from("content/home").each_with_index do |frag, index| %>
+      <% fragment.parents_from("content/test_files_home").each_with_index do |frag, index| %>
         <% unless index == 0%>
           <span class="breadcrumb_divider">/</span>
         <% end %>

@@ -33,7 +33,7 @@ module MarkdownRecord
     end
 
     def content_fragment(content_path = params[:content_path])
-      ::MarkdownRecord::ContentFragment.find(content_path)
+      @content_fragment ||= ::MarkdownRecord::ContentFragment.find(content_path)
     end
   end
 end

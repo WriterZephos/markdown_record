@@ -1,0 +1,152 @@
+<style>
+  body{
+    background-color: black;
+    padding: 10px;
+  }
+  code{
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    white-space: break-spaces;
+    background-color: rgb(110 118 129 / 40%);
+    border-radius: 6px;
+  }
+  pre{
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    color: #f2f2f2;
+    background-color: #161b22;
+    border-radius: 6px;
+    font-family: andale mono, monaco, monospace;
+    word-wrap: normal;
+  }
+  pre code{
+    color: inherit;
+    background-color: inherit;
+    font-family: inherit;
+    padding: 0px;
+    margin: 0;
+    font-size: inherit;
+    white-space: inherit;
+    background-color: inherit;
+    border-radius: 0px;
+  }
+  h1{
+    color: #6699ff;
+  }
+  h2{
+    color: #b3ccff;
+  }
+  h3{
+    color: #b3ccff;
+  }
+  h4{
+    color: #b3ccff;
+  }
+  a{
+    color: #33ffcc;
+  }
+  .container {
+    margin-bottom: 10px;
+    padding: 10px;
+    color: #f2f2f2;
+    background-color: #0d1117;
+    font-family: trebuchet ms;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .rendered_at{
+    font-size: 12px;
+  }
+  .navigation ul{
+    padding: 0px;
+  }
+  .navigation li{
+    display: inline;
+  }
+  .success{
+    color: green;
+  }
+  .failure{
+    color: red;
+  }
+</style>
+<div class="container">
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content/test_files_home">test_files_home</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/content_dsl_tests">Content DSL Tests</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/content_dsl_tests/content_dsl">content_dsl</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/content_dsl_tests/nested_directory">Sandbox</a></li>
+    </ul>
+  </div>
+  <style>
+    .concatenated{
+      border: 1px solid #a5d6ff;
+      padding: 10px;
+    }
+  </style>
+  <div class="concatenated">
+    <style>
+      .custom_layout_file {
+        padding: 10px;
+        border: 1px solid pink;
+        margin-bottom: 10px;
+      }
+    </style>
+    <div class="custom_layout_file">
+      <h3>Rendered Using a Custom Layout</h3>
+      <p>This file should use the custom layout, which has a pink border.</p>
+      <p>This file defines several Tests::ChildModel instances:</p>
+      <pre><code class="html">&lt;!--model { &quot;id&quot;: 1, &quot;type&quot;: &quot;tests/child_model&quot;, &quot;model_id&quot;: 1, &quot;string_field&quot;: &quot;hey&quot;, &quot;int_field&quot;: 100, &quot;float_field&quot;: 95.5, &quot;bool_field&quot;: true, &quot;date_field&quot;: &quot;03/13/2023&quot;, &quot;maybe_field&quot;: null, &quot;hash_field&quot;: {} }--&gt;
+</code></pre>
+      Rendered: 
+      <span class="success">YES</span>
+      <hr>
+      <pre><code class="html">&lt;!--model { &quot;id&quot;: 2, &quot;type&quot;: &quot;tests/child_model&quot;, &quot;model_id&quot;: 1, &quot;string_field&quot;: &quot;asdf&quot;, &quot;int_field&quot;: 333, &quot;float_field&quot;: 10.5, &quot;bool_field&quot;: false, &quot;date_field&quot;: &quot;01/01/2000&quot;, &quot;maybe_field&quot;: 7, &quot;hash_field&quot;: {} }--&gt;
+</code></pre>
+      Rendered: 
+      <span class="success">YES</span>
+      <hr>
+      <pre><code class="html">&lt;!--model { &quot;id&quot;: 3, &quot;type&quot;: &quot;tests/child_model&quot;, &quot;model_id&quot;: 2, &quot;string_field&quot;: &quot;qwert&quot;, &quot;int_field&quot;: 42, &quot;float_field&quot;: 1776, &quot;bool_field&quot;: true, &quot;date_field&quot;: &quot;09/11/2001&quot;, &quot;maybe_field&quot;: null, &quot;hash_field&quot;: { &quot;some_data&quot;: { &quot;some_field&quot;: 555 }}  }--&gt;
+</code></pre>
+      Rendered: 
+      <span class="success">YES</span>
+      <hr>
+      <pre><code class="html">&lt;!--model { &quot;id&quot;: 4, &quot;type&quot;: &quot;tests/child_model&quot;, &quot;model_id&quot;: 2, &quot;string_field&quot;: &quot;ho&quot;, &quot;int_field&quot;: 42, &quot;float_field&quot;: 99.9, &quot;bool_field&quot;: false, &quot;date_field&quot;: &quot;12/25/2020&quot;, &quot;maybe_field&quot;: 50, &quot;hash_field&quot;: { &quot;some_data&quot;: { &quot;some_field&quot;: 999 }}  }--&gt;
+</code></pre>
+      Rendered: 
+      <span class="success">YES</span>
+      <hr>
+      <p>And one MarkdownRecord::Tests::OtherChildModels:</p>
+      <pre><code class="html">&lt;!--model { &quot;id&quot;: 1, &quot;type&quot;: &quot;tests/other_child_model&quot;, &quot;model_id&quot;: 2, &quot;string_field&quot;: &quot;ho&quot;, &quot;int_field&quot;: 42, &quot;float_field&quot;: 99.9, &quot;bool_field&quot;: false, &quot;date_field&quot;: &quot;12/25/2020&quot;, &quot;maybe_field&quot;: 50, &quot;hash_field&quot;: { &quot;some_data&quot;: { &quot;some_field&quot;: 999 }}  }--&gt;
+</code></pre>
+      Rendered: 
+      <span class="success">YES</span>
+      <hr>
+      <!--content/content_dsl_tests/nested_directory/associations-->
+      <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/content/content_dsl_tests/nested_directory/associations">content/content_dsl_tests/nested_directory/associations</a></em></p>
+    </div>
+    <!--content/content_dsl_tests/nested_directory-->
+    <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/content/content_dsl_tests/nested_directory">content/content_dsl_tests/nested_directory</a></em></p>
+  </div>
+  <!--content/content_dsl_tests/nested_directory-->
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content/test_files_home">test_files_home</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/content_dsl_tests">Content DSL Tests</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/content_dsl_tests/content_dsl">content_dsl</a></li>
+      <span class="breadcrumb_divider">/</span>
+      <li><a href="/mdr/content/content_dsl_tests/nested_directory">Sandbox</a></li>
+    </ul>
+  </div>
+</div>

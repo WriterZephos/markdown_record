@@ -1,0 +1,128 @@
+<style>
+  body{
+    background-color: black;
+    padding: 10px;
+  }
+  code{
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    white-space: break-spaces;
+    background-color: rgb(110 118 129 / 40%);
+    border-radius: 6px;
+  }
+  pre{
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    color: #f2f2f2;
+    background-color: #161b22;
+    border-radius: 6px;
+    font-family: andale mono, monaco, monospace;
+    word-wrap: normal;
+  }
+  pre code{
+    color: inherit;
+    background-color: inherit;
+    font-family: inherit;
+    padding: 0px;
+    margin: 0;
+    font-size: inherit;
+    white-space: inherit;
+    background-color: inherit;
+    border-radius: 0px;
+  }
+  h1{
+    color: #6699ff;
+  }
+  h2{
+    color: #b3ccff;
+  }
+  h3{
+    color: #b3ccff;
+  }
+  h4{
+    color: #b3ccff;
+  }
+  a{
+    color: #33ffcc;
+  }
+  .container {
+    margin-bottom: 10px;
+    padding: 10px;
+    color: #f2f2f2;
+    background-color: #0d1117;
+    font-family: trebuchet ms;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .rendered_at{
+    font-size: 12px;
+  }
+  .navigation ul{
+    padding: 0px;
+  }
+  .navigation li{
+    display: inline;
+  }
+  .success{
+    color: green;
+  }
+  .failure{
+    color: red;
+  }
+</style>
+<div class="container">
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content/test_files_home">test_files_home</a></li>
+    </ul>
+  </div>
+  <style>
+    .file {
+      padding: 10px;
+      border: 1px solid #cc4400;
+      margin-bottom: 10px;
+    }
+  </style>
+  <div class="file">
+    <h1>Test Files Home</h1>
+    <p>This file links to the other test files, and thus test the link helpers.</p>
+    <p>Here is a link to the Content DSL Test concatenated file:</p>
+    <a href="/mdr/content/content_dsl_tests">Content DSL Test File</a>
+    <p>Here is a link to the associations file that uses <code>fragment.find_relative</code>:</p>
+    <a href="/mdr/content/content_dsl_tests/nested_directory/associations">Associations Test Files</a>
+    <p>Here is a complete list of links to all the rendered test files (each item has a JSON and an HTML version), all of which use the routes described above:</p>
+    - <a href="/mdr/content/content_dsl_tests/content_dsl">content/content_dsl_tests/content_dsl</a><br>
+    - <a href="/mdr/content/content_dsl_tests/nested_directory/associations">content/content_dsl_tests/nested_directory/associations</a><br>
+    - <a href="/mdr/content/content_dsl_tests/nested_directory">content/content_dsl_tests/nested_directory</a><br>
+    - <a href="/mdr/content/content_dsl_tests">content/content_dsl_tests</a><br>
+    - <a href="/mdr/content/test_files_home">content/test_files_home</a><br>
+    - <a href="/mdr/content">content</a><br>
+    - <a href="/mdr/html/content/content_dsl_tests/content_dsl">html/content/content_dsl_tests/content_dsl</a><br>
+    - <a href="/mdr/html/content/content_dsl_tests/nested_directory/associations">html/content/content_dsl_tests/nested_directory/associations</a><br>
+    - <a href="/mdr/html/content/content_dsl_tests/nested_directory">html/content/content_dsl_tests/nested_directory</a><br>
+    - <a href="/mdr/html/content/content_dsl_tests">html/content/content_dsl_tests</a><br>
+    - <a href="/mdr/html/content/test_files_home">html/content/test_files_home</a><br>
+    - <a href="/mdr/html/content">html/content</a><br>
+    - <a href="/mdr/json/content/content_dsl_tests/content_dsl">json/content/content_dsl_tests/content_dsl</a><br>
+    - <a href="/mdr/json/content/content_dsl_tests/nested_directory/associations">json/content/content_dsl_tests/nested_directory/associations</a><br>
+    - <a href="/mdr/json/content/content_dsl_tests/nested_directory">json/content/content_dsl_tests/nested_directory</a><br>
+    - <a href="/mdr/json/content/content_dsl_tests">json/content/content_dsl_tests</a><br>
+    - <a href="/mdr/json/content/test_files_home">json/content/test_files_home</a><br>
+    - <a href="/mdr/json/content">json/content</a><br>
+    <p>Here is an image generated using <code>image_tag</code> to verify that Rails tag helpers are working:</p>
+    <img src="/assets/ruby-logo-f7e5cfd4f5b7652bada815c4c5336faccb05c8d37b95decec01747f459bba450.png" />
+    <!--content/test_files_home-->
+    <p class="rendered_at"><em>The above content was rendered from source files at: <a href="/mdr/content/test_files_home">content/test_files_home</a></em></p>
+  </div>
+  <!--content/test_files_home-->
+  <div class="navigation">
+    <ul>
+      <li>Breadcrumbs: </li>
+      <li><a href="/mdr/content/test_files_home">test_files_home</a></li>
+    </ul>
+  </div>
+</div>

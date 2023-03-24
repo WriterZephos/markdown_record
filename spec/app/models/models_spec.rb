@@ -3,79 +3,88 @@
 require "spec_helper"
 
 RSpec.describe :models, :render => true do
+  let(:scope) { "v_0_1_3" }
 
   describe "MarkdownRecord models" do
-    describe "MarkdownRecord::Tests::Model" do
+    describe "Tests::Model" do
       describe "attributes" do
         it "has base model attributes" do
-          expect(MarkdownRecord::Tests::Model.attribute_names.include?("id")).to eq(true)
-          expect(MarkdownRecord::Tests::Model.attribute_names.include?("subdirectory")).to eq(true)
-          expect(MarkdownRecord::Tests::Model.attribute_names.include?("filename")).to eq(true)
-          expect(MarkdownRecord::Tests::Model.attribute_names.include?("type")).to eq(true)
+          expect(Tests::Model.attribute_names.include?("id")).to eq(true)
+          expect(Tests::Model.attribute_names.include?("subdirectory")).to eq(true)
+          expect(Tests::Model.attribute_names.include?("filename")).to eq(true)
+          expect(Tests::Model.attribute_names.include?("type")).to eq(true)
         end
       end
   
       describe "has_many_content" do
         it "has a has_many association with chapters" do
-          expect(MarkdownRecord::Tests::Model.find(1).child_models.all).to eq([MarkdownRecord::Tests::ChildModel.find(1), MarkdownRecord::Tests::ChildModel.find(2)])
+          expect(Tests::Model.find(1, scope).child_models.all).to eq([Tests::ChildModel.find(1, scope), Tests::ChildModel.find(2, scope)])
         end
       end
 
       describe "children" do
         it "has a parent/child association with models and child models" do
-          expect(MarkdownRecord::Tests::Model.find(1).children.all).to eq(MarkdownRecord::Tests::ChildModel.all + MarkdownRecord::Tests::OtherChildModel.all)
+          expect(Tests::Model.find(1, scope).children.all).to eq(Tests::ChildModel.all + Tests::OtherChildModel.all)
         end
       end
     end
 
-    describe "MarkdownRecord::Tests::ChildModel" do
+    describe "Tests::ChildModel" do
       describe "belongs_to_content" do
         it "has a belongs_to association with a book" do
-          expect(MarkdownRecord::Tests::ChildModel.find(1).model).to eq(MarkdownRecord::Tests::Model.find(1))
+          expect(Tests::ChildModel.find(1, scope).model).to eq(Tests::Model.find(1, scope))
         end
       end
 
       describe "where" do
-        it "filters by not_null" do
-          expect(MarkdownRecord::Tests::ChildModel.where(:maybe_field => :not_null).all).to eq([MarkdownRecord::Tests::ChildModel.find(2), MarkdownRecord::Tests::ChildModel.find(4)])
-        end
-
-        it "filters by null" do
-          expect(MarkdownRecord::Tests::ChildModel.where(:maybe_field => :null).all).to eq([MarkdownRecord::Tests::ChildModel.find(1), MarkdownRecord::Tests::ChildModel.find(3)])
-        end
-
-        it "filters by nil" do
-          expect(MarkdownRecord::Tests::ChildModel.where(:maybe_field => nil).all).to eq([MarkdownRecord::Tests::ChildModel.find(1), MarkdownRecord::Tests::ChildModel.find(3)])
-        end
-
-        it "filters by regex" do
-          expect(MarkdownRecord::Tests::ChildModel.where(:string_field => /^asdf/).all).to eq([MarkdownRecord::Tests::ChildModel.find(2)])
+        it "filters by array of values" do
+          expect(Tests::ChildModel.where(:int_field => [42, 100.7], :scope => scope).all).to eq([Tests::ChildModel.find(3, scope), Tests::ChildModel.find(4, scope)])
         end
 
         it "filters by value" do
-          expect(MarkdownRecord::Tests::ChildModel.where(:float_field => 99.9).all).to eq([MarkdownRecord::Tests::ChildModel.find(4)])
+          expect(Tests::ChildModel.where(:float_field => 99.9).all).to eq([Tests::ChildModel.find(4, scope)])
         end
 
-        it "filters by array of values" do
-          expect(MarkdownRecord::Tests::ChildModel.where(:int_field => [42, 100.7]).all).to eq([MarkdownRecord::Tests::ChildModel.find(3), MarkdownRecord::Tests::ChildModel.find(4)])
+        it "filters by hash" do
+          expect(Tests::ChildModel.where(:hash_field => {:some_data => { :some_field => 999}}, :scope => scope).all).to eq([Tests::ChildModel.find(4, scope)])
+        end
+
+        it "filters by nil" do
+          expect(Tests::ChildModel.where(:maybe_field => nil, :scope => scope).all).to eq([Tests::ChildModel.find(1, scope), Tests::ChildModel.find(3, scope)])
+        end
+
+        it "filters by range" do
+          expect(Tests::ChildModel.where(:int_field => 67..101).all).to eq([Tests::ChildModel.find(1, scope)])
+        end
+
+        it "filters by regexp" do
+          expect(Tests::ChildModel.where(:string_field => /^asdf/).all).to eq([Tests::ChildModel.find(2, scope)])
+        end
+
+        it "filters by not_null" do
+          expect(Tests::ChildModel.where(:maybe_field => :not_null).all).to eq([Tests::ChildModel.find(2, scope), Tests::ChildModel.find(4, scope)])
+        end
+
+        it "filters by null" do
+          expect(Tests::ChildModel.where(:maybe_field => :null).all).to eq([Tests::ChildModel.find(1, scope), Tests::ChildModel.find(3, scope)])
         end
       end
 
       describe "siblings" do
         it "has a sibling association with any models in the same subdirectory" do
-          expect(MarkdownRecord::Tests::ChildModel.find(1).siblings.all).to eq([MarkdownRecord::Tests::ChildModel.find(2), MarkdownRecord::Tests::ChildModel.find(3), MarkdownRecord::Tests::ChildModel.find(4), MarkdownRecord::Tests::OtherChildModel.find(1)])
+          expect(Tests::ChildModel.find(1, scope).siblings.all).to eq([Tests::ChildModel.find(2, scope), Tests::ChildModel.find(3, scope), Tests::ChildModel.find(4, scope), Tests::OtherChildModel.find(1, scope)])
         end
       end
 
       describe "class_siblings" do
         it "has a sibling association with chil models in the same subdirectory" do
-          expect(MarkdownRecord::Tests::ChildModel.find(1).class_siblings.all).to eq([MarkdownRecord::Tests::ChildModel.find(2), MarkdownRecord::Tests::ChildModel.find(3), MarkdownRecord::Tests::ChildModel.find(4)])
+          expect(Tests::ChildModel.find(1, scope).class_siblings.all).to eq([Tests::ChildModel.find(2, scope), Tests::ChildModel.find(3, scope), Tests::ChildModel.find(4, scope)])
         end
       end
 
       describe "fragment" do
         it "returns the correct content fragment model" do
-          expect(MarkdownRecord::Tests::ChildModel.find(1).fragment).to eq( MarkdownRecord::ContentFragment.find("content/sandbox/sandbox_nested/bar"))
+          expect(Tests::ChildModel.find(1, scope).fragment).to eq( MarkdownRecord::ContentFragment.find("content/content_dsl_tests/nested_directory/associations"))
         end
       end
 
@@ -155,37 +164,37 @@ RSpec.describe :models, :render => true do
 
     describe "read_json" do
       let(:file){
-        File.read("markdown_record/rendered/content/sandbox/foo.json")
+        File.read("markdown_record/rendered/content/content_dsl_tests/content_dsl.json")
       }
 
       it "reads the associated file" do
-        expect(MarkdownRecord::ContentFragment.find("content/sandbox/foo").read_json).to eq (file)
+        expect(MarkdownRecord::ContentFragment.find("content/content_dsl_tests/content_dsl").read_json).to eq (file)
       end
     end
 
     describe "read_html" do
       let(:file){
-        File.read("markdown_record/rendered/content/sandbox/foo.html")
+        File.read("markdown_record/rendered/content/content_dsl_tests/content_dsl.html")
       }
 
       it "reads the associated file" do
-        expect(MarkdownRecord::ContentFragment.find("content/sandbox/foo").read_html).to eq (file)
+        expect(MarkdownRecord::ContentFragment.find("content/content_dsl_tests/content_dsl").read_html).to eq (file)
       end
     end
   end
 
   describe "ActiveRecord Models" do
-    describe " MarkdownRecord::Tests::FakeActiveRecordModel" do
+    describe " Tests::FakeActiveRecordModel" do
       let(:ar_model) {
-        MarkdownRecord::Tests::FakeActiveRecordModel.new(:model_ids => [1, 2], :child_model_id => 3)
+        Tests::FakeActiveRecordModel.new(:model_ids => ["v_0_1_3:s:1", "v_0_1_3:s:2"], :child_model_id => "v_0_1_3:s:3")
       }
 
       it "has a has many association whith Models" do
-        expect(ar_model.models.all).to eq([MarkdownRecord::Tests::Model.find(1), MarkdownRecord::Tests::Model.find(2)])
+        expect(ar_model.models.all).to eq([Tests::Model.find(1, scope), Tests::Model.find(2, scope)])
       end
 
       it "has a has a belongs to association whith ChildModel" do
-        expect(ar_model.child_model).to eq(MarkdownRecord::Tests::ChildModel.find(3))
+        expect(ar_model.child_model).to eq(Tests::ChildModel.find(3, scope))
       end
     end
   end

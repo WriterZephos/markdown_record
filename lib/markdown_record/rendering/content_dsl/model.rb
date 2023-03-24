@@ -1,14 +1,13 @@
 module MarkdownRecord
   module ContentDsl
     module Model
-      TEMP = /<!--\s*model\s*({[\s"'\\\w:,.\[\]\{\}_\/]*})\s*-->/
-      REGEX = /(?<!`|`\\n|`html\\n)<!--\s*model\s*({[\s"'\\\w:,.\[\]\{\}_\/]*})\s*-->(?!`|\\n`)/
-      ENCODED_REGEX = /(?<!<code>|<code class="html">)&lt;!--\s*model\s*({[\s"'\\\w:,.\[\]\{\}_\/]*})\s*--&gt;(?!<\/code>)/
+      REGEX = /<!--\s*model\s*({[\s"'\\\w:,.\[\]\{\}_\/|\-]*})\s*-->/
+      ENCODED_REGEX = /&lt;!--\s*model\s*({[\s"'\\\w:,.\[\]\{\}_\/|\-]*})\s*--&gt;/
 
       def model_dsl(text)
         match = text.match(REGEX)
 
-        if match  
+        if match
           JSON.parse(match[1])
         else
           nil
@@ -16,7 +15,7 @@ module MarkdownRecord
       end
 
       def self.remove_dsl(text)
-        text.gsub(ENCODED_REGEX, "")
+        text.gsub(REGEX, "").gsub(ENCODED_REGEX, "")
       end
     end
   end

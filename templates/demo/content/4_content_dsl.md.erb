@@ -1,5 +1,5 @@
-<!--fragment { "author": "Bryant Morrill", "parent_id": "content/home", "name": "Content DSL" } -->
-<!--model { "type": "markdown_record/demo/section", "id":   3, "name": "Content DSL" } -->
+<!--fragment { "author": "Bryant Morrill", "relative_parent_id": "home", "name": "Content DSL" } -->
+<!--model { "type": "section", "id": 3, "name": "Content DSL" } -->
 
 # Content DSL
 
@@ -12,7 +12,7 @@ To do this, simply write an HTML comment like this in your markdown files:
 ```html
 <!---model 
   { 
-    "type": "markdown_record/demo/dsl_command",
+    "type": "dsl_command",
     "id": 1, 
     "name": "model",
     "example_id": 1
@@ -26,7 +26,7 @@ As you can see, all that is required is a JSON object inside a special comment t
 
 There are several different DSL commands that you can use to define application data within your markdown source documents. They are as follows:
 
-<!--model { "type": "markdown_record/demo/dsl_command", "id": 1, "name": "model", "section_id": 3 } -->
+<!--model { "type": "dsl_command", "id": 1, "name": "model", "section_id": 3 } -->
 <!--attribute:description:string-->
 - `model` is the main command that tells MarkdownRecord that you want to define a model or JSON object. The only attribute required in the json object you provide is the `type` attribute, which is used as an index in the final JSON output (each index points to an array of objects of that type). The type can be whatever you want if you don't plan on using corresponding Ruby models. If you *do* plan to use corresponding Ruby models, then the `type` attribute should match the fully qualified class name of the model in underscore form (i.e. `Foo::BarBaz` would be `foo/bar_baz`). 
     
@@ -36,7 +36,7 @@ There are several different DSL commands that you can use to define application 
     See the example above.
     <!--end_model-->
     
-<!--model { "type": "markdown_record/demo/dsl_command", "id": 2, "name": "attribute", "section_id": 3 } -->
+<!--model { "type": "dsl_command", "id": 2, "name": "attribute", "section_id": 3 } -->
 <!--attribute:description:string--> 
 - `attribute:<attribute_name>:<type>` tells MarkdownRecord that any text that follows should be assigned to the top model on the stack as the value of the given attribute, until it sees the `end_attribute` command.
   
@@ -49,7 +49,7 @@ There are several different DSL commands that you can use to define application 
     <!---attribute:description:string-->
     ```
     <!--end_model-->
-<!--model { "type": "markdown_record/demo/dsl_command", "id": 3, "name": "end_attribute", "section_id": 3 } -->
+<!--model { "type": "dsl_command", "id": 3, "name": "end_attribute", "section_id": 3 } -->
 <!--attribute:description:string-->
 - `end_attribute` tells MarkdownRecord to stop assigning text as an attribute value to the top model on the stack. If the top most model is popped before this command is given or the end of the source file is reached, then it implicitly stops assigning text to it.
 <!--end_attribute-->
@@ -60,7 +60,7 @@ There are several different DSL commands that you can use to define application 
     <!---end_attribute-->
     ```
     <!--end_model-->
-<!--model { "type": "markdown_record/demo/dsl_command", "id": 4, "name": "end_model", "section_id": 3 } -->
+<!--model { "type": "dsl_command", "id": 4, "name": "end_model", "section_id": 3 } -->
 <!--attribute:description:string-->
 - `end_model` tells MarkdownRecord to pop the top model of the stack. This command isn't necessary unless you are defining models in a way that requires you to assign attributes to a model that is no longer the top model on the stack.
 <!--end_attribute-->
@@ -71,7 +71,7 @@ There are several different DSL commands that you can use to define application 
     <!---end_model-->
     ```
     <!--end_model-->
-<!--model { "type": "markdown_record/demo/dsl_command", "id": 5, "name": "fragment", "section_id": 3 } -->
+<!--model { "type": "dsl_command", "id": 5, "name": "fragment", "section_id": 3 } -->
 <!--attribute:description:string-->
 - `fragment` is similar to `model` in that it expects a JSON object, but the object is assigned to the `meta` attribute of the `ContentFragment` corresponding to the current markdown file. As such, this command should only be used once in each file. This command provides a way of attaching custom data to ContentFragments, such as a layout you want to use for rendering from a controller, details about the content's author, or perhaps who should be able to access it, etc. You can then interact this data in your application code.
 
@@ -84,12 +84,12 @@ There are several different DSL commands that you can use to define application 
     <!---fragment { "author": "Bryant Morrill" } -->
     ```
     <!--end_model-->
-<!--model { "type": "markdown_record/demo/dsl_command", "id": 6, "name": "directory_fragment", "section_id": 3 } -->
+<!--model { "type": "dsl_command", "id": 6, "name": "directory_fragment", "section_id": 3 } -->
 <!--attribute:description:string-->
 - `directory_fragment` is used exactly the same way as `fragment` but defines the `meta` attribute of the `ContentFragment` for the current directory. As such, this should only be used once per directory level, otherwise subsequently defined data might overwrite preceding data.
 <!--end_attribute-->
 <!--end_model-->
-<!--model { "type": "markdown_record/demo/dsl_command", "id": 7, "name": "use_layout", "section_id": 3 } -->
+<!--model { "type": "dsl_command", "id": 7, "name": "use_layout", "section_id": 3 } -->
 <!--attribute:description:string-->
 - `use_layout:<path>` simply specifies a layout by its relative file path to use when rendering the current markdown file to HTML. This is useful for when you have specific markdown files that you want to render using a different layout than the layout configured for use with all other files.
 <!--end_attribute-->
@@ -97,7 +97,18 @@ There are several different DSL commands that you can use to define application 
     Example:
     
     ```html
-    <!--use_layout:_custom_layout.html.erb-->
+    <!---use_layout:_custom_layout.html.erb-->
+    ```
+    <!--end_model-->
+
+- `scope:<scope_name>` defines a scope that will apply to all models defined in the current subdirectory and all nested directories until another scope is defines. By default, all models exist in the `nil` scope if no scope is defined. Scopes provide isolation for models, which allows you to copy content and reuse model ids, as long as the duplicate ids do not exist in the same scope. The trade off, however, is that you will need to provide the scope when querying for those models in your application code.
+
+    This is advantageous for things like versioned documents, where you want to duplicate your content and it would be a hassle to change ids and keep track of ids across versions.
+
+    Example:
+    
+    ```html
+    <!---scope:v_0_1_4-->
     ```
     <!--end_model-->
 

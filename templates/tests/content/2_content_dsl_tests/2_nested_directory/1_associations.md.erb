@@ -1,0 +1,83 @@
+<!--directory_fragment { "author": "You", "name": "Sandbox", "parent_id": "content/content_dsl_tests/content_dsl" } -->
+<!--use_layout:_custom_layout.html.erb-->
+
+This file should use the custom layout, which has a pink border.
+
+This file defines several Tests::ChildModel instances:
+
+```html
+<!---model { "id": 1, "type": "tests/child_model", "model_id": 1, "string_field": "hey", "int_field": 100, "float_field": 95.5, "bool_field": true, "date_field": "03/13/2023", "maybe_field": null, "hash_field": {} }-->
+```
+
+<!--model { "id": 1, "type": "tests/child_model", "model_id": 1, "string_field": "hey", "int_field": 100, "float_field": 95.5, "bool_field": true, "date_field": "03/13/2023", "maybe_field": null, "hash_field": {} }-->
+
+<% model = Tests::ChildModel.find(1, scope)%>
+Rendered: <% report = if model.present? %>
+<span class="success">YES</span>
+<% else %>
+<span class="failure">NO</span>
+<% end %>
+
+----
+
+```html
+<!---model { "id": 2, "type": "tests/child_model", "model_id": 1, "string_field": "asdf", "int_field": 333, "float_field": 10.5, "bool_field": false, "date_field": "01/01/2000", "maybe_field": 7, "hash_field": {} }-->
+```
+
+<!--model { "id": 2, "type": "tests/child_model", "model_id": 1, "string_field": "asdf", "int_field": 333, "float_field": 10.5, "bool_field": false, "date_field": "01/01/2000", "maybe_field": 7, "hash_field": {} }-->
+
+<% model = Tests::ChildModel.find(2, scope)%>
+Rendered: <% report = if model.present? %>
+<span class="success">YES</span>
+<% else %>
+<span class="failure">NO</span>
+<% end %>
+
+----
+
+```html
+<!---model { "id": 3, "type": "tests/child_model", "model_id": 2, "string_field": "qwert", "int_field": 42, "float_field": 1776, "bool_field": true, "date_field": "09/11/2001", "maybe_field": null, "hash_field": { "some_data": { "some_field": 555 }}  }-->
+```
+
+<!--model { "id": 3, "type": "tests/child_model", "model_id": 2, "string_field": "qwert", "int_field": 42, "float_field": 1776, "bool_field": true, "date_field": "09/11/2001", "maybe_field": null, "hash_field": { "some_data": { "some_field": 555 }}  }-->
+
+<% model = Tests::ChildModel.find(3, scope)%>
+Rendered: <% report = if model.present? %>
+<span class="success">YES</span>
+<% else %>
+<span class="failure">NO</span>
+<% end %>
+
+----
+
+```html
+<!---model { "id": 4, "type": "tests/child_model", "model_id": 2, "string_field": "ho", "int_field": 42, "float_field": 99.9, "bool_field": false, "date_field": "12/25/2020", "maybe_field": 50, "hash_field": { "some_data": { "some_field": 999 }}  }-->
+```
+
+<!--model { "id": 4, "type": "tests/child_model", "model_id": 2, "string_field": "ho", "int_field": 42, "float_field": 99.9, "bool_field": false, "date_field": "12/25/2020", "maybe_field": 50, "hash_field": { "some_data": { "some_field": 999 }}  }-->
+
+<% model = Tests::ChildModel.find(4, scope)%>
+Rendered: <% report = if model.present? %>
+<span class="success">YES</span>
+<% else %>
+<span class="failure">NO</span>
+<% end %>
+
+----
+
+And one MarkdownRecord::Tests::OtherChildModels:
+
+```html
+<!---model { "id": 1, "type": "tests/other_child_model", "model_id": 2, "string_field": "ho", "int_field": 42, "float_field": 99.9, "bool_field": false, "date_field": "12/25/2020", "maybe_field": 50, "hash_field": { "some_data": { "some_field": 999 }}  }-->
+```
+
+<!--model { "id": 1, "type": "tests/other_child_model", "model_id": 2, "string_field": "ho", "int_field": 42, "float_field": 99.9, "bool_field": false, "date_field": "12/25/2020", "maybe_field": 50, "hash_field": { "some_data": { "some_field": 999 }}  }-->
+
+<% model = Tests::OtherChildModel.find(1, scope)%>
+Rendered: <% report = if model.present? %>
+<span class="success">YES</span>
+<% else %>
+<span class="failure">NO</span>
+<% end %>
+
+----

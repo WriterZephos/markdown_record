@@ -1,17 +1,21 @@
 <!--directory_fragment { "name": "Demo", "author": "Bryant Morrill" } -->
 <!--fragment { "name": "Home", "author": "Bryant Morrill" } -->
 
+<!--model {"type": "version", "id": "1"}-->
+
 # MarkdownRecord
 
 Welcome to MarkdownRecord!
 
 This document will walk you through the many powerful features of MarkdownRecord, and is created with MarkdownRecord itself. Hopefully, you are rendering this page locally from your own application, and will be able to get a peak under the hood to see how it all works by looking directly at the source markdown files.
 
-If you haven't installed it locally yet, you can find instructions <%= link_to_markdown_record(::MarkdownRecord::ContentFragment.find("content/installation"), "here") %>.
+If you haven't installed it locally yet, you can find instructions <%= link_to_markdown_record(fragment.find_relative("installation"), "here") %>.
 
 After following the installation guide, you should see a `markdown_record` folder inside your application root. This folder contains three subdirectories: `content`, `layouts` and `rendered`.
 
 Feel free to poke around and explore the files in the directories mentioned above as you go through this guide. They will serve as a great reference to help make sense of the features and concepts described here.
+
+You can find the hosted version of these docs [here](https://markdown-record-docs.herokuapp.com/).
 
 ## Workflow
 
@@ -23,18 +27,31 @@ The general workflow while using MarkdownRecord, once installed in your applicat
 4. Use the provided view helpers to link to the rendered content in your application's views, relying only on the controllers provided by the engine for serving the content if you wish.
 5. Use model classes inheriting from `MarkdownRecord::Base` to interact with your html and json rendered content, taking advantage of the associations you can define manually as well a the automatic associations they have based on content location.
 
-The next step is to read through the <%= link_to_markdown_record(::MarkdownRecord::ContentFragment.find("content/rendering_basics"), "Rendering Basics") %> section to understand the basic rendering process of markdown source content into HTML and JSON.
+The next step is to read through the <%= link_to_markdown_record(fragment.find_relative("rendering_basics"), "Rendering Basics") %> section to understand the basic rendering process of markdown source content into HTML and JSON.
 
 The following links will take you to other sections of this guide. Each section builds upon the last, so it is recommended to read through them in order if you are new to MarkdownRecord.
 
-- <%= link_to_markdown_record(::MarkdownRecord::ContentFragment.find("content/content_dsl"))%> 
-- <%= link_to_markdown_record(::MarkdownRecord::ContentFragment.find("content/routes")) %>
-- <%= link_to_markdown_record(::MarkdownRecord::ContentFragment.find("content/model_basics")) %>
-- <%= link_to_markdown_record(::MarkdownRecord::ContentFragment.find("content/content_frags")) %>
-- <%= link_to_markdown_record(::MarkdownRecord::ContentFragment.find("content/erb_syntax_and_view_helpers")) %>
-- <%= link_to_markdown_record(::MarkdownRecord::ContentFragment.find("content/layouts")) %>
-- <%= link_to_markdown_record(::MarkdownRecord::ContentFragment.find("content/custom_models_and_associations")) %>
-- <%= link_to_markdown_record(::MarkdownRecord::ContentFragment.find("content/controller_helpers")) %>
-- <%= link_to_markdown_record(::MarkdownRecord::ContentFragment.find("content/configuration")) %>
-- <%= link_to_markdown_record(::MarkdownRecord::ContentFragment.find("content/sandbox")) %>
+- <%= link_to_markdown_record(fragment.find_relative("content_dsl"))%> 
+- <%= link_to_markdown_record(fragment.find_relative("routes")) %>
+- <%= link_to_markdown_record(fragment.find_relative("model_basics")) %>
+- <%= link_to_markdown_record(fragment.find_relative("content_frags")) %>
+- <%= link_to_markdown_record(fragment.find_relative("erb_syntax_and_view_helpers")) %>
+- <%= link_to_markdown_record(fragment.find_relative("layouts")) %>
+- <%= link_to_markdown_record(fragment.find_relative("custom_models_and_associations")) %>
+- <%= link_to_markdown_record(fragment.find_relative("controller_helpers")) %>
+- <%= link_to_markdown_record(fragment.find_relative("configuration")) %>
+- <%= link_to_markdown_record(fragment.find_relative("sandbox")) %>
 
+## 0.1.4 Release Notes
+
+Version 0.1.4 is the second beta version to be published and is packed with tons of big improvements. This is the first version that is really usable. Changes since 0.1.3 are as follows:
+
+- Added rendering scopes to isolate models within scopes, allowing reuse of ids, etc.
+- View helper quality of life changes - chaining url and path helpers onto `main_app` is no longer necessary.
+- Added a new `render_fragment` view helper.
+- Made MarkdownRecord models compatible with the Rails `dom_id` view helper.
+- Made view helper links use the id basename for Content Fragments by default (if no other text is provided) if the `meta[:name]` field isn't set.
+- Allow setting the `relative_parent_id` for content fragments, which overrides the `parent` just like `parent_id` but with a relative id.
+- Added `find_relative` method on `MarkdownRecord::ContentFragment`.
+- Greatly enhanced file sorting and numeric prefix options, so that prefixing files with dates or semantic versions is now possible.
+- HUGE refactors and code improvements behind the scenes. Sandi Metz would be proud.

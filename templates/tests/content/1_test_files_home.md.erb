@@ -1,0 +1,31 @@
+# Test Files Home
+
+This file links to the other test files, and thus test the link helpers.
+
+Here is a link to the Content DSL Test concatenated file:
+
+<%= link_to_markdown_record(::MarkdownRecord::ContentFragment.find("content/content_dsl_tests"), "Content DSL Test File") %>
+
+Here is a link to the associations file that uses `fragment.find_relative`:
+
+<%= link_to_markdown_record(fragment.find_relative("content_dsl_tests/nested_directory/associations"), "Associations Test Files") %>
+
+Here is a complete list of links to all the rendered test files (each item has a JSON and an HTML version), all of which use the routes described above:
+
+<% ::MarkdownRecord::ContentFragment.all.each do |frag| %>
+- <%= link_to_markdown_record(frag, frag.id) %><br>
+<% end %>
+
+<% ::MarkdownRecord::ContentFragment.all.each do |frag| %>
+- <%= link_to_markdown_record_html(frag, frag.html_route) %><br>
+<% end %>
+
+<% ::MarkdownRecord::ContentFragment.all.each do |frag| %>
+- <%= link_to_markdown_record_json(frag, frag.json_route) %><br>
+<% end %>
+
+Here is an image generated using `image_tag` to verify that Rails tag helpers are working:
+
+<%= image_tag("ruby-logo") %>
+
+<!--model { "id": 1, "type": "tests/model", "string_field": "foo", "int_field": 100, "float_field": 95.5, "bool_field": true, "date_field": "03/13/2023", "maybe_field": null, "hash_field": {} }-->

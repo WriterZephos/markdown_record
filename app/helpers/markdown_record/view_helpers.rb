@@ -59,7 +59,7 @@ module MarkdownRecord
       path_to_markdown_record(model, "json", download)
     end
 
-    def url_for_markdown_record_html(model, download = false)
+    def url_for_markdown_record_json(model, download = false)
       path = path_to_markdown_record_json(model, download)
 
       "#{root_url}/#{path}"
@@ -77,8 +77,14 @@ module MarkdownRecord
       "/#{path}"
     end
 
-    def render_html_example(example)
-      CGI.escapeHTML(example)
+    def render_fragment(fragment_or_model)
+      unless fragment_or_model.is_a?(MarkdownRecord::ContentFragment)
+        fragment = fragment_or_model.fragment 
+      end
+
+      fragment ||= fragment_or_model
+      
+      raw(fragment.read_html)
     end
   end
 end
