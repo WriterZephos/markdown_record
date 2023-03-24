@@ -7,6 +7,8 @@ module MarkdownRecord
       end
 
       def to_sort_value(value)
+        return value unless value.present?
+        
         Date.strptime(value, @date_pattern)
       end
     end

@@ -6,6 +6,8 @@ module MarkdownRecord
       end
 
       def to_sort_value(value)
+        return value unless value.present?
+        
         SemVer.new(value)
       end
 
