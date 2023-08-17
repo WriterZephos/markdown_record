@@ -237,8 +237,11 @@ To test a local version of this gem in a local app, simply add the `path` parame
 
 ## Roadmap
 
+- Flesh out tests
 - Make the Content DSL extensible
 - Add support for raw JSON files as source content
+- Build support for externally managed source files
+- Build automation for real time compiling on the fly
 
 ## License
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
